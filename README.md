@@ -1,4 +1,6 @@
-# Pipeline
+# GABI Pipeline
+
+Genomic Analysis of Bacterial Isolates, or GABI for short, is a bioinformatic workflow to assemble bacterial genomes and optionally assign them to a clustering schema, such as MLST, cgMLST or Kmer Clustering. GABI supports both (Illumina) short reads and ONT/Pacbio long reads. Hybrid assembly approaches are supported and require for different read types to carry the same sample ID for grouping. Please see our [documentation](docs/usage.md) for detailed information.  
 
 ## Documentation 
 

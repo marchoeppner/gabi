@@ -1,0 +1,7 @@
+name: pbipa
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - bioconda::pbipa=1.8.0

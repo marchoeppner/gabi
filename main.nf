@@ -2,16 +2,15 @@
 
 nextflow.enable.dsl = 2
 
-// TODO: Update this block with a description and the name of the pipeline
 /**
 ===============================
-Pipeline
+GABI Pipeline
 ===============================
 
-This Pipeline performs ....
+This Pipeline performs assembly of bacterial isolates from NGS reads and performs typing
 
 ### Homepage / git
-git@github.com:marchoeppner/pipeline.git
+git@github.com:marchoeppner/gabi.git
 
 **/
 
@@ -27,16 +26,19 @@ WorkflowMain.initialise(workflow, params, log)
 // TODO: Rename this and the file under lib/ to something matching this pipeline (e.g. WorkflowAmplicons)
 WorkflowPipeline.initialise(params, log)
 
-// TODO: Rename this to something matching this pipeline, e.g. "AMPLICONS"
-include { MAIN } from './workflows/main'
+include { GABI } from './workflows/gabi'
 
 multiqc_report = Channel.from([])
 
 workflow {
-    // TODO: Rename to something matching this pipeline (see above)
-    MAIN()
 
-    multiqc_report = multiqc_report.mix(MAIN.out.qc).toList()
+    if (params.build_references) {
+
+    } else {
+        GABI()
+    }
+    
+    multiqc_report = multiqc_report.mix(GABI.out.qc).toList()
 }
 
 workflow.onComplete {
