@@ -6,6 +6,7 @@ include { PORECHOP_PORECHOP }           from './../modules/porechop/porechop'
 include { UNICYCLER }                   from './../modules/unicycler'
 include { SHOVILL }                     from './../modules/shovill'
 include { SRST2_SRST2 }                 from './../modules/srst2/srst2'
+include { FLYE }                        from './../modules/flye'
 include { CUSTOM_DUMPSOFTWAREVERSIONS } from './../modules/custom/dumpsoftwareversions'
 
 samplesheet = params.input ? Channel.fromPath(file(params.input, checkIfExists:true)) : Channel.value([])
@@ -82,6 +83,7 @@ workflow GABI {
     ch_short_reads_only                         = ch_reads_cross_grouped_joined_filtered.transpose().map{ it -> [ it[1], it[2]]}
 
     // Samples with short-reads and matched nanopore reads
+    // from [ sample_id, meta1, [illumina_reads ], meta2, [ ont_reads ]]
     ch_reads_cross_grouped_joined.filter{ it -> (it.last()) }.transpose().map{ it ->
         newMeta = [:]
         newMeta.sample_id = it[0]
@@ -135,6 +137,10 @@ workflow GABI {
     //    unknown: m.taxon == "unknown"
     //    known: !m.taxon == "unknown"
     //}.set { ch_assemblies_filtered }
+
+    // Quality control of assembly
+
+    // BUSCO
 
     // PUNKPOP
 
