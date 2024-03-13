@@ -1,11 +1,11 @@
 process PORECHOP_PORECHOP {
     tag "$meta.sample_id"
-    label 'process_medium'
+    label 'short_parallel'
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/porechop:0.2.4--py39h7cff6ad_2' :
-        'biocontainers/porechop:0.2.4--py39h7cff6ad_2' }"
+        'quay.io/biocontainers/porechop:0.2.4--py39h7cff6ad_2' }"
 
     input:
     tuple val(meta), path(reads)

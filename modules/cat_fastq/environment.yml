@@ -1,7 +1,7 @@
-name: porechop
+name: cat_fastq
 channels:
   - conda-forge
   - bioconda
   - defaults
 dependencies:
-  - bioconda::porechop=0.2.4
+  - bioconda::conda-forge::sed=4.7

@@ -1,7 +1,7 @@
-name: porechop
+name: flye
 channels:
   - conda-forge
   - bioconda
   - defaults
 dependencies:
-  - bioconda::porechop=0.2.4
+  - bioconda::flye=2.9

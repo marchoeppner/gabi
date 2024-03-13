@@ -5,7 +5,7 @@ process PBIPA {
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/pbipa:1.8.0--h6ead514_2'' :
+        'https://depot.galaxyproject.org/singularity/pbipa:1.8.0--h6ead514_2' :
         'quay.io/biocontainers/pbipa:1.8.0--h6ead514_2' }"
 
     input:
@@ -19,16 +19,17 @@ process PBIPA {
     script:
 
     def args = task.ext.args ?: ''
-    def prefix = task.ext.prefix ?: reads[0].getBaseName()
+    def prefix = task.ext.prefix ?: meta.sample_id
 
     r1 = reads[0]
-
-    suffix = '_trimmed.fastq.gz'
-
-    json = prefix + '.fastp.json'
-    html = prefix + '.fastp.html'
+    assembly = prefix + '.ipa.fasta'
 
     """
+    pbipa $args $assembly
 
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        ipa: \$( ipa --version )
+    END_VERSIONS
     """
 }

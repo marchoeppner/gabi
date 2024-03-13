@@ -31,13 +31,11 @@ include { GABI } from './workflows/gabi'
 multiqc_report = Channel.from([])
 
 workflow {
-
     if (params.build_references) {
-
     } else {
         GABI()
     }
-    
+
     multiqc_report = multiqc_report.mix(GABI.out.qc).toList()
 }
 

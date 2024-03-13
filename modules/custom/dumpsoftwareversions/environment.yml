@@ -1,7 +1,7 @@
-name: porechop
+name: dumpsoftwareversions
 channels:
   - conda-forge
   - bioconda
   - defaults
 dependencies:
-  - bioconda::porechop=0.2.4
+  - bioconda::multiqc=1.19
