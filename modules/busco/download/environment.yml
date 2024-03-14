@@ -1,7 +1,7 @@
-name: dragonflye
+name: busco
 channels:
   - conda-forge
   - bioconda
   - defaults
 dependencies:
-  - bioconda::dragonflye=1.1.2
+  - bioconda::busco=5.3.0

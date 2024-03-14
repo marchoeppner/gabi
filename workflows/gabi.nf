@@ -15,6 +15,8 @@ include { GROUP_READS }                 from './../subworkflows/group_reads'
 include { QC_ILLUMINA }                 from './../subworkflows/qc_illumina'
 include { QC_NANOPORE }                 from './../subworkflows/qc_nanopore'
 include { AMR_PROFILING }               from './../subworkflows/amr_profiling'
+include { TAXONOMY_PROFILING }          from './../subworkflows/taxonomy_profiling'
+include { ASSEMBLY_QC }                 from './../subworkflows/assembly_qc'
 
 // Default channels
 samplesheet = params.input ? Channel.fromPath(file(params.input, checkIfExists:true)) : Channel.value([])
@@ -27,8 +29,11 @@ ch_prokka_prodigal = params.prokka_prodigal ? Channel.fromPath(params.prokka_pro
 
 tools = params.tools ? params.tools.split(',').collect { tool -> clean_tool(tool) } : []
 
-amrfinderdb = params.reference_base ? params.references["amrfinderdb"].db : []
-kraken_db   = params.reference_base ? params.references["kraken2_db"].db : []
+amrfinder_db    = params.reference_base ? params.references["amrfinderdb"].db : []
+kraken2_db      = params.reference_base ? params.references["kraken2"].db : []
+
+busco_db_path   = params.reference_base ? params.references["busco"].db : []
+busco_lineage   = params.busco_lineage
 
 ch_versions     = Channel.from([])
 multiqc_files   = Channel.from([])
@@ -74,6 +79,13 @@ workflow GABI {
     // Dragonflye supports mixed ONT inputs with or without illumina reads. 
     ch_dragonflye = GROUP_READS.out.dragonflye
     ch_short_reads_only = GROUP_READS.out.illumina_only
+
+    // Taxonomy
+    TAXONOMY_PROFILING(
+        ch_ont_trimmed.mix(ch_illumina_trimmed),
+        kraken2_db
+    )
+    ch_taxon = TAXONOMY_PROFILING.out.report
 
     // Unicycler - hybrid assembly
     if ('unicycler' in tools) {
@@ -122,36 +134,25 @@ workflow GABI {
         tuple(newMeta,f)
     }.set { ch_assemblies_clean }
 
-    // Determine which species this assembly is from
-
-    // BIOBLOOMTOOLS_CATEGORIZER(
-    //    ch_assemblies
-    //)
-
-    //BIOBLOOMTOOLS_CATEGORIZER.out.tsv.map { m,fasta,t ->
-    //    newMeta = [:]
-    //    newMeta.taxon = extract_taxon(t)
-    //    newMeta.sample_id = m.sample_id
-    //    tuple(newMeta,fasta)
-    //}.set { ch_assemblies_with_taxon}
-
-    // ch_assemblies_with_taxon.branch { m,f ->
-    //    unknown: m.taxon == "unknown"
-    //    known: !m.taxon == "unknown"
-    //}.set { ch_assemblies_filtered }
-
-    // Annotate assembly using Prokka
     PROKKA(
         ch_assemblies_clean,
         ch_prokka_proteins,
         ch_prokka_prodigal
     )
     ch_versions = ch_versions.mix(PROKKA.out.versions)
+    faa = PROKKA.out.faa
+    gff = PROKKA.out.gff
+
+    // Create a channel with joint proteins and gff files for AMRfinderplus
+    faa.join(gff).map { m,f,g ->
+        m.is_proteins = true
+        tuple(m,f,g)
+    }.set { ch_amr_input }
 
     // AMR Profiling
     AMR_PROFILING(
-        ch_assemblies_clean,
-        amrfinderdb
+        ch_amr_input,
+        amrfinder_db
     )
     ch_versions = ch_versions.mix(AMR_PROFILING.out.versions)
     amr_report  = AMR_PROFILING.out.report
@@ -159,11 +160,17 @@ workflow GABI {
     // Quality control of assembly
 
     // BUSCO
+    ASSEMBLY_QC(
+        ch_assemblies_clean,
+        busco_lineage,
+        busco_db_path
+    )
+    ch_versions = ch_versions.mix(ASSEMBLY_QC.out.versions)
+    multiqc_files = multiqc_files.mix(ASSEMBLY_QC.out.report.map {m,r -> r})
 
     // PUNKPOP
 
     // CGMLST
-
 
     // MLTST
 
@@ -182,17 +189,12 @@ workflow GABI {
 
     emit:
     qc = MULTIQC.out.html
-    }
+
+}
 
 def clean_tool(String tool) {
     return tool.trim().toLowerCase().replaceAll('-', '').replaceAll('_', '')
 }
 
-def extract_taxon(Map meta, File file) {
-    def taxon = "unknown"
-    new File(file).eachLine { line ->
 
-    }
-    return taxon
-}
 
