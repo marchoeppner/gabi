@@ -17,7 +17,7 @@ process PORECHOP_PORECHOP {
 
     script:
     def args = task.ext.args ?: ''
-    def prefix = task.ext.prefix ?: "${meta.sample_id}.trimmed"
+    def prefix = task.ext.prefix ?: reads.getBaseName() + ".trimmed"
     """
     porechop \\
         -i $reads \\

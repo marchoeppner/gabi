@@ -1,5 +1,6 @@
 include { FASTP }                       from './../../modules/fastp'
 include { CAT_FASTQ }                   from './../../modules/cat_fastq'
+include { CONFINDR }                    from './../../modules/confindr'
 
 ch_versions = Channel.from([])
 multiqc_files = Channel.from([])
@@ -8,6 +9,7 @@ workflow QC_ILLUMINA {
 
     take:
     reads
+    confindr_db
 
     main:
 
@@ -35,6 +37,11 @@ workflow QC_ILLUMINA {
     // The trimmed files, reduced to [ meta, [ read1, read2 ] ]
     ch_illumina_trimmed = ch_reads_illumina.single.mix(CAT_FASTQ.out.reads)
 
+    CONFINDR(
+        ch_illumina_trimmed,
+        confindr_db
+    )
+    
     emit:
     reads = ch_illumina_trimmed
     versions = ch_versions

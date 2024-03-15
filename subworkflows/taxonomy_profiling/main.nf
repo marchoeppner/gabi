@@ -1,5 +1,7 @@
 include { KRAKEN2_KRAKEN2 }     from "./../../modules/kraken2/kraken2"
 
+ch_versions = Channel.from([])
+
 workflow TAXONOMY_PROFILING {
 
     take:
@@ -14,6 +16,7 @@ workflow TAXONOMY_PROFILING {
         false,
         false
     )
+    ch_versions = ch_versions.mix(KRAKEN2_KRAKEN2.out.versions)
 
     KRAKEN2_KRAKEN2.out.report.map { m,r ->
         newMeta = [:]
@@ -28,8 +31,14 @@ workflow TAXONOMY_PROFILING {
         
     emit:
     report = report_with_taxon
+    versions = ch_versions
 }
 
+// This reads the Kraken taxonomy assignment file to:
+// find the most probable species assignment
+// find the most probable domain assignment
+// using the first occurence of each if that occurence is >= 60%
+// Yes, this is crude. 
 def extract_taxon(aFile) {
     taxon = "unknown"
     domain = "unknown"
@@ -40,13 +49,13 @@ def extract_taxon(aFile) {
         if (elements[3] == "S" && taxon == "unknown") {
             def fraction = Float.parseFloat(elements[0])
             if (fraction >= 60.0) {
-                taxon = elements[5..-1].join(" ")
+                taxon = elements[5..-1].join(" ").trim()
             }
         }
         if (elements[3] == "D" && domain == "unknown") {
             def fraction = Float.parseFloat(elements[0])
             if (fraction >= 60) {
-                domain = elements[5..-1].join(" ")
+                domain = elements[5..-1].join(" ").trim()
             }
         }
     }

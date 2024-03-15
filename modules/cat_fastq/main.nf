@@ -23,7 +23,7 @@ process CAT_FASTQ {
 
     if (meta.single_end) {
         """
-        zcat ${reads.join(' ')} > ${prefix}.merged.fastq.gz
+        zcat ${reads.join(' ')} | gzip > ${prefix}.merged.fastq.gz
 
         cat <<-END_VERSIONS > versions.yml
         "${task.process}":
@@ -35,8 +35,8 @@ process CAT_FASTQ {
         def read2 = []
         readList.eachWithIndex { v, ix -> (ix & 1 ? read2 : read1) << v }
         """
-        zcat ${read1.join(' ')} > ${prefix}_1.merged.fastq.gz
-        zcat ${read2.join(' ')} > ${prefix}_2.merged.fastq.gz
+        zcat ${read1.join(' ')} | gzip > ${prefix}_1.merged.fastq.gz
+        zcat ${read2.join(' ')} | gzip > ${prefix}_2.merged.fastq.gz
 
         cat <<-END_VERSIONS > versions.yml
         "${task.process}":

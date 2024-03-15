@@ -1,24 +1,35 @@
-// Modules
+/* 
+----------------------
+Import Modules
+----------------------
+*/
 include { INPUT_CHECK }                 from './../modules/input_check'
 include { MULTIQC }                     from './../modules/multiqc'
-include { UNICYCLER }                   from './../modules/unicycler'
 include { SHOVILL }                     from './../modules/shovill'
 include { RENAME_CTG as RENAME_SHOVILL_CTG } from './../modules/rename_ctg'
 include { RENAME_CTG as RENAME_DRAGONFLYE_CTG } from './../modules/rename_ctg'
-include { SRST2_SRST2 }                 from './../modules/srst2/srst2'
 include { DRAGONFLYE }                  from './../modules/dragonflye'
 include { PROKKA }                      from './../modules/prokka'
 include { CUSTOM_DUMPSOFTWAREVERSIONS } from './../modules/custom/dumpsoftwareversions'
 
-// Subworkflows
+/*
+------------------- 
+Import Subworkflows
+-------------------
+*/
 include { GROUP_READS }                 from './../subworkflows/group_reads'
 include { QC_ILLUMINA }                 from './../subworkflows/qc_illumina'
 include { QC_NANOPORE }                 from './../subworkflows/qc_nanopore'
 include { AMR_PROFILING }               from './../subworkflows/amr_profiling'
 include { TAXONOMY_PROFILING }          from './../subworkflows/taxonomy_profiling'
 include { ASSEMBLY_QC }                 from './../subworkflows/assembly_qc'
+include { PLASMIDS }                    from './../subworkflows/plasmids'
 
-// Default channels
+/*
+--------------------
+Set default channels
+--------------------
+*/
 samplesheet = params.input ? Channel.fromPath(file(params.input, checkIfExists:true)) : Channel.value([])
 
 ch_multiqc_config = params.multiqc_config   ? Channel.fromPath(params.multiqc_config, checkIfExists: true).collect()    : []
@@ -34,6 +45,8 @@ kraken2_db      = params.reference_base ? params.references["kraken2"].db : []
 
 busco_db_path   = params.reference_base ? params.references["busco"].db : []
 busco_lineage   = params.busco_lineage
+
+confindr_db     = params.reference_base ? Channel.fromPath(params.references['confindr'].db, checkIfExists:true ).collect() : []
 
 ch_versions     = Channel.from([])
 multiqc_files   = Channel.from([])
@@ -51,52 +64,63 @@ workflow GABI {
         pacbio: meta.platform == 'PACBIO'
     }.set { ch_reads }
 
-    // Trim Illumina reads
+    /*
+    Trim and QC Illumina reads
+    */
     QC_ILLUMINA(
-        ch_reads.illumina
+        ch_reads.illumina,
+        confindr_db
     )
     ch_illumina_trimmed = QC_ILLUMINA.out.reads
-    ch_versions = ch_versions.mix(QC_ILLUMINA.out.versions)
-    multiqc_files = multiqc_files.mix(QC_ILLUMINA.out.qc)
+    ch_versions         = ch_versions.mix(QC_ILLUMINA.out.versions)
+    multiqc_files       = multiqc_files.mix(QC_ILLUMINA.out.qc)
 
-    // Trim nanopore reads
+    /*
+    Trim and QC nanopore reads
+    */
     QC_NANOPORE(
-        ch_reads.ont
+        ch_reads.ont,
+        confindr_db
     )
-    ch_ont_trimmed = QC_NANOPORE.out.reads
-    ch_versions = ch_versions.mix(QC_NANOPORE.out.versions)
-    multiqc_files = multiqc_files.mix(QC_NANOPORE.out.qc)
+    ch_ont_trimmed      = QC_NANOPORE.out.reads
+    ch_versions         = ch_versions.mix(QC_NANOPORE.out.versions)
+    multiqc_files       = multiqc_files.mix(QC_NANOPORE.out.qc)
 
-    // -----
-    // See which samples are Illumina-only, ONT-only or have a mix of both for hybrid assembly
-    // -----
+    /*
+    See which samples are Illumina-only, ONT-only or have a mix of both for hybrid assembly
+    */
     GROUP_READS(
         ch_illumina_trimmed,
         ch_ont_trimmed,
         ch_reads.pacbio
     )
-    ch_hybrid_reads = GROUP_READS.out.hybrid_reads
-    // Dragonflye supports mixed ONT inputs with or without illumina reads. 
-    ch_dragonflye = GROUP_READS.out.dragonflye
+    ch_hybrid_reads     = GROUP_READS.out.hybrid_reads
+    ch_dragonflye       = GROUP_READS.out.dragonflye
     ch_short_reads_only = GROUP_READS.out.illumina_only
+    ch_ont_reads_only   = GROUP_READS.out.ont_only
 
-    // Taxonomy
+    /* 
+    Predict taxonomy from read data
+    One set of reads per sample, preferrably Illumina
+    */
+    ch_reads_for_taxonomy = ch_hybrid_reads.map { m,i,n -> [m ,i ]}
+    ch_reads_for_taxonomy = ch_reads_for_taxonomy.mix(ch_short_reads_only,ch_ont_reads_only)
+
     TAXONOMY_PROFILING(
-        ch_ont_trimmed.mix(ch_illumina_trimmed),
+        ch_reads_for_taxonomy,
         kraken2_db
     )
     ch_taxon = TAXONOMY_PROFILING.out.report
+    multiqc_files = multiqc_files.mix(TAXONOMY_PROFILING.out.report.map { m,r -> r })
 
-    // Unicycler - hybrid assembly
-    if ('unicycler' in tools) {
-        UNICYCLER(
-            ch_hybrid_reads
-        )
-        ch_versions = ch_versions.mix(UNICYCLER.out.versions)
-        ch_assemblies = ch_assemblies.mix(UNICYCLER.out.scaffolds)
-    }
+    /*
+    Assemble reads based on what data is available
+    */
 
-    // Shovill - Illumina short-read assembly
+    /*
+    Option: Short reads only
+    Shovill
+    */
     if ('shovill' in tools) {
         SHOVILL(
             ch_short_reads_only
@@ -111,7 +135,10 @@ workflow GABI {
         ch_assemblies = ch_assemblies.mix(RENAME_SHOVILL_CTG.out)
     }
 
-    // Flye - ONT or hybrid assembly
+    /*
+    Option: Nanopore reads with optional short reads
+    Dragonflye
+    */
     if ('dragonflye' in tools) {
         DRAGONFLYE(
             ch_dragonflye
@@ -126,16 +153,44 @@ workflow GABI {
         ch_assemblies = ch_assemblies.mix(RENAME_DRAGONFLYE_CTG.out)
     }
 
-    // IPA - Pacbio HiFi assembly
+    /*
+    Option: Pacbio HiFi reads
+    IPA
+    */
 
+    /*
+    Clean the meta data object to remove stuff we don't need anymore
+    */
     ch_assemblies.map { m,f ->
         def newMeta = [:]
         newMeta.sample_id = m.sample_id
         tuple(newMeta,f)
     }.set { ch_assemblies_clean }
 
+    /*
+    Identify and analyse plasmids from draft assemblies
+    */
+    PLASMIDS(
+        ch_assemblies_clean
+    )
+
+    /*
+    Join the assembly channel with taxonomic assignment information
+    [ meta, assembly ] <-> [ meta, taxreport]
+    */
+    ch_assemblies_clean_grouped = ch_assemblies_clean.map { m,f -> [ m.sample_id, m, f]}
+    ch_assemblies_clean_grouped_tax = ch_assemblies_clean_grouped.join(ch_taxon.map {m,t -> [ m.sample_id,m]})
+    ch_assemblies_clean_grouped_tax.map { s,m,f,t ->
+        m.taxon = t.taxon
+        m.domain = t.domain
+        tuple(m,f)
+    }.set { ch_assemblies_with_taxa }
+
+    /*
+    Run the Prokka annotation tool
+    */
     PROKKA(
-        ch_assemblies_clean,
+        ch_assemblies_with_taxa,
         ch_prokka_proteins,
         ch_prokka_prodigal
     )
@@ -149,7 +204,9 @@ workflow GABI {
         tuple(m,f,g)
     }.set { ch_amr_input }
 
-    // AMR Profiling
+    /*
+    Identify antimocrobial resistance genes
+    */
     AMR_PROFILING(
         ch_amr_input,
         amrfinder_db
@@ -157,9 +214,7 @@ workflow GABI {
     ch_versions = ch_versions.mix(AMR_PROFILING.out.versions)
     amr_report  = AMR_PROFILING.out.report
 
-    // Quality control of assembly
-
-    // BUSCO
+    // BUSCO and maybe more. 
     ASSEMBLY_QC(
         ch_assemblies_clean,
         busco_lineage,
@@ -168,12 +223,12 @@ workflow GABI {
     ch_versions = ch_versions.mix(ASSEMBLY_QC.out.versions)
     multiqc_files = multiqc_files.mix(ASSEMBLY_QC.out.report.map {m,r -> r})
 
-    // PUNKPOP
-
-    // CGMLST
-
     // MLTST
-
+    ch_assemblies_with_taxonomy = ch_assemblies_clean.filter { m,a -> m.taxon != "unknown" }
+    //PYMLST(
+    //    ch_assemblies_with_taxonomy
+    //)
+    //ch_versions = ch_versions.mix(PYMLST.out.versions)
 
     CUSTOM_DUMPSOFTWAREVERSIONS(
         ch_versions.unique().collectFile(name: 'collated_versions.yml')
