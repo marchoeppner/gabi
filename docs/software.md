@@ -8,3 +8,25 @@ Version 1.19, doi: 10.1093/bioinformatics/btw354, [PubMed](https://pubmed.ncbi.n
 
 **Samtools**
 Version 1.19, doi: 10.1093/bioinformatics/btp352, [PubMed](https://pubmed.ncbi.nlm.nih.gov/19505943/) [github](https://github.com/samtools/samtools)
+
+**Flye**
+
+**DragonFlye**
+
+**Shovill**
+
+**Busco**
+
+**Kraken2**
+
+**Mob Suite**
+
+**Porechop_abi**
+
+**Prokka**
+
+**Rasusa**
+
+**AMRfinder Plus**
+
+**ConfindR**

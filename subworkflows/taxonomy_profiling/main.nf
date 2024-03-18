@@ -34,11 +34,12 @@ workflow TAXONOMY_PROFILING {
     versions = ch_versions
 }
 
-// This reads the Kraken taxonomy assignment file to:
-// find the most probable species assignment
-// find the most probable domain assignment
-// using the first occurence of each if that occurence is >= 60%
-// Yes, this is crude. 
+/* This reads the Kraken taxonomy assignment file to: 
+- find the most probable species assignment
+- find the most probable domain assignment
+using the first occurence of each if that occurence is >= 60%
+Yes, this is crude. 
+*/
 def extract_taxon(aFile) {
     taxon = "unknown"
     domain = "unknown"

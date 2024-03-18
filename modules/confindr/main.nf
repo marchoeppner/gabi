@@ -34,6 +34,8 @@ process CONFINDR {
     mkdir -p "input_dir"
     cp -P *.gz input_dir
     confindr.py \\
+        -Xmx ${task.memory.toGiga()}G \\
+        --threads $task.cpus \\
         -i input_dir \\
         -o confindr_results \\
         $args $db_options

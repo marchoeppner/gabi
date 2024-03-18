@@ -1,13 +1,12 @@
 
-include { PORECHOP_ABI }                    from './../../modules/porechop/abi'
 include { RASUSA }                          from './../../modules/rasusa'
 include { CAT_FASTQ  }                      from './../../modules/cat_fastq'
-include { CONFINDR as CONFINDR_NANOPORE }   from './../../modules/confindr'
+include { CONFINDR as CONFINDR_PACBIO }     from './../../modules/confindr'
 
 ch_versions = Channel.from([])
 multiqc_files = Channel.from([])
 
-workflow QC_NANOPORE {
+workflow QC_PACBIO {
 
     take:
     reads
@@ -15,46 +14,40 @@ workflow QC_NANOPORE {
 
     main:
 
-    // Nanopore read trimming
-    PORECHOP_ABI(
-        reads
-    )
-    ch_versions = ch_versions.mix(PORECHOP_ABI.out.versions)
-
     // Merge Nanopore reads per sample
-    PORECHOP_ABI.out.reads.groupTuple().branch { meta, reads ->
+    reads.groupTuple().branch { meta, reads ->
         single: reads.size() == 1
             return [ meta, reads.flatten()]
         multi: reads.size() > 1
             return [ meta, reads.flatten()]
-    }.set { ch_reads_ont }
+    }.set { ch_reads_pb }
 
     CAT_FASTQ(
-        ch_reads_ont.multi
+        ch_reads_pb.multi
     )
 
     // The trimmed ONT reads, concatenated by sample
-    ch_ont_trimmed = ch_reads_ont.single.mix(CAT_FASTQ.out.reads)
+    ch_pb_trimmed = ch_reads_pb.single.mix(CAT_FASTQ.out.reads)
 
-    CONFINDR_NANOPORE(
-        ch_ont_trimmed,
+    CONFINDR_PACBIO(
+        ch_pb_trimmed,
         confindr_db
     )
-    ch_versions = ch_versions.mix(CONFINDR_NANOPORE.out.versions)
+    ch_versions = ch_versions.mix(CONFINDR_PACBIO.out.versions)
 
     if (params.subsample_reads) {
         RASUSA(
-            ch_ont_trimmed.map { m,r -> [ m, r , params.genome_size]},
+            ch_pb_trimmed.map { m,r -> [ m, r , params.genome_size]},
             params.max_coverage
         )
         ch_versions = ch_versions.mix(RASUSA.out.versions)
         ch_processed_reads = RASUSA.out.reads
     } else {
-        ch_processed_reads = ch_ont_trimmed
+        ch_processed_reads = ch_pb_trimmed
     }
 
     emit:
-    confindr_report = CONFINDR_NANOPORE.out.report
+    confindr_report = CONFINDR_PACBIO.out.report
     reads = ch_processed_reads
     qc = multiqc_files
     versions = ch_versions

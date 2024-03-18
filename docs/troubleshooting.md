@@ -1,1 +1,17 @@
 # Common issues
+
+## Why won't the pipeline combine short reads with HiFi reads?!
+
+Please see the available assembly modes [here](usage.md#choosing-an-assembly-method). HiFi reads will almost always be sufficient and possibly superior for assembly than a hybrid approach - which is why we do not support it in GABI. If you disagree, please let us know, preferably with some tangible examples where this assumption was shown to be incorrect. 
+
+## The pipeline did not close my assembly, even though I have used both Nanopore and Illumina reads. 
+
+Many reasons can contribute to incomplete assemblies - from the starting material being of poor quality, insufficient sequencing depth, biases in your read data (i.e. loss of certain genomic regions during DNA extraction/preparation) or accidental mix-ups in sample assignment  of a subset of your reads. You can check results from ConfindR to see if all your reads are from the same strain and were not accidentally mixed up or in fact contaminated. 
+
+That said, if you did everything right, it could be that the assembly algorithm we employ in this pipeline simply wasn't up to the task. Please let us know if you suspect that to be the case! We try to use state-of-the-art methods, but are always happy to learn new things. 
+
+## The pipeline crashes with an out-of-memory error in one of the processes. 
+
+This could simply be an issue with your executing machine not having enough RAM to run some of the tools we put into this pipeline. The exact amount of RAM needed is difficult to predict and can depend on factors like read length and/or sequencing depth - but we suspect that at least 32GB RAM should be available to avoid RAM-related issues (preferably 64GB). 
+
+If this is already the case for you, then it is more likely that you have not set a memory limit for your compute environment via a site-specifig [config file](https://github.com/marchoeppner/nf-configs/) or from the command line - in which case GABI will use the built-in default (128 GB Ram) - which may well exceed the limits of your system. Please check our section on manipulating [resource](usage.md#resources) limits from the command line. 

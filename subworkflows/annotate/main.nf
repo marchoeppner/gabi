@@ -6,11 +6,15 @@ workflow ANNOTATE {
 
     take:
     assembly
+    ch_prokka_proteins
+    ch_prokka_prodigal
 
     main:
 
     PROKKA(
-        assembly
+        assembly,
+        ch_prokka_proteins,
+        ch_prokka_prodigal
     )
     ch_versions = ch_versions.mix(PROKKA.out.versions)
     

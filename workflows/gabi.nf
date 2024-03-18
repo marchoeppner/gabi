@@ -18,8 +18,7 @@ Import Subworkflows
 -------------------
 */
 include { GROUP_READS }                 from './../subworkflows/group_reads'
-include { QC_ILLUMINA }                 from './../subworkflows/qc_illumina'
-include { QC_NANOPORE }                 from './../subworkflows/qc_nanopore'
+include { QC }                 from './../subworkflows/qc'
 include { AMR_PROFILING }               from './../subworkflows/amr_profiling'
 include { TAXONOMY_PROFILING }          from './../subworkflows/taxonomy_profiling'
 include { ASSEMBLY_QC }                 from './../subworkflows/assembly_qc'
@@ -58,34 +57,21 @@ workflow GABI {
 
     INPUT_CHECK(samplesheet)
 
-    // Divide reads up into their sequencing technologies
-    INPUT_CHECK.out.reads.branch { meta, reads ->
-        illumina: meta.platform == 'ILLUMINA'
-        ont: meta.platform == 'NANOPORE'
-        pacbio: meta.platform == 'PACBIO'
-    }.set { ch_reads }
-
     /*
-    Trim and QC Illumina reads
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Run read trimming and contamination check
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     */
-    QC_ILLUMINA(
-        ch_reads.illumina,
+    QC(
+        INPUT_CHECK.out.reads,
         confindr_db
     )
-    ch_illumina_trimmed = QC_ILLUMINA.out.reads
-    ch_versions         = ch_versions.mix(QC_ILLUMINA.out.versions)
-    multiqc_files       = multiqc_files.mix(QC_ILLUMINA.out.qc)
+    ch_versions         = ch_versions.mix(QC.out.versions)
+    multiqc_files       = multiqc_files.mix(QC.out.qc)
 
-    /*
-    Trim and QC nanopore reads
-    */
-    QC_NANOPORE(
-        ch_reads.ont,
-        confindr_db
-    )
-    ch_ont_trimmed      = QC_NANOPORE.out.reads
-    ch_versions         = ch_versions.mix(QC_NANOPORE.out.versions)
-    multiqc_files       = multiqc_files.mix(QC_NANOPORE.out.qc)
+    ch_illumina_trimmed = QC.out.illumina
+    ch_ont_trimmed      = QC.out.ont
+    ch_pacbio_trimmed   = QC.out.pacbio
 
     /* 
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -95,12 +81,13 @@ workflow GABI {
     GROUP_READS(
         ch_illumina_trimmed,
         ch_ont_trimmed,
-        ch_reads.pacbio
+        ch_pacbio_trimmed
     )
     ch_hybrid_reads     = GROUP_READS.out.hybrid_reads
     ch_dragonflye       = GROUP_READS.out.dragonflye
     ch_short_reads_only = GROUP_READS.out.illumina_only
     ch_ont_reads_only   = GROUP_READS.out.ont_only
+    ch_pb_reads_only    = GROUP_READS.out.pacbio_only
 
     /* 
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -161,7 +148,7 @@ workflow GABI {
     Flye
     */
     FLYE(
-        ch_reads.pacbio
+        ch_pb_reads_only
     )
     ch_versions = ch_versions.mix(FLYE.out.versions)
     ch_assemblies = ch_assemblies.mix(FLYE.out.fasta)
