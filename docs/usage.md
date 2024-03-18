@@ -45,6 +45,16 @@ nextflow run marchoeppner/gabi -profile lsh --input samples.csv \\
 
 In this example, both `--reference_base` and the choice of software provisioning are already set in the local configuration `lsh` and don't have to be provided as command line argument. 
 
+## Choosing an assembly method
+
+How do you choose the assembly method for your data? Well, you don't - the pipeline will take care of that. GABI currently supports three kinds of scenarios:
+
+- Samples with only short reads (Assembler: Shovill)
+- Samples with Nanopore reads and optional short reads (Assembler: Dragonflye)
+- Samples with only Pacbio HiFi reads (Assembler: IPA)
+
+This is why it is important to make sure that all reads coming from the same sample are linked by a common sample ID. 
+
 ## Options
 
 ### `--input samples.csv` [default = null]
@@ -58,9 +68,11 @@ S100,ILLUMINA,/home/marc/projects/gaba/data/S100_R1.fastq.gz,/home/marc/projects
 
 If the pipeline sees more than one set of reads for a given sample ID and platform type, it will merge them automatically at the appropriate time. Based on what types of reads the pipeline sees, it will automatically trigger suitable tool chains. 
 
-Allowed platforms are:
+Allowed platforms and data types are:
 
 * ILLUMINA (expecting PE Illumina reads in fastq format, fastq.gz)
 * NANOPORE (expecting ONT reads in fastq format, fastq.gz)
-* PACBIO (expecting Pacbio CCS reads in fastq format, fastq.gz)
+* PACBIO (expecting Pacbio CCS/HiFi reads in fastq format, fastq.gz)
 * TORRENT (expecting single-end IonTorrent reads in fastq format, fastq.gz)
+
+Read data in formats other than FastQ are not currently supported and would have to be converted into the appropriate FastQ format prior to launching the pipeline. If you have a recurring use case where the input must be something other than FastQ, please let us know and we will consider it.

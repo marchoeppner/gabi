@@ -16,5 +16,6 @@ workflow PLASMIDS {
 
     emit:
     plasmids = MOBSUITE_RECON.out.plasmids
+    versions = ch_versions
 
 }

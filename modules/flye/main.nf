@@ -10,7 +10,6 @@ process FLYE {
 
     input:
     tuple val(meta), path(reads)
-    val mode
 
     output:
     tuple val(meta), path("*.fasta.gz"), emit: fasta
@@ -27,15 +26,11 @@ process FLYE {
     script:
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.sample_id}.flye"
-    def valid_mode = ["--pacbio-raw", "--pacbio-corr", "--pacbio-hifi", "--nano-raw", "--nano-corr", "--nano-hq"]
-    if ( !valid_mode.contains(mode) )  { error "Unrecognised mode to run Flye. Options: ${valid_mode.join(', ')}" }
     """
     flye \\
-        $mode \\
         $reads \\
         --out-dir . \\
-        --threads \\
-        $task.cpus \\
+        --threads $task.cpus \\
         $args
 
     gzip -c assembly.fasta > ${prefix}.assembly.fasta.gz

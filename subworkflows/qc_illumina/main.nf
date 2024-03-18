@@ -41,8 +41,10 @@ workflow QC_ILLUMINA {
         ch_illumina_trimmed,
         confindr_db
     )
+    ch_versions = ch_versions.mix(CONFINDR.out.versions)
     
     emit:
+    confindr_report = CONFINDR.out.report
     reads = ch_illumina_trimmed
     versions = ch_versions
     qc = multiqc_files

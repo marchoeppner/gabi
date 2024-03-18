@@ -40,18 +40,21 @@ workflow QC_NANOPORE {
         ch_ont_trimmed,
         confindr_db
     )
+    ch_versions = ch_versions.mix(CONFINDR_NANOPORE.out.versions)
 
     if (params.nanopore_subsample) {
         RASUSA(
             ch_ont_trimmed.map { m,r -> [ m, r , params.rasusa_genome_size]},
             params.rasusa_coverage
         )
+        ch_versions = ch_versions.mix(RASUSA.out.versions)
         ch_processed_reads = RASUSA.out.reads
     } else {
         ch_processed_reads = ch_ont_trimmed
     }
 
     emit:
+    confindr_report = CONFINDR_NANOPORE.out.report
     reads = ch_processed_reads
     qc = multiqc_files
     versions = ch_versions

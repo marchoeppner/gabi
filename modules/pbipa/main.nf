@@ -25,7 +25,11 @@ process PBIPA {
     assembly = prefix + '.ipa.fasta'
 
     """
-    pbipa $args $assembly
+    ipa local \\
+    --nthreads $task.cpus \\
+    --njobs 4 \\
+    $args \\
+    -i $assembly
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

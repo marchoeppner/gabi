@@ -9,7 +9,7 @@ include { SHOVILL }                     from './../modules/shovill'
 include { RENAME_CTG as RENAME_SHOVILL_CTG } from './../modules/rename_ctg'
 include { RENAME_CTG as RENAME_DRAGONFLYE_CTG } from './../modules/rename_ctg'
 include { DRAGONFLYE }                  from './../modules/dragonflye'
-include { PROKKA }                      from './../modules/prokka'
+include { FLYE }                        from './../modules/flye'
 include { CUSTOM_DUMPSOFTWAREVERSIONS } from './../modules/custom/dumpsoftwareversions'
 
 /*
@@ -24,6 +24,7 @@ include { AMR_PROFILING }               from './../subworkflows/amr_profiling'
 include { TAXONOMY_PROFILING }          from './../subworkflows/taxonomy_profiling'
 include { ASSEMBLY_QC }                 from './../subworkflows/assembly_qc'
 include { PLASMIDS }                    from './../subworkflows/plasmids'
+include { ANNOTATE }                    from './../subworkflows/annotate'
 
 /*
 --------------------
@@ -86,9 +87,11 @@ workflow GABI {
     ch_versions         = ch_versions.mix(QC_NANOPORE.out.versions)
     multiqc_files       = multiqc_files.mix(QC_NANOPORE.out.qc)
 
-    /*
+    /* 
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     See which samples are Illumina-only, ONT-only or have a mix of both for hybrid assembly
-    */
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    */ 
     GROUP_READS(
         ch_illumina_trimmed,
         ch_ont_trimmed,
@@ -100,8 +103,10 @@ workflow GABI {
     ch_ont_reads_only   = GROUP_READS.out.ont_only
 
     /* 
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Predict taxonomy from read data
     One set of reads per sample, preferrably Illumina
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     */
     ch_reads_for_taxonomy = ch_hybrid_reads.map { m,i,n -> [m ,i ]}
     ch_reads_for_taxonomy = ch_reads_for_taxonomy.mix(ch_short_reads_only,ch_ont_reads_only)
@@ -113,53 +118,57 @@ workflow GABI {
     ch_taxon = TAXONOMY_PROFILING.out.report
     multiqc_files = multiqc_files.mix(TAXONOMY_PROFILING.out.report.map { m,r -> r })
 
-    /*
+    /* 
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Assemble reads based on what data is available
-    */
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    */ 
 
     /*
     Option: Short reads only
     Shovill
     */
-    if ('shovill' in tools) {
-        SHOVILL(
-            ch_short_reads_only
-        )
-        ch_versions = ch_versions.mix(SHOVILL.out.versions)
+    SHOVILL(
+        ch_short_reads_only
+    )
+    ch_versions = ch_versions.mix(SHOVILL.out.versions)
 
-        //Shovill generates generic output names, must rename to sample id
-        RENAME_SHOVILL_CTG(
-            SHOVILL.out.contigs,
-            "fasta"
-        )
-        ch_assemblies = ch_assemblies.mix(RENAME_SHOVILL_CTG.out)
-    }
-
+    //Shovill generates generic output names, must rename to sample id
+    RENAME_SHOVILL_CTG(
+        SHOVILL.out.contigs,
+        "fasta"
+    )
+    ch_assemblies = ch_assemblies.mix(RENAME_SHOVILL_CTG.out)
+    
     /*
     Option: Nanopore reads with optional short reads
     Dragonflye
     */
-    if ('dragonflye' in tools) {
-        DRAGONFLYE(
-            ch_dragonflye
-        )
-        ch_versions = ch_versions.mix(DRAGONFLYE.out.versions)
+    DRAGONFLYE(
+        ch_dragonflye
+    )
+    ch_versions = ch_versions.mix(DRAGONFLYE.out.versions)
 
-        // Dragonflye generates generic output names, must rename to sample id
-        RENAME_DRAGONFLYE_CTG(
-            DRAGONFLYE.out.contigs,
-            "fasta"
-        )
-        ch_assemblies = ch_assemblies.mix(RENAME_DRAGONFLYE_CTG.out)
-    }
+    // Dragonflye generates generic output names, must rename to sample id
+    RENAME_DRAGONFLYE_CTG(
+        DRAGONFLYE.out.contigs,
+        "fasta"
+    )
+    ch_assemblies = ch_assemblies.mix(RENAME_DRAGONFLYE_CTG.out)
 
     /*
     Option: Pacbio HiFi reads
-    IPA
+    Flye
     */
-
+    FLYE(
+        ch_reads.pacbio
+    )
+    ch_versions = ch_versions.mix(FLYE.out.versions)
+    ch_assemblies = ch_assemblies.mix(FLYE.out.fasta)
     /*
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Clean the meta data object to remove stuff we don't need anymore
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     */
     ch_assemblies.map { m,f ->
         def newMeta = [:]
@@ -168,11 +177,14 @@ workflow GABI {
     }.set { ch_assemblies_clean }
 
     /*
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Identify and analyse plasmids from draft assemblies
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     */
     PLASMIDS(
         ch_assemblies_clean
     )
+    ch_versions = ch_versions.mix(PLASMIDS.out.versions)
 
     /*
     Join the assembly channel with taxonomic assignment information
@@ -187,16 +199,20 @@ workflow GABI {
     }.set { ch_assemblies_with_taxa }
 
     /*
-    Run the Prokka annotation tool
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Predict gene models 
+    We use taxonomy-enriched meta hashes to add
+    genus/species to the Prokka output(s)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     */
-    PROKKA(
+    ANNOTATE(
         ch_assemblies_with_taxa,
         ch_prokka_proteins,
         ch_prokka_prodigal
     )
-    ch_versions = ch_versions.mix(PROKKA.out.versions)
-    faa = PROKKA.out.faa
-    gff = PROKKA.out.gff
+    ch_versions = ch_versions.mix(ANNOTATE.out.versions)
+    faa = ANNOTATE.out.faa
+    gff = ANNOTATE.out.gff
 
     // Create a channel with joint proteins and gff files for AMRfinderplus
     faa.join(gff).map { m,f,g ->
@@ -205,7 +221,9 @@ workflow GABI {
     }.set { ch_amr_input }
 
     /*
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Identify antimocrobial resistance genes
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     */
     AMR_PROFILING(
         ch_amr_input,
@@ -214,7 +232,11 @@ workflow GABI {
     ch_versions = ch_versions.mix(AMR_PROFILING.out.versions)
     amr_report  = AMR_PROFILING.out.report
 
-    // BUSCO and maybe more. 
+    /*
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Gauge quality of the assembly
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    */
     ASSEMBLY_QC(
         ch_assemblies_clean,
         busco_lineage,

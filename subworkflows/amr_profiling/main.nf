@@ -26,6 +26,7 @@ workflow AMR_PROFILING {
         assembly,
         ch_amrfinderplus_db.collect()
     )
+    ch_versions = ch_versions.mix(AMRFINDERPLUS_RUN.out.versions)
     amrfinder_report = AMRFINDERPLUS_RUN.out.report
 
     emit:
