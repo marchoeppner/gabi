@@ -5,7 +5,7 @@ process DRAGONFLYE {
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/dragonflye:1.1.2--hdfd78af_0' :
-        'biocontainers/dragonflye:1.1.2--hdfd78af_0' }"
+        'quay.io/biocontainers/dragonflye:1.1.2--hdfd78af_0' }"
 
     input:
     tuple val(meta), path(shortreads), path(longreads)
@@ -24,7 +24,7 @@ process DRAGONFLYE {
     script:
     def args    = task.ext.args ?: ''
     def prefix  = task.ext.prefix ?: "${meta.sample_id}.dragonflye"
-    def memory  = task.memory.toGiga()
+    def memory  = task.memory.toGiga()-1
     def shortreads_polishing = shortreads ? "--R1 ${shortreads[0]} --R2 ${shortreads[1]}" : ''
     """
     dragonflye \\
