@@ -1,25 +1,23 @@
 process BUSCO_DOWNLOAD {
-
-    label 'process_low'
+    label 'short_serial'
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/busco:5.3.0--pyhdfd78af_0':
+        'https://depot.galaxyproject.org/singularity/busco:5.3.0--pyhdfd78af_0' :
         'quay.io/biocontainers/busco:5.3.0--pyhdfd78af_0' }"
 
     input:
     val(busco_tax)
 
     output:
-    tuple val(lineage_folder),path("busco_downloads"), emit: db
+    tuple val(lineage_folder), path('busco_downloads'), emit: db
     path(lineage_folder)
-    path "versions.yml"           , emit: versions
+    path 'versions.yml'           , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
 
     script:
-    def args = task.ext.args ?: ''
     lineage_folder = "busco_downloads/lineages/${busco_tax}"
 
     """

@@ -8,7 +8,6 @@ ch_versions = Channel.from([])
 multiqc_files = Channel.from([])
 
 workflow QC_NANOPORE {
-
     take:
     reads
     confindr_db
@@ -44,7 +43,7 @@ workflow QC_NANOPORE {
 
     if (params.subsample_reads) {
         RASUSA(
-            ch_ont_trimmed.map { m,r -> [ m, r , params.genome_size]},
+            ch_ont_trimmed.map { m, r -> [ m, r, params.genome_size] },
             params.max_coverage
         )
         ch_versions = ch_versions.mix(RASUSA.out.versions)
@@ -58,5 +57,4 @@ workflow QC_NANOPORE {
     reads = ch_processed_reads
     qc = multiqc_files
     versions = ch_versions
-
-}
+    }

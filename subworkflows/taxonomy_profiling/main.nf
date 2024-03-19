@@ -1,9 +1,8 @@
-include { KRAKEN2_KRAKEN2 }     from "./../../modules/kraken2/kraken2"
+include { KRAKEN2_KRAKEN2 }     from './../../modules/kraken2/kraken2'
 
 ch_versions = Channel.from([])
 
 workflow TAXONOMY_PROFILING {
-
     take:
     reads
     kraken2_db
@@ -18,7 +17,7 @@ workflow TAXONOMY_PROFILING {
     )
     ch_versions = ch_versions.mix(KRAKEN2_KRAKEN2.out.versions)
 
-    KRAKEN2_KRAKEN2.out.report.map { m,r ->
+    KRAKEN2_KRAKEN2.out.report.map { m, r ->
         newMeta = [:]
         newMeta.sample_id = m.sample_id
         newMeta.platform = m.platform
@@ -28,35 +27,35 @@ workflow TAXONOMY_PROFILING {
         newMeta.domain = domain
         [ newMeta, r ]
     }.set { report_with_taxon }
-        
+
     emit:
     report = report_with_taxon
     versions = ch_versions
-}
+    }
 
-/* This reads the Kraken taxonomy assignment file to: 
+/* This reads the Kraken taxonomy assignment file to:
 - find the most probable species assignment
 - find the most probable domain assignment
 using the first occurence of each if that occurence is >= 60%
-Yes, this is crude. 
+Yes, this is crude.
 */
 def extract_taxon(aFile) {
-    taxon = "unknown"
-    domain = "unknown"
+    taxon = 'unknown'
+    domain = 'unknown'
     aFile.eachLine { line ->
         def elements = line.trim().split(/\s+/)
 
         // Kraken2 has a laughable data format, let's try to find the first species-level assignment...
-        if (elements[3] == "S" && taxon == "unknown") {
+        if (elements[3] == 'S' && taxon == 'unknown') {
             def fraction = Float.parseFloat(elements[0])
             if (fraction >= 60.0) {
-                taxon = elements[5..-1].join(" ").trim()
+                taxon = elements[5..-1].join(' ').trim()
             }
         }
-        if (elements[3] == "D" && domain == "unknown") {
+        if (elements[3] == 'D' && domain == 'unknown') {
             def fraction = Float.parseFloat(elements[0])
             if (fraction >= 60) {
-                domain = elements[5..-1].join(" ").trim()
+                domain = elements[5..-1].join(' ').trim()
             }
         }
     }

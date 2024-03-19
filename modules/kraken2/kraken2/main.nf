@@ -18,7 +18,7 @@ process KRAKEN2_KRAKEN2 {
     tuple val(meta), path('*.unclassified{.,_}*')   , optional:true, emit: unclassified_reads_fastq
     tuple val(meta), path('*classifiedreads.txt')   , optional:true, emit: classified_reads_assignment
     tuple val(meta), path('*report.txt')                           , emit: report
-    path "versions.yml"                                            , emit: versions
+    path 'versions.yml'                                            , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -26,13 +26,13 @@ process KRAKEN2_KRAKEN2 {
     script:
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.sample_id}"
-    def paired       = meta.single_end ? "" : "--paired"
+    def paired       = meta.single_end ? '' : '--paired'
     def classified   = meta.single_end ? "${prefix}.classified.fastq"   : "${prefix}.classified#.fastq"
     def unclassified = meta.single_end ? "${prefix}.unclassified.fastq" : "${prefix}.unclassified#.fastq"
-    def classified_option = save_output_fastqs ? "--classified-out ${classified}" : ""
-    def unclassified_option = save_output_fastqs ? "--unclassified-out ${unclassified}" : ""
-    def readclassification_option = save_reads_assignment ? "--output ${prefix}.kraken2.classifiedreads.txt" : ""
-    def compress_reads_command = save_output_fastqs ? "pigz -p $task.cpus *.fastq" : ""
+    def classified_option = save_output_fastqs ? "--classified-out ${classified}" : ''
+    def unclassified_option = save_output_fastqs ? "--unclassified-out ${unclassified}" : ''
+    def readclassification_option = save_reads_assignment ? "--output ${prefix}.kraken2.classifiedreads.txt" : ''
+    def compress_reads_command = save_output_fastqs ? "pigz -p $task.cpus *.fastq" : ''
 
     """
     kraken2 \\

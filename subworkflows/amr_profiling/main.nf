@@ -5,7 +5,6 @@ ch_versions = Channel.from([])
 multiqc_files = Channel.from([])
 
 workflow AMR_PROFILING {
-
     take:
     assembly
     db
@@ -15,11 +14,10 @@ workflow AMR_PROFILING {
     // if no local DB is defined, we download it on the flye
     if (!params.reference_base) {
         AMRFINDERPLUS_UPDATE()
-        ch_amrfinderplus_db = AMRFINDERPLUS_UPDATE.out.db 
+        ch_amrfinderplus_db = AMRFINDERPLUS_UPDATE.out.db
         ch_versions = ch_versions.mix(AMRFINDERPLUS_UPDATE.out.versions)
     } else {
         ch_amrfinderplus_db = Channel.from(db)
-
     }
 
     AMRFINDERPLUS_RUN(
@@ -33,5 +31,4 @@ workflow AMR_PROFILING {
     report = amrfinder_report
     versions = ch_versions
     qc = multiqc_files
-
 }

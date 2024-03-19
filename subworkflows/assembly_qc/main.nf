@@ -4,7 +4,6 @@ include { BUSCO_DOWNLOAD }      from './../../modules/busco/download'
 ch_versions = Channel.from([])
 
 workflow ASSEMBLY_QC {
-
     take:
     assembly
     busco_lineage

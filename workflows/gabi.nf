@@ -1,4 +1,4 @@
-/* 
+/*
 ----------------------
 Import Modules
 ----------------------
@@ -13,12 +13,12 @@ include { FLYE }                        from './../modules/flye'
 include { CUSTOM_DUMPSOFTWAREVERSIONS } from './../modules/custom/dumpsoftwareversions'
 
 /*
-------------------- 
+-------------------
 Import Subworkflows
 -------------------
 */
 include { GROUP_READS }                 from './../subworkflows/group_reads'
-include { QC }                 from './../subworkflows/qc'
+include { QC }                          from './../subworkflows/qc'
 include { AMR_PROFILING }               from './../subworkflows/amr_profiling'
 include { TAXONOMY_PROFILING }          from './../subworkflows/taxonomy_profiling'
 include { ASSEMBLY_QC }                 from './../subworkflows/assembly_qc'
@@ -36,17 +36,17 @@ ch_multiqc_config = params.multiqc_config   ? Channel.fromPath(params.multiqc_co
 ch_multiqc_logo   = params.multiqc_logo     ? Channel.fromPath(params.multiqc_logo, checkIfExists: true).collect()      : []
 
 ch_prokka_proteins = params.prokka_proteins ? Channel.fromPath(params.prokka_proteins, checkIfExists: true).collect()   : []
-ch_prokka_prodigal = params.prokka_prodigal ? Channel.fromPath(params.prokka_prodigal, checkIfExists:true ).collect()   : []
+ch_prokka_prodigal = params.prokka_prodigal ? Channel.fromPath(params.prokka_prodigal, checkIfExists:true).collect()   : []
 
 tools = params.tools ? params.tools.split(',').collect { tool -> clean_tool(tool) } : []
 
-amrfinder_db    = params.reference_base ? params.references["amrfinderdb"].db : []
-kraken2_db      = params.reference_base ? params.references["kraken2"].db : []
+amrfinder_db    = params.reference_base ? params.references['amrfinderdb'].db : []
+kraken2_db      = params.reference_base ? params.references['kraken2'].db : []
 
-busco_db_path   = params.reference_base ? params.references["busco"].db : []
+busco_db_path   = params.reference_base ? params.references['busco'].db : []
 busco_lineage   = params.busco_lineage
 
-confindr_db     = params.reference_base ? Channel.fromPath(params.references['confindr'].db, checkIfExists:true ).collect() : []
+confindr_db     = params.reference_base ? Channel.fromPath(params.references['confindr'].db, checkIfExists:true).collect() : []
 
 ch_versions     = Channel.from([])
 multiqc_files   = Channel.from([])
@@ -73,11 +73,11 @@ workflow GABI {
     ch_ont_trimmed      = QC.out.ont
     ch_pacbio_trimmed   = QC.out.pacbio
 
-    /* 
+    /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     See which samples are Illumina-only, ONT-only or have a mix of both for hybrid assembly
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    */ 
+    */
     GROUP_READS(
         ch_illumina_trimmed,
         ch_ont_trimmed,
@@ -89,27 +89,27 @@ workflow GABI {
     ch_ont_reads_only   = GROUP_READS.out.ont_only
     ch_pb_reads_only    = GROUP_READS.out.pacbio_only
 
-    /* 
+    /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Predict taxonomy from read data
     One set of reads per sample, preferrably Illumina
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     */
-    ch_reads_for_taxonomy = ch_hybrid_reads.map { m,i,n -> [m ,i ]}
-    ch_reads_for_taxonomy = ch_reads_for_taxonomy.mix(ch_short_reads_only,ch_ont_reads_only)
+    ch_reads_for_taxonomy = ch_hybrid_reads.map { m, i, n -> [m, i ] }
+    ch_reads_for_taxonomy = ch_reads_for_taxonomy.mix(ch_short_reads_only, ch_ont_reads_only)
 
     TAXONOMY_PROFILING(
         ch_reads_for_taxonomy,
         kraken2_db
     )
     ch_taxon = TAXONOMY_PROFILING.out.report
-    multiqc_files = multiqc_files.mix(TAXONOMY_PROFILING.out.report.map { m,r -> r })
+    multiqc_files = multiqc_files.mix(TAXONOMY_PROFILING.out.report.map { m, r -> r })
 
-    /* 
+    /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Assemble reads based on what data is available
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    */ 
+    */
 
     /*
     Option: Short reads only
@@ -123,10 +123,10 @@ workflow GABI {
     //Shovill generates generic output names, must rename to sample id
     RENAME_SHOVILL_CTG(
         SHOVILL.out.contigs,
-        "fasta"
+        'fasta'
     )
     ch_assemblies = ch_assemblies.mix(RENAME_SHOVILL_CTG.out)
-    
+
     /*
     Option: Nanopore reads with optional short reads
     Dragonflye
@@ -139,7 +139,7 @@ workflow GABI {
     // Dragonflye generates generic output names, must rename to sample id
     RENAME_DRAGONFLYE_CTG(
         DRAGONFLYE.out.contigs,
-        "fasta"
+        'fasta'
     )
     ch_assemblies = ch_assemblies.mix(RENAME_DRAGONFLYE_CTG.out)
 
@@ -157,10 +157,10 @@ workflow GABI {
     Clean the meta data object to remove stuff we don't need anymore
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     */
-    ch_assemblies.map { m,f ->
+    ch_assemblies.map { m, f ->
         def newMeta = [:]
         newMeta.sample_id = m.sample_id
-        tuple(newMeta,f)
+        tuple(newMeta, f)
     }.set { ch_assemblies_clean }
 
     /*
@@ -177,17 +177,17 @@ workflow GABI {
     Join the assembly channel with taxonomic assignment information
     [ meta, assembly ] <-> [ meta, taxreport]
     */
-    ch_assemblies_clean_grouped = ch_assemblies_clean.map { m,f -> [ m.sample_id, m, f]}
-    ch_assemblies_clean_grouped_tax = ch_assemblies_clean_grouped.join(ch_taxon.map {m,t -> [ m.sample_id,m]})
-    ch_assemblies_clean_grouped_tax.map { s,m,f,t ->
+    ch_assemblies_clean_grouped = ch_assemblies_clean.map { m, f -> [ m.sample_id, m, f] }
+    ch_assemblies_clean_grouped_tax = ch_assemblies_clean_grouped.join(ch_taxon.map { m, t -> [ m.sample_id, m] })
+    ch_assemblies_clean_grouped_tax.map { s, m, f, t ->
         m.taxon = t.taxon
         m.domain = t.domain
-        tuple(m,f)
+        tuple(m, f)
     }.set { ch_assemblies_with_taxa }
 
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    Predict gene models 
+    Predict gene models
     We use taxonomy-enriched meta hashes to add
     genus/species to the Prokka output(s)
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -202,9 +202,9 @@ workflow GABI {
     gff = ANNOTATE.out.gff
 
     // Create a channel with joint proteins and gff files for AMRfinderplus
-    faa.join(gff).map { m,f,g ->
+    faa.join(gff).map { m, f, g ->
         m.is_proteins = true
-        tuple(m,f,g)
+        tuple(m, f, g)
     }.set { ch_amr_input }
 
     /*
@@ -230,10 +230,10 @@ workflow GABI {
         busco_db_path
     )
     ch_versions = ch_versions.mix(ASSEMBLY_QC.out.versions)
-    multiqc_files = multiqc_files.mix(ASSEMBLY_QC.out.report.map {m,r -> r})
+    multiqc_files = multiqc_files.mix(ASSEMBLY_QC.out.report.map { m, r -> r })
 
     // MLTST
-    ch_assemblies_with_taxonomy = ch_assemblies_clean.filter { m,a -> m.taxon != "unknown" }
+    ch_assemblies_with_taxonomy = ch_assemblies_clean.filter { m, a -> m.taxon != 'unknown' }
     //PYMLST(
     //    ch_assemblies_with_taxonomy
     //)
@@ -253,12 +253,8 @@ workflow GABI {
 
     emit:
     qc = MULTIQC.out.html
-
-}
+    }
 
 def clean_tool(String tool) {
     return tool.trim().toLowerCase().replaceAll('-', '').replaceAll('_', '')
 }
-
-
-

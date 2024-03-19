@@ -3,7 +3,6 @@ include { MOBSUITE_RECON }  from './../../modules/mobsuite/recon'
 ch_versions = Channel.from([])
 
 workflow PLASMIDS {
-
     take:
     ch_assemblies
 
@@ -17,5 +16,4 @@ workflow PLASMIDS {
     emit:
     plasmids = MOBSUITE_RECON.out.plasmids
     versions = ch_versions
-
 }

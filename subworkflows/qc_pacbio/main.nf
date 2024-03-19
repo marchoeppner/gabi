@@ -7,7 +7,6 @@ ch_versions = Channel.from([])
 multiqc_files = Channel.from([])
 
 workflow QC_PACBIO {
-
     take:
     reads
     confindr_db
@@ -37,7 +36,7 @@ workflow QC_PACBIO {
 
     if (params.subsample_reads) {
         RASUSA(
-            ch_pb_trimmed.map { m,r -> [ m, r , params.genome_size]},
+            ch_pb_trimmed.map { m, r -> [ m, r, params.genome_size] },
             params.max_coverage
         )
         ch_versions = ch_versions.mix(RASUSA.out.versions)
@@ -51,5 +50,4 @@ workflow QC_PACBIO {
     reads = ch_processed_reads
     qc = multiqc_files
     versions = ch_versions
-
-}
+    }

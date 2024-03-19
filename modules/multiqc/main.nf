@@ -18,7 +18,7 @@ process MULTIQC {
     script:
 
     """
-    
+
     multiqc -n ${params.run_name}_multiqc_report .
 
     cat <<-END_VERSIONS > versions.yml

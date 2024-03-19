@@ -1,4 +1,4 @@
-process KRAKEN2_DOWNLOAD {
+process CONFINDR_INSTALL {
     label 'medium_serial'
 
     conda "${moduleDir}/environment.yml"
@@ -10,14 +10,14 @@ process KRAKEN2_DOWNLOAD {
     path(url)
 
     output:
-    path("minikraken2*")         , emit: db
+    path("confindr")         , emit: db
 
     script:
     archive = url.toString().split('/')[-1]
-    db_name = archive.replace('.tgz', '')
+    db_name = archive.replace('.tar.gz', '')
 
     """
-    tar -xvf $archive
-    rm *.tgz
+    tar -xvf $url
+    rm *.tar.gz
     """
 }

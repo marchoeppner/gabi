@@ -1,6 +1,6 @@
 process FLYE {
     tag "$meta.sample_id"
-    
+
     label 'medium_parallel'
 
     conda "${moduleDir}/environment.yml"
@@ -12,13 +12,13 @@ process FLYE {
     tuple val(meta), path(reads)
 
     output:
-    tuple val(meta), path("*.fasta"), emit: fasta
-    tuple val(meta), path("*.gfa")  , emit: gfa
-    tuple val(meta), path("*.gv")   , emit: gv
-    tuple val(meta), path("*.txt")     , emit: txt
-    tuple val(meta), path("*.log")     , emit: log
-    tuple val(meta), path("*.json")    , emit: json
-    path "versions.yml"                , emit: versions
+    tuple val(meta), path('*.fasta'), emit: fasta
+    tuple val(meta), path('*.gfa')  , emit: gfa
+    tuple val(meta), path('*.gv')   , emit: gv
+    tuple val(meta), path('*.txt')     , emit: txt
+    tuple val(meta), path('*.log')     , emit: log
+    tuple val(meta), path('*.json')    , emit: json
+    path 'versions.yml'                , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -39,22 +39,6 @@ process FLYE {
     mv assembly_info.txt ${prefix}.assembly_info.txt
     mv flye.log ${prefix}.flye.log
     mv params.json ${prefix}.params.json
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        flye: \$( flye --version )
-    END_VERSIONS
-    """
-
-    stub:
-    def prefix = task.ext.prefix ?: "${meta.id}"
-    """
-    echo stub | cp > ${prefix}.assembly.fasta
-    echo stub | cp > ${prefix}.assembly_graph.gfa
-    echo stub | cp > ${prefix}.assembly_graph.gv
-    echo contig_1 > ${prefix}.assembly_info.txt
-    echo stub > ${prefix}.flye.log
-    echo stub > ${prefix}.params.json
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

@@ -6,7 +6,6 @@ ch_versions = Channel.from([])
 multiqc_files = Channel.from([])
 
 workflow QC_ILLUMINA {
-
     take:
     reads
     confindr_db
@@ -19,7 +18,6 @@ workflow QC_ILLUMINA {
     )
     ch_versions = ch_versions.mix(FASTP.out.versions)
     multiqc_files = multiqc_files.mix(FASTP.out.json)
-
 
     // Split trimmed reads by sample to find multi-lane data set
     FASTP.out.reads.groupTuple().branch { meta, reads ->
@@ -42,10 +40,10 @@ workflow QC_ILLUMINA {
         confindr_db
     )
     ch_versions = ch_versions.mix(CONFINDR.out.versions)
-    
+
     emit:
     confindr_report = CONFINDR.out.report
     reads = ch_illumina_trimmed
     versions = ch_versions
     qc = multiqc_files
-}
+    }

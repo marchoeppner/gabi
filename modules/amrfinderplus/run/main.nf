@@ -4,7 +4,7 @@ process AMRFINDERPLUS_RUN {
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/ncbi-amrfinderplus:3.11.18--h283d18e_0':
+        'https://depot.galaxyproject.org/singularity/ncbi-amrfinderplus:3.11.18--h283d18e_0' :
         'quay.io/biocontainers/ncbi-amrfinderplus:3.11.18--h283d18e_0' }"
 
     input:
@@ -14,7 +14,7 @@ process AMRFINDERPLUS_RUN {
     output:
     tuple val(meta), path("${prefix}.tsv")          , emit: report
     tuple val(meta), path("${prefix}-mutations.tsv"), emit: mutation_report, optional: true
-    path "versions.yml"                             , emit: versions
+    path 'versions.yml'                             , emit: versions
     env VER                                         , emit: tool_version
     env DBVER                                       , emit: db_version
 
@@ -23,16 +23,16 @@ process AMRFINDERPLUS_RUN {
 
     script:
     def args = task.ext.args ?: ''
-    def is_compressed_fasta = fasta.getName().endsWith(".gz") ? true : false
-    def is_compressed_db = db.getName().endsWith(".gz") ? true : false
+    def is_compressed_fasta = fasta.getName().endsWith('.gz') ? true : false
+    def is_compressed_db = db.getName().endsWith('.gz') ? true : false
     prefix = task.ext.prefix ?: "${meta.sample_id}"
-    organism_param = meta.containsKey("organism") ? "--organism ${meta.organism} --mutation_all ${prefix}-mutations.tsv" : ""
-    annotation_param = gff ? "-g $gff" : ""
-    fasta_name = fasta.getName().replace(".gz", "")
-    fasta_param = "-n"
-    if (meta.containsKey("is_proteins")) {
+    organism_param = meta.containsKey('organism') ? "--organism ${meta.organism} --mutation_all ${prefix}-mutations.tsv" : ''
+    annotation_param = gff ? "-g $gff" : ''
+    fasta_name = fasta.getName().replace('.gz', '')
+    fasta_param = '-n'
+    if (meta.containsKey('is_proteins')) {
         if (meta.is_proteins) {
-            fasta_param = "-p"
+            fasta_param = '-p'
         }
     }
     """

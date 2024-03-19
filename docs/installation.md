@@ -23,6 +23,8 @@ You can choose one of the following options:
 
 The pipeline comes with simple pre-set profiles for all of these as described [here](usage.md); if you plan to use this pipeline regularly, consider adding your own custom profile to our [central repository](https://github.com/marchoeppner/configs) to better leverage your available resources.
 
+Also note that Nextflow supports additional software provisioning [frameworks](https://www.nextflow.io/docs/latest/container.html). These may very well work also, but have not been tested by us. 
+
 ## Installing the references
 
 This pipeline requires locally stored references. To build these, do:

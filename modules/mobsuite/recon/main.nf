@@ -4,18 +4,18 @@ process MOBSUITE_RECON {
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/mob_suite:3.0.3--pyhdfd78af_0':
+        'https://depot.galaxyproject.org/singularity/mob_suite:3.0.3--pyhdfd78af_0' :
         'biocontainers/mob_suite:3.0.3--pyhdfd78af_0' }"
 
     input:
     tuple val(meta), path(fasta)
 
     output:
-    tuple val(meta), path("results/chromosome.fasta")    , emit: chromosome
-    tuple val(meta), path("results/contig_report.txt")   , emit: contig_report
-    tuple val(meta), path("results/plasmid_*.fasta")     , emit: plasmids        , optional: true
-    tuple val(meta), path("results/mobtyper_results.txt"), emit: mobtyper_results, optional: true
-    path "versions.yml"                                  , emit: versions
+    tuple val(meta), path('results/chromosome.fasta')    , emit: chromosome
+    tuple val(meta), path('results/contig_report.txt')   , emit: contig_report
+    tuple val(meta), path('results/plasmid_*.fasta')     , emit: plasmids        , optional: true
+    tuple val(meta), path('results/mobtyper_results.txt'), emit: mobtyper_results, optional: true
+    path 'versions.yml'                                  , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -23,8 +23,8 @@ process MOBSUITE_RECON {
     script:
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.sample_id}"
-    def is_compressed = fasta.getName().endsWith(".gz") ? true : false
-    def fasta_name = fasta.getName().replace(".gz", "")
+    def is_compressed = fasta.getName().endsWith('.gz') ? true : false
+    def fasta_name = fasta.getName().replace('.gz', '')
     """
     if [ "$is_compressed" == "true" ]; then
         gzip -c -d $fasta > $fasta_name

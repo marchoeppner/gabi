@@ -25,7 +25,7 @@ process PROKKA {
     tuple val(meta), path("${prefix}/*.log"), emit: log
     tuple val(meta), path("${prefix}/*.txt"), emit: txt
     tuple val(meta), path("${prefix}/*.tsv"), emit: tsv
-    path "versions.yml" , emit: versions
+    path 'versions.yml' , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -33,15 +33,14 @@ process PROKKA {
     script:
     def args = task.ext.args   ?: ''
     prefix   = task.ext.prefix ?: "${meta.sample_id}"
-    def proteins_opt = proteins ? "--proteins ${proteins[0]}" : ""
-    def prodigal_tf = prodigal_tf ? "--prodigaltf ${prodigal_tf[0]}" : ""
-    def prokka_options = ""
-    if (meta.containsKey("taxon") && meta.taxon != "unknown") {
-        elements = meta.taxon.split(" ")
+    def proteins_opt = proteins ? "--proteins ${proteins[0]}" : ''
+    def prodigal_tf = prodigal_tf ? "--prodigaltf ${prodigal_tf[0]}" : ''
+    if (meta.containsKey('taxon') && meta.taxon != 'unknown') {
+        elements = meta.taxon.split(' ')
         (genus,species) = elements[0..1]
         args = args.concat(" --genus ${genus} --species ${species}")
     }
-    if (meta.containsKey("domain") && meta.domain != "unknown") {
+    if (meta.containsKey('domain') && meta.domain != 'unknown') {
         args = args.concat(" --kingdom ${meta.domain}")
     }
 

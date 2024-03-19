@@ -89,17 +89,17 @@ A name to use for various output files. This tend to be useful to relate analyse
 
 This option should point to the base directory in which you have installed the pipeline references. See our [installation](installation.md) instructions for details. For users who have contributed a site-specific config file, this option does not need to be set. 
 
-## Special options
+## Specialist options
 
 These options are only meant for users who have a specific reason to touch them. For most use cases, the defaults should be fine. 
 
 ### `--subsample_reads` [ true|false, default = true]
 
-Perform sub-sampling of (long reads) prior to assembly. This is meant to deal with needlessly deep data sets that could otherwise result in excessive run times or crashes. 
+Perform sub-sampling of (long reads) prior to assembly. This is meant to deal with needlessly deep data sets that could otherwise result in excessive run times or crashes. The degree of sub-sampling is controlled by `--max_coverage` combined with `--genome_size`. 
 
 ### `--max_coverage` [ default = '100x']
 
-If sub-sampling (`--subsample_reads`) is enabled, this is the target coverage. This option is combined with `--rasusa_genome_size`. 
+If sub-sampling (`--subsample_reads`) is enabled, this is the target coverage. This option is combined with `--genome_size`. 
 
 ### `--genome_size` [ default = 6Mb ]
 

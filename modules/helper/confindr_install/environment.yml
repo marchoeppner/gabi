@@ -1,7 +1,8 @@
-name: unicycler
+name: confindr_install
 channels:
   - conda-forge
   - bioconda
   - defaults
 dependencies:
-  - bioconda::unicycler=0.4.8
+  - bioconda::gnu-wget=1.18
+

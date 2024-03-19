@@ -4,4 +4,4 @@ channels:
   - bioconda
   - defaults
 dependencies:
-  - bioconda::confindr=0.8.1
+  - bioconda::confindr=0.7.4

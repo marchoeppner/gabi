@@ -26,17 +26,18 @@ WorkflowMain.initialise(workflow, params, log)
 // TODO: Rename this and the file under lib/ to something matching this pipeline (e.g. WorkflowAmplicons)
 WorkflowPipeline.initialise(params, log)
 
-include { GABI } from './workflows/gabi'
+include { GABI }                from './workflows/gabi'
+include { BUILD_REFERENCES }    from './workflows/build_references'
 
 multiqc_report = Channel.from([])
 
 workflow {
     if (params.build_references) {
+        BUILD_REFERENCES()
     } else {
         GABI()
+        multiqc_report = multiqc_report.mix(GABI.out.qc).toList()
     }
-
-    multiqc_report = multiqc_report.mix(GABI.out.qc).toList()
 }
 
 workflow.onComplete {

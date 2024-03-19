@@ -2,10 +2,10 @@ process CONFINDR {
     tag "$meta.sample_id"
     label 'short_parallel'
 
-    conda "bioconda::confindr=0.7.4"
+    conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/confindr%3A0.7.4--py_0':
-        'quay.io/biocontainers/biocontainers/confindr' }"
+        'https://depot.galaxyproject.org/singularity/confindr:0.7.4--py_0' :
+        'quay.io/biocontainers/confindr:0.7.4--py_0' }"
 
     input:
     tuple val(meta), path(reads)
@@ -16,7 +16,7 @@ process CONFINDR {
     tuple val(meta), path('confindr_results/*confindr_log.txt'),    emit: log
     tuple val(meta), path('confindr_results/*confindr_report.csv'), emit: report
     tuple val(meta), path('confindr_results/*_rmlst.csv'),          emit: rmlst optional true
-    path "versions.yml",                                      emit: versions
+    path 'versions.yml',                                      emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -24,11 +24,7 @@ process CONFINDR {
     script:
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.sample_id}"
-    def old_new_pairs = reads instanceof Path || reads.size() == 1 ? [[ reads, "${prefix}.${reads.extension}" ]] : reads.withIndex().collect { entry, index -> [ entry, "${prefix}_${index + 1}.fastq.${entry.extension}" ] }
-    def rename_to = old_new_pairs*.join(' ').join(' ')
-    def renamed_files = old_new_pairs.collect{ old_name, new_name -> new_name }.join(' ')
-    def allfiles =  reads.withIndex().collect()
-    def db_options = db ? "-d ${db}" : ""
+    def db_options = db ? "-d ${db}" : ''
     """
 
     mkdir -p "input_dir"

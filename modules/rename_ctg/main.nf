@@ -7,7 +7,7 @@ process RENAME_CTG {
     val file_ext
 
     output:
-    tuple val(meta), path("*")
+    tuple val(meta), path('*')
 
     when:
     task.ext.when == null || task.ext.when

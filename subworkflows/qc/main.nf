@@ -6,7 +6,6 @@ ch_versions = Channel.from([])
 multiqc_files = Channel.from([])
 
 workflow QC {
-
     take:
     reads
     confindr_db
@@ -42,7 +41,7 @@ workflow QC {
     ch_versions         = ch_versions.mix(QC_NANOPORE.out.versions)
     multiqc_files       = multiqc_files.mix(QC_NANOPORE.out.qc)
 
-    /* 
+    /*
     Trim and QC Pacbio HiFi reads
     */
     QC_PACBIO(
@@ -53,10 +52,10 @@ workflow QC {
     ch_versions         = ch_versions.mix(QC_PACBIO.out.versions)
 
     emit:
-    
+
     illumina = ch_illumina_trimmed
     ont = ch_ont_trimmed
     pacbio = ch_pacbio_trimmed
     versions = ch_versions
     qc = multiqc_files
-}
+    }
