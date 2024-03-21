@@ -89,6 +89,10 @@ A name to use for various output files. This tend to be useful to relate analyse
 
 This option should point to the base directory in which you have installed the pipeline references. See our [installation](installation.md) instructions for details. For users who have contributed a site-specific config file, this option does not need to be set. 
 
+### `--build_references` [ default = null ]
+
+This option is only used when installing the pipelines references as described [here](installation.md).
+
 ## Specialist options
 
 These options are only meant for users who have a specific reason to touch them. For most use cases, the defaults should be fine. 

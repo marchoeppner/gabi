@@ -50,6 +50,7 @@ workflow QC {
     )
     ch_pacbio_trimmed   = QC_PACBIO.out.reads
     ch_versions         = ch_versions.mix(QC_PACBIO.out.versions)
+    multiqc_files       = multiqc_files.mix(QC_PACBIO.out.qc)
 
     emit:
 

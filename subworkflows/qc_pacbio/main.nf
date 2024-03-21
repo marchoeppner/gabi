@@ -2,6 +2,7 @@
 include { RASUSA }                          from './../../modules/rasusa'
 include { CAT_FASTQ  }                      from './../../modules/cat_fastq'
 include { CONFINDR as CONFINDR_PACBIO }     from './../../modules/confindr'
+include { FASTQC }                          from './../../modules/fastqc'
 
 ch_versions = Channel.from([])
 multiqc_files = Channel.from([])
@@ -27,6 +28,12 @@ workflow QC_PACBIO {
 
     // The trimmed ONT reads, concatenated by sample
     ch_pb_trimmed = ch_reads_pb.single.mix(CAT_FASTQ.out.reads)
+
+    FASTQC(
+        reads
+    )
+    ch_versions = ch_versions.mix(FASTQC.out.versions)
+    multiqc_files = multiqc_files.mix(FASTQC.out.zip.map{m,z -> z})
 
     CONFINDR_PACBIO(
         ch_pb_trimmed,

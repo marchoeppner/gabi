@@ -1,6 +1,7 @@
 include { FASTP }                       from './../../modules/fastp'
 include { CAT_FASTQ }                   from './../../modules/cat_fastq'
 include { CONFINDR }                    from './../../modules/confindr'
+include { FASTQC }                      from './../../modules/fastqc'
 
 ch_versions = Channel.from([])
 multiqc_files = Channel.from([])
@@ -17,7 +18,7 @@ workflow QC_ILLUMINA {
         reads
     )
     ch_versions = ch_versions.mix(FASTP.out.versions)
-    multiqc_files = multiqc_files.mix(FASTP.out.json)
+    //multiqc_files = multiqc_files.mix(FASTP.out.json)
 
     // Split trimmed reads by sample to find multi-lane data set
     FASTP.out.reads.groupTuple().branch { meta, reads ->
@@ -34,6 +35,12 @@ workflow QC_ILLUMINA {
 
     // The trimmed files, reduced to [ meta, [ read1, read2 ] ]
     ch_illumina_trimmed = ch_reads_illumina.single.mix(CAT_FASTQ.out.reads)
+
+    FASTQC(
+        FASTP.out.reads
+    )
+    ch_versions = ch_versions.mix(FASTQC.out.versions)
+    multiqc_files = multiqc_files.mix(FASTQC.out.zip.map {m,z -> z})
 
     CONFINDR(
         ch_illumina_trimmed,

@@ -24,6 +24,7 @@ include { TAXONOMY_PROFILING }          from './../subworkflows/taxonomy_profili
 include { ASSEMBLY_QC }                 from './../subworkflows/assembly_qc'
 include { PLASMIDS }                    from './../subworkflows/plasmids'
 include { ANNOTATE }                    from './../subworkflows/annotate'
+include { MLST_TYPING }                 from './../subworkflows/mlst'
 
 /*
 --------------------
@@ -59,7 +60,7 @@ workflow GABI {
 
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    Run read trimming and contamination check
+    Run read trimming and contamination check(s)
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     */
     QC(
@@ -75,7 +76,8 @@ workflow GABI {
 
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    See which samples are Illumina-only, ONT-only or have a mix of both for hybrid assembly
+    See which samples are Illumina-only, ONT-only, Pacbio-only
+    or have a mix of both for hybrid assembly
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     */
     GROUP_READS(
@@ -96,13 +98,14 @@ workflow GABI {
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     */
     ch_reads_for_taxonomy = ch_hybrid_reads.map { m, i, n -> [m, i ] }
-    ch_reads_for_taxonomy = ch_reads_for_taxonomy.mix(ch_short_reads_only, ch_ont_reads_only)
+    ch_reads_for_taxonomy = ch_reads_for_taxonomy.mix(ch_short_reads_only, ch_ont_reads_only, ch_pb_reads_only)
 
     TAXONOMY_PROFILING(
         ch_reads_for_taxonomy,
         kraken2_db
     )
     ch_taxon = TAXONOMY_PROFILING.out.report
+    ch_versions = ch_versions.mix(TAXONOMY_PROFILING.out.versions)
     multiqc_files = multiqc_files.mix(TAXONOMY_PROFILING.out.report.map { m, r -> r })
 
     /*
@@ -135,13 +138,7 @@ workflow GABI {
         ch_dragonflye
     )
     ch_versions = ch_versions.mix(DRAGONFLYE.out.versions)
-
-    // Dragonflye generates generic output names, must rename to sample id
-    RENAME_DRAGONFLYE_CTG(
-        DRAGONFLYE.out.contigs,
-        'fasta'
-    )
-    ch_assemblies = ch_assemblies.mix(RENAME_DRAGONFLYE_CTG.out)
+    ch_assemblies = ch_assemblies.mix(DRAGONFLYE.out.contigs)
 
     /*
     Option: Pacbio HiFi reads
@@ -152,6 +149,7 @@ workflow GABI {
     )
     ch_versions = ch_versions.mix(FLYE.out.versions)
     ch_assemblies = ch_assemblies.mix(FLYE.out.fasta)
+
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Clean the meta data object to remove stuff we don't need anymore
@@ -184,6 +182,16 @@ workflow GABI {
         m.domain = t.domain
         tuple(m, f)
     }.set { ch_assemblies_with_taxa }
+
+    /*
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Perform MLST typing of assemblies
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    */
+    MLST_TYPING(
+        ch_assemblies_with_taxa
+    )
+    ch_versions = ch_versions.mix(MLST_TYPING.out.versions)
 
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -238,6 +246,12 @@ workflow GABI {
     //    ch_assemblies_with_taxonomy
     //)
     //ch_versions = ch_versions.mix(PYMLST.out.versions)
+
+    /*
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Generate QC reports 
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    */
 
     CUSTOM_DUMPSOFTWAREVERSIONS(
         ch_versions.unique().collectFile(name: 'collated_versions.yml')

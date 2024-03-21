@@ -12,9 +12,9 @@ process FLYE {
     tuple val(meta), path(reads)
 
     output:
-    tuple val(meta), path('*.fasta'), emit: fasta
-    tuple val(meta), path('*.gfa')  , emit: gfa
-    tuple val(meta), path('*.gv')   , emit: gv
+    tuple val(meta), path('*.assembly.fasta')      , emit: fasta
+    tuple val(meta), path('*.assembly_graph.gfa')  , emit: gfa
+    tuple val(meta), path('*.assembly_graph.gv')   , emit: gv
     tuple val(meta), path('*.txt')     , emit: txt
     tuple val(meta), path('*.log')     , emit: log
     tuple val(meta), path('*.json')    , emit: json
@@ -28,14 +28,14 @@ process FLYE {
     def prefix = task.ext.prefix ?: "${meta.sample_id}.flye"
     """
     flye \\
+        $args \\
         $reads \\
         --out-dir . \\
         --threads $task.cpus \\
-        $args
 
-    cp assembly.fasta > ${prefix}.assembly.fasta
-    cp assembly_graph.gfa > ${prefix}.assembly_graph.gfa
-    cp assembly_graph.gv > ${prefix}.assembly_graph.gv
+    cp assembly.fasta ${prefix}.assembly.fasta
+    cp assembly_graph.gfa ${prefix}.assembly_graph.gfa
+    cp assembly_graph.gv ${prefix}.assembly_graph.gv
     mv assembly_info.txt ${prefix}.assembly_info.txt
     mv flye.log ${prefix}.flye.log
     mv params.json ${prefix}.params.json

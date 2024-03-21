@@ -3,6 +3,7 @@ include { PORECHOP_ABI }                    from './../../modules/porechop/abi'
 include { RASUSA }                          from './../../modules/rasusa'
 include { CAT_FASTQ  }                      from './../../modules/cat_fastq'
 include { CONFINDR as CONFINDR_NANOPORE }   from './../../modules/confindr'
+include { FASTQC }                          from './../../modules/fastqc'
 
 ch_versions = Channel.from([])
 multiqc_files = Channel.from([])
@@ -34,6 +35,12 @@ workflow QC_NANOPORE {
 
     // The trimmed ONT reads, concatenated by sample
     ch_ont_trimmed = ch_reads_ont.single.mix(CAT_FASTQ.out.reads)
+
+    FASTQC(
+        PORECHOP_ABI.out.reads
+    )
+    ch_versions = ch_versions.mix(FASTQC.out.versions)
+    multiqc_files = multiqc_files.mix(FASTQC.out.zip.map{m,z -> z})
 
     CONFINDR_NANOPORE(
         ch_ont_trimmed,

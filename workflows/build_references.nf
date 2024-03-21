@@ -3,6 +3,7 @@ include { KRAKEN2_DOWNLOAD }                                from './../modules/k
 include { CONFINDR_INSTALL  }                               from './../modules/helper/confindr_install'
 include { BUSCO_DOWNLOAD as BUSCO_INSTALL }                 from './../modules/busco/download'
 include { AMRFINDERPLUS_UPDATE as AMRFINDERPLUS_INSTALL }   from './../modules/amrfinderplus/update'
+include { PYMLST_CLAMLST_INSTALL }                          from './../modules/pymlst/clamlst_install'
 
 kraken_db_url       = Channel.fromPath(params.references['kraken2'].url)
 confindr_db_url     = Channel.fromPath(params.references['confindr'].url)
@@ -39,4 +40,9 @@ workflow BUILD_REFERENCES {
     CONFINDR_INSTALL(
         confindr_db_url
     )
+
+    /*
+    Install PyMLST schemas
+    */
+    PYMLST_CLAMLST_INSTALL()
 }

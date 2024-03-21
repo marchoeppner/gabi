@@ -11,7 +11,7 @@ process DRAGONFLYE {
     tuple val(meta), path(shortreads), path(longreads)
 
     output:
-    tuple val(meta), path('*.fa')                                               , emit: contigs
+    tuple val(meta), path('*.dragonflye.fa')                                   , emit: contigs
     tuple val(meta), path('dragonflye.log')                                     , emit: log
     tuple val(meta), path('{flye,miniasm,raven}.fasta')                         , emit: raw_contigs
     tuple val(meta), path('{flye,miniasm,raven}-unpolished.gfa'), optional:true , emit: gfa
@@ -26,16 +26,20 @@ process DRAGONFLYE {
     def prefix  = task.ext.prefix ?: "${meta.sample_id}.dragonflye"
     def memory  = task.memory.toGiga()-1
     def shortreads_polishing = shortreads ? "--R1 ${shortreads[0]} --R2 ${shortreads[1]}" : ''
+    def ont_option = (params.ont_version == "10.4") ? "--nanohq" : ""
+
     """
     dragonflye \\
         --reads ${longreads} \\
         $shortreads_polishing \\
         $args \\
         --prefix ${prefix} \\
+        $ont_option \\
         --cpus $task.cpus \\
         --ram $memory \\
         --outdir ./ \\
         --force
+
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
