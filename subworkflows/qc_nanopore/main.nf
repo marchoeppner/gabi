@@ -2,8 +2,9 @@
 include { PORECHOP_ABI }                    from './../../modules/porechop/abi'
 include { RASUSA }                          from './../../modules/rasusa'
 include { CAT_FASTQ  }                      from './../../modules/cat_fastq'
-include { CONFINDR as CONFINDR_NANOPORE }   from './../../modules/confindr'
 include { FASTQC }                          from './../../modules/fastqc'
+
+include { CONTAMINATION }                   from './../contamination'
 
 ch_versions = Channel.from([])
 multiqc_files = Channel.from([])
@@ -42,11 +43,11 @@ workflow QC_NANOPORE {
     ch_versions = ch_versions.mix(FASTQC.out.versions)
     multiqc_files = multiqc_files.mix(FASTQC.out.zip.map{m,z -> z})
 
-    CONFINDR_NANOPORE(
+    CONTAMINATION(
         ch_ont_trimmed,
         confindr_db
     )
-    ch_versions = ch_versions.mix(CONFINDR_NANOPORE.out.versions)
+    ch_versions = ch_versions.mix(CONTAMINATION.out.versions)
 
     if (params.subsample_reads) {
         RASUSA(
@@ -60,7 +61,7 @@ workflow QC_NANOPORE {
     }
 
     emit:
-    confindr_report = CONFINDR_NANOPORE.out.report
+    confindr_report = CONTAMINATION.out.report
     reads = ch_processed_reads
     qc = multiqc_files
     versions = ch_versions

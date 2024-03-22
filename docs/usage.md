@@ -55,7 +55,7 @@ How do you choose the assembly method for your data? Well, you don't - the pipel
 
 - Samples with only short reads (Assembler: Shovill)
 - Samples with Nanopore reads and **optional** short reads (Assembler: Dragonflye)
-- Samples with only Pacbio HiFi reads (Assembler: IPA)
+- Samples with only Pacbio HiFi reads (Assembler: Flye)
 
 This is why it is important to make sure that all reads coming from the same sample are linked by a common sample ID. 
 
@@ -88,6 +88,10 @@ A name to use for various output files. This tend to be useful to relate analyse
 ### `--reference_base` [ default = null ]
 
 This option should point to the base directory in which you have installed the pipeline references. See our [installation](installation.md) instructions for details. For users who have contributed a site-specific config file, this option does not need to be set. 
+
+### `--onthq` [ default = true ]
+
+Set this option to true if you believe your ONT data to be of "high quality". This is typically the case for data generated with chemistry version 10.4.1 or later. This option is set to true by default because chemistry version 10.4.1 is the standard kit distributed by ONT at the time of writing. You can disable this option by setting it to `false`. 
 
 ### `--build_references` [ default = null ]
 

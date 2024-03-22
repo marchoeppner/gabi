@@ -1,8 +1,8 @@
 
 include { RASUSA }                          from './../../modules/rasusa'
 include { CAT_FASTQ  }                      from './../../modules/cat_fastq'
-include { CONFINDR as CONFINDR_PACBIO }     from './../../modules/confindr'
 include { FASTQC }                          from './../../modules/fastqc'
+include { CONTAMINATION }                   from './../contamination'
 
 ch_versions = Channel.from([])
 multiqc_files = Channel.from([])
@@ -35,11 +35,11 @@ workflow QC_PACBIO {
     ch_versions = ch_versions.mix(FASTQC.out.versions)
     multiqc_files = multiqc_files.mix(FASTQC.out.zip.map{m,z -> z})
 
-    CONFINDR_PACBIO(
+    CONTAMINATION(
         ch_pb_trimmed,
         confindr_db
     )
-    ch_versions = ch_versions.mix(CONFINDR_PACBIO.out.versions)
+    ch_versions = ch_versions.mix(CONTAMINATION.out.versions)
 
     if (params.subsample_reads) {
         RASUSA(
@@ -53,7 +53,7 @@ workflow QC_PACBIO {
     }
 
     emit:
-    confindr_report = CONFINDR_PACBIO.out.report
+    confindr_report = CONTAMINATION.out.report
     reads = ch_processed_reads
     qc = multiqc_files
     versions = ch_versions

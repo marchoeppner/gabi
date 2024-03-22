@@ -26,7 +26,7 @@ process DRAGONFLYE {
     def prefix  = task.ext.prefix ?: "${meta.sample_id}.dragonflye"
     def memory  = task.memory.toGiga()-1
     def shortreads_polishing = shortreads ? "--R1 ${shortreads[0]} --R2 ${shortreads[1]}" : ''
-    def ont_option = (params.ont_version == "10.4") ? "--nanohq" : ""
+    def ont_option = (params.onthq) ? "--nanohq" : ""
 
     """
     dragonflye \\

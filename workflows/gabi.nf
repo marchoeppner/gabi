@@ -240,13 +240,6 @@ workflow GABI {
     ch_versions = ch_versions.mix(ASSEMBLY_QC.out.versions)
     multiqc_files = multiqc_files.mix(ASSEMBLY_QC.out.report.map { m, r -> r })
 
-    // MLTST
-    ch_assemblies_with_taxonomy = ch_assemblies_clean.filter { m, a -> m.taxon != 'unknown' }
-    //PYMLST(
-    //    ch_assemblies_with_taxonomy
-    //)
-    //ch_versions = ch_versions.mix(PYMLST.out.versions)
-
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Generate QC reports 

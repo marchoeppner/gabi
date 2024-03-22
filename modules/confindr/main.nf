@@ -16,14 +16,14 @@ process CONFINDR {
     tuple val(meta), path('confindr_results/*confindr_log.txt'),    emit: log
     tuple val(meta), path('confindr_results/*confindr_report.csv'), emit: report
     tuple val(meta), path('confindr_results/*_rmlst.csv'),          emit: rmlst optional true
-    path 'versions.yml',                                      emit: versions
+    path 'versions.yml',                                            emit: versions
 
     when:
     task.ext.when == null || task.ext.when
 
     script:
     def args = task.ext.args ?: ''
-    def prefix = task.ext.prefix ?: "${meta.sample_id}"
+    def prefix = task.ext.prefix ?: "${meta.sample_id}_${meta.platform}"
     def db_options = db ? "-d ${db}" : ''
     """
 

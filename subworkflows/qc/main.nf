@@ -17,7 +17,12 @@ workflow QC {
         illumina: meta.platform == 'ILLUMINA'
         ont: meta.platform == 'NANOPORE'
         pacbio: meta.platform == 'PACBIO'
+        torrent: meta.platform == 'TORRENT'
     }.set { ch_reads }
+
+    ch_reads.torrent.subscribe { m,r ->
+        log.warn "Torrent data not yet supported, skipping ${meta.sample_id}..."
+    }
 
     /*
     Trim and QC Illumina reads

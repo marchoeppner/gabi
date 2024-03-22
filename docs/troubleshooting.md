@@ -4,6 +4,10 @@
 
 Please see the available assembly modes [here](usage.md#choosing-an-assembly-method). HiFi reads will almost always be sufficient and possibly superior for assembly than a hybrid approach - which is why we do not support it in GABI. If you disagree, please let us know, preferably with some tangible examples where this assumption was shown to be incorrect. 
 
+## Can I use Pacbio subreads with GABI?
+
+No. The HiFi format has been the defacto standard for Pacbio sequencing for a few years now. If you still have subread data, consider transforming it to CCS/HiFi using available [tools](https://ccs.how/). 
+
 ## The pipeline did not close my assembly, even though I have used both Nanopore and Illumina reads. 
 
 Many reasons can contribute to incomplete assemblies - from the starting material being of poor quality, insufficient sequencing depth, biases in your read data (i.e. loss of certain genomic regions during DNA extraction/preparation) or accidental mix-ups in sample assignment  of a subset of your reads. You can check results from ConfindR to see if all your reads are from the same strain and were not accidentally mixed up or in fact contaminated. 

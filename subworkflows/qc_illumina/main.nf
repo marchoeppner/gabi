@@ -1,7 +1,8 @@
 include { FASTP }                       from './../../modules/fastp'
 include { CAT_FASTQ }                   from './../../modules/cat_fastq'
-include { CONFINDR }                    from './../../modules/confindr'
 include { FASTQC }                      from './../../modules/fastqc'
+
+include { CONTAMINATION }               from './../contamination'
 
 ch_versions = Channel.from([])
 multiqc_files = Channel.from([])
@@ -42,14 +43,14 @@ workflow QC_ILLUMINA {
     ch_versions = ch_versions.mix(FASTQC.out.versions)
     multiqc_files = multiqc_files.mix(FASTQC.out.zip.map {m,z -> z})
 
-    CONFINDR(
+    CONTAMINATION(
         ch_illumina_trimmed,
         confindr_db
     )
-    ch_versions = ch_versions.mix(CONFINDR.out.versions)
+    ch_versions = ch_versions.mix(CONTAMINATION.out.versions)
 
     emit:
-    confindr_report = CONFINDR.out.report
+    confindr_report = CONTAMINATION.out.report
     reads = ch_illumina_trimmed
     versions = ch_versions
     qc = multiqc_files
