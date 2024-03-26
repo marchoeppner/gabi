@@ -30,7 +30,7 @@ Also note that Nextflow supports additional software provisioning [frameworks](h
 This pipeline requires locally stored references. To build these, do:
 
 ```
-nextflow run marchoeppner/gabi -profile standard,singularity \\
+nextflow run marchoeppner/gabi -profile singularity \\
 --build_references \\
 --run_name build_refs \\
 --outdir /path/to/references

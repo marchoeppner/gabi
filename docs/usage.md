@@ -21,7 +21,7 @@ A basic execution of the pipeline looks as follows:
 a) Without a site-specific config file
 
 ```bash
-nextflow run marchoeppner/gabi -profile standard,singularity --input samples.csv \\
+nextflow run marchoeppner/gabi -profile singularity --input samples.csv \\
 --reference_base /path/to/references \\
 --run_name pipeline-test
 ```
@@ -30,15 +30,15 @@ where `path_to_references` corresponds to the location in which you have [instal
 
 In this example, the pipeline will assume it runs on a single computer with the singularity container engine available. Available options to provision software are:
 
-`-profile standard,singularity`
+`-profile singularity`
 
-`-profile standard,docker` 
+`-profile docker` 
 
-`-profile standard,podman` 
+`-profile podman`
 
-`-profile standard,conda` 
+`-profile conda` 
 
-Additional software provisioning tools as described [here](https://www.nextflow.io/docs/latest/container.html) may also work, but have not been tested by us. Please note that conda may not work for all packages on all platforms. If this turns out to be the case for you, please consider switching to one of the supported container engines. 
+Additional software provisioning tools as described [here](https://www.nextflow.io/docs/latest/container.html) may also work, but have not been tested by us. Please note that conda may not work for all packages on all platforms. If this turns out to be the case for you, please consider switching to one of the supported container engines. In addition, you can set parameters such as maximum number of computing cores, RAM or the type of resource manager used (if any).
 
 b) with a site-specific config file
 
