@@ -107,3 +107,8 @@ claMLST import -m mlst db/vibrio_spp. 'Vibrio spp.'
 claMLST import -m mlst db/wolbachia 'wolbachia'
 claMLST import -m mlst db/xylella 'xylella'
 claMLST import -m mlst db/yersinia 'yersinia'
+
+claMLST create klebsiella_pneumoniae profiles_csv gapA.fasta infB.fasta mdh.fasta pgi.fasta phoE.fasta rpoB.fasta tonB.fasta
+mv klebsiella_pneumoniae db/
+
+rm -Rf *.fasta profiles_csv

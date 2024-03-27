@@ -4,7 +4,6 @@
 
 Nextflow is a highly portable pipeline engine. Please see the official [installation guide](https://www.nextflow.io/docs/latest/getstarted.html#installation) to learn how to set it up.
 
-
 This pipeline expects Nextflow version 23.10.1, available [here](https://github.com/nextflow-io/nextflow/releases/tag/v23.10.1).
 
 ## Software provisioning
@@ -33,14 +32,14 @@ This pipeline requires locally stored references. To build these, do:
 nextflow run marchoeppner/gabi -profile singularity \\
 --build_references \\
 --run_name build_refs \\
---outdir /path/to/references
+--reference_base /path/to/references
 ```
 
-where `/path/to/references` could be something like `/data/pipelines/references` or whatever is most appropriate on your system. 
+where `/path/to/references` could be something like `/data/pipelines/references` or whatever is most appropriate on your system. If you already use a site-specific [config](https://github.com/marchoeppner/nf-configs) file, the `--reference_base` option does not need to be set. 
 
 If you do not have singularity on your system, you can also specify docker, podman or conda for software provisioning - see the [usage information](usage.md).
 
-The path specified with `--outdir` can then be given to the pipeline during normal execution as `--reference_base`. Please note that the build process will create a pipeline-specific subfolder (`gabi`) that must not be given as part of the `--outdir` argument. GABI is part of a collection of pipelines that use a shared reference directory and it will choose the appropriate subfolder by itself. 
+Please note that the build process will create a pipeline-specific subfolder (`gabi`) that must not be given as part of the `--reference_base` argument. GABI is part of a collection of pipelines that use a shared reference directory and it will choose/create the appropriate subfolder automatically. 
 
 ## Site-specific config file
 

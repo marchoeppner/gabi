@@ -47,7 +47,7 @@ kraken2_db      = params.reference_base ? params.references['kraken2'].db : []
 busco_db_path   = params.reference_base ? params.references['busco'].db : []
 busco_lineage   = params.busco_lineage
 
-confindr_db     = params.reference_base ? Channel.fromPath(params.references['confindr'].db, checkIfExists:true).collect() : []
+confindr_db     = params.reference_base ? Channel.fromPath(params.references['confindr'].db).collect() : []
 
 ch_versions     = Channel.from([])
 multiqc_files   = Channel.from([])
