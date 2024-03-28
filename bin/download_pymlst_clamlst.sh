@@ -43,11 +43,13 @@ claMLST import -m mlst db/helicobacter_pylori 'Helicobacter pylori'
 claMLST import -m mlst db/helicobacter_suis 'Helicobacter suis'
 claMLST import -m mlst db/klebsiella_aerogenes 'Klebsiella aerogenes'
 claMLST import -m mlst db/klebsiella_oxytoca 'Klebsiella oxytoca'
+claMLST import -r pasteur db/klebsiella_pneumoniae Klebsiella
 claMLST import -m mlst db/kudoa 'kudoa'
 claMLST import -m mlst db/lactobacillus 'lactobacillus'
 claMLST import -m mlst db/lactococcus 'lactococcus garvieae'
 claMLST import -m 1 db/leptospira 'leptospira'
 claMLST import -m mlst db/liberibacter 'liberibacter'
+claMLST import -r pasteur db/listeria_monocytogenes Listeria
 claMLST import -m mlst db/macrococcus_canis 'Macrococcus canis'
 claMLST import -m mlst db/macrococcus_caseolyticus 'Macrococcus caseolyticus'
 claMLST import -m mlst db/mammaliicoccus 'mammaliicoccus'
@@ -107,8 +109,3 @@ claMLST import -m mlst db/vibrio_spp. 'Vibrio spp.'
 claMLST import -m mlst db/wolbachia 'wolbachia'
 claMLST import -m mlst db/xylella 'xylella'
 claMLST import -m mlst db/yersinia 'yersinia'
-
-claMLST create klebsiella_pneumoniae profiles_csv gapA.fasta infB.fasta mdh.fasta pgi.fasta phoE.fasta rpoB.fasta tonB.fasta
-mv klebsiella_pneumoniae db/
-
-rm -Rf *.fasta profiles_csv

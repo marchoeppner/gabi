@@ -33,7 +33,6 @@ workflow QC {
     )
     ch_illumina_trimmed = QC_ILLUMINA.out.reads
     ch_versions         = ch_versions.mix(QC_ILLUMINA.out.versions)
-    multiqc_files       = multiqc_files.mix(QC_ILLUMINA.out.qc)
 
     /*
     Trim and QC nanopore reads
@@ -44,7 +43,6 @@ workflow QC {
     )
     ch_ont_trimmed      = QC_NANOPORE.out.reads
     ch_versions         = ch_versions.mix(QC_NANOPORE.out.versions)
-    multiqc_files       = multiqc_files.mix(QC_NANOPORE.out.qc)
 
     /*
     Trim and QC Pacbio HiFi reads
@@ -55,13 +53,14 @@ workflow QC {
     )
     ch_pacbio_trimmed   = QC_PACBIO.out.reads
     ch_versions         = ch_versions.mix(QC_PACBIO.out.versions)
-    multiqc_files       = multiqc_files.mix(QC_PACBIO.out.qc)
 
     emit:
-
+    qc_illumina = QC_ILLUMINA.out.qc
+    qc_nanopore = QC_NANOPORE.out.qc
+    qc_pacbio = QC_PACBIO.out.qc
     illumina = ch_illumina_trimmed
     ont = ch_ont_trimmed
     pacbio = ch_pacbio_trimmed
     versions = ch_versions
     qc = multiqc_files
-    }
+}

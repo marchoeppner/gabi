@@ -41,6 +41,8 @@ If you do not have singularity on your system, you can also specify docker, podm
 
 Please note that the build process will create a pipeline-specific subfolder (`gabi`) that must not be given as part of the `--reference_base` argument. GABI is part of a collection of pipelines that use a shared reference directory and it will choose/create the appropriate subfolder automatically. 
 
+Finally, depending on your internet connection, the installation process can take a little while - primarily because of the Kraken2 database (8GB). However, once installed you are all set and ready to go. 
+
 ## Site-specific config file
 
 If you run on anything other than a local system, this pipeline requires a site-specific configuration file to be able to talk to your cluster or compute infrastructure. Nextflow supports a wide range of such infrastructures, including Slurm, LSF and SGE - but also Kubernetes and AWS. For more information, see [here](https://www.nextflow.io/docs/latest/executor.html).

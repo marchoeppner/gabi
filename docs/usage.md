@@ -8,7 +8,7 @@ Please fist check out our [installation guide](installation.md), if you haven't 
 
 [Options](#options)
 
-[Specialist options](#specialist-options)
+[Expert options](#expert-options)
 
 [Resources](#resources)
 
@@ -97,7 +97,7 @@ Set this option to true if you believe your ONT data to be of "high quality". Th
 
 This option is only used when installing the pipelines references as described [here](installation.md).
 
-## Specialist options
+## Expert options
 
 These options are only meant for users who have a specific reason to touch them. For most use cases, the defaults should be fine. 
 
@@ -112,6 +112,16 @@ If sub-sampling (`--subsample_reads`) is enabled, this is the target coverage. T
 ### `--genome_size` [ default = 6Mb ]
 
 If sub-sampling (`--subsample_reads`) is enabled, this is the assumed genome size against which the coverage is measured. Since this pipeline supports processing of diverse species in parallel, the default of 6Mb is a compromise and should at the very least prevent grossly over-sampled data to bring the workflow to its knees. Of course, if you only sequence a single species, you are welcome to set this to that specific genome size. 
+
+### `--reference_fasta` [ default = null ]
+
+GABI internally runs QUAST for assembly QC. For select taxa, we have pre-configured the NCBI reference genome and annotation for this purpose - which the pipeline will select automatically, if possible. If GABI cannot match an assembly to a reference, Quast will run without one.
+
+If you have a run with samples from a single taxon and you wish to use your own reference genome for QUAST analysis, you can specify it with this option. This then also requires a custom annotation in gff3 format (`--reference_gff`, see below). 
+
+### `--reference_gff` [ default = null ]
+
+If you want to run Quast against your own reference genome, you also need to provide a matching annotation in gff3 format with this option. 
 
 ## Resources
 

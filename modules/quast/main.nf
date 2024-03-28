@@ -1,6 +1,6 @@
 process QUAST {
-    tag "$meta.id"
-    label 'process_medium'
+    tag "$meta.sample_id"
+    label 'short_parallel'
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
@@ -12,7 +12,7 @@ process QUAST {
 
     output:
     tuple val(meta), path("${prefix}")                   , emit: results
-    tuple val(meta), path("${prefix}.tsv")               , emit: tsv
+    tuple val(meta), path("${prefix}/report.tsv")        , emit: tsv
     tuple val(meta), path("${prefix}_transcriptome.tsv") , optional: true , emit: transcriptome
     tuple val(meta), path("${prefix}_misassemblies.tsv") , optional: true , emit: misassemblies
     tuple val(meta), path("${prefix}_unaligned.tsv")     , optional: true , emit: unaligned

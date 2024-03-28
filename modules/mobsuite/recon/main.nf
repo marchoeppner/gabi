@@ -17,21 +17,13 @@ process MOBSUITE_RECON {
     tuple val(meta), path('results/mobtyper_results.txt'), emit: mobtyper_results, optional: true
     path 'versions.yml'                                  , emit: versions
 
-    when:
-    task.ext.when == null || task.ext.when
-
     script:
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.sample_id}"
-    def is_compressed = fasta.getName().endsWith('.gz') ? true : false
-    def fasta_name = fasta.getName().replace('.gz', '')
+    
     """
-    if [ "$is_compressed" == "true" ]; then
-        gzip -c -d $fasta > $fasta_name
-    fi
-
     mob_recon \\
-        --infile $fasta_name \\
+        --infile $fasta \\
         $args \\
         --num_threads $task.cpus \\
         --outdir results \\

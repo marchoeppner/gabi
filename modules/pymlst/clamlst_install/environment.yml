@@ -4,4 +4,4 @@ channels:
   - bioconda
   - defaults
 dependencies:
-  - bioconda::pymlst=2.1.5
+  - bioconda::pymlst=2.1.6

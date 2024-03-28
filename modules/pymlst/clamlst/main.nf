@@ -5,8 +5,8 @@ process PYMLST_CLAMLST {
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/pymlst:2.1.5--pyhdfd78af_0' :
-        'quay.io/biocontainers/pymlst:2.1.5--pyhdfd78af_0' }"
+        'https://depot.galaxyproject.org/singularity/pymlst:2.1.6--pyhdfd78af_0' :
+        'quay.io/biocontainers/pymlst:2.1.6--pyhdfd78af_0' }"
 
     input:
     tuple val(meta), path(assembly), val(db)

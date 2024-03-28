@@ -5,6 +5,9 @@ Import Modules
 */
 include { INPUT_CHECK }                 from './../modules/input_check'
 include { MULTIQC }                     from './../modules/multiqc'
+include { MULTIQC as MULTIQC_ILLUMINA}  from './../modules/multiqc'
+include { MULTIQC as MULTIQC_NANOPORE}  from './../modules/multiqc'
+include { MULTIQC as MULTIQC_PACBIO}    from './../modules/multiqc'
 include { SHOVILL }                     from './../modules/shovill'
 include { RENAME_CTG as RENAME_SHOVILL_CTG } from './../modules/rename_ctg'
 include { RENAME_CTG as RENAME_DRAGONFLYE_CTG } from './../modules/rename_ctg'
@@ -68,11 +71,33 @@ workflow GABI {
         confindr_db
     )
     ch_versions         = ch_versions.mix(QC.out.versions)
-    multiqc_files       = multiqc_files.mix(QC.out.qc)
 
     ch_illumina_trimmed = QC.out.illumina
     ch_ont_trimmed      = QC.out.ont
     ch_pacbio_trimmed   = QC.out.pacbio
+
+    /*
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Platform specific MultiQC reports
+    since different technologies are difficult to 
+    display jointly (scale etc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    */
+    MULTIQC_ILLUMINA(
+        QC.out.qc_illumina.collect(),
+        ch_multiqc_config,
+        ch_multiqc_logo
+    )
+    MULTIQC_NANOPORE(
+        QC.out.qc_nanopore.collect(),
+        ch_multiqc_config,
+        ch_multiqc_logo
+    )
+    MULTIQC_PACBIO(
+        QC.out.qc_pacbio.collect(),
+        ch_multiqc_config,
+        ch_multiqc_logo
+    )
 
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -106,7 +131,7 @@ workflow GABI {
     )
     ch_taxon = TAXONOMY_PROFILING.out.report
     ch_versions = ch_versions.mix(TAXONOMY_PROFILING.out.versions)
-    multiqc_files = multiqc_files.mix(TAXONOMY_PROFILING.out.report.map { m, r -> r })
+    //multiqc_files = multiqc_files.mix(TAXONOMY_PROFILING.out.report.map { m, r -> r })
 
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -233,12 +258,12 @@ workflow GABI {
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     */
     ASSEMBLY_QC(
-        ch_assemblies_clean,
+        ch_assemblies_with_taxa,
         busco_lineage,
         busco_db_path
     )
     ch_versions = ch_versions.mix(ASSEMBLY_QC.out.versions)
-    multiqc_files = multiqc_files.mix(ASSEMBLY_QC.out.report.map { m, r -> r })
+    multiqc_files = multiqc_files.mix(ASSEMBLY_QC.out.qc.map { m, r -> r })
 
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -251,7 +276,7 @@ workflow GABI {
     )
 
     multiqc_files = multiqc_files.mix(CUSTOM_DUMPSOFTWAREVERSIONS.out.mqc_yml)
-
+    
     MULTIQC(
         multiqc_files.collect(),
         ch_multiqc_config,
@@ -259,7 +284,7 @@ workflow GABI {
     )
 
     emit:
-    qc = MULTIQC.out.html
+    qc = MULTIQC.out.report
     }
 
 def clean_tool(String tool) {

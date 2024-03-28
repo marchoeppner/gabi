@@ -19,3 +19,9 @@ That said, if you did everything right, it could be that the assembly algorithm 
 This could simply be an issue with your executing machine not having enough RAM to run some of the tools we put into this pipeline. The exact amount of RAM needed is difficult to predict and can depend on factors like read length and/or sequencing depth - but we suspect that at least 32GB RAM should be available to avoid RAM-related issues (preferably 64GB). 
 
 If this is already the case for you, then it is more likely that you have not set a memory limit for your compute environment via a site-specifig [config file](https://github.com/marchoeppner/nf-configs/) or from the command line - in which case GABI will use the built-in default (128 GB Ram) - which may well exceed the limits of your system. Please check our section on manipulating [resource](usage.md#resources) limits from the command line. 
+
+## Why is the pipeline so slow?
+
+We assume you mean the overall start-up time - the performance of the individual processes is dictated by the capabilities of your hardware and the complexity/depth of your data. If the latter is a concern, you can check out the [usage](usage.md) information and ensure that the `--subsample_reads` option is not disabled. 
+
+Otherwise, if you run this pipeline without a site-specific config file, the pipeline will not know where to cache the various containers or conda environments. In such cases, it will install/download these dependencies into the respective work directory of your pipeline run, every time you run the pipeline. And yes, that is a little slow. Consider adding your own config file to make use of the caching functionality.
