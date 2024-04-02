@@ -36,6 +36,17 @@ Set default channels
 */
 samplesheet = params.input ? Channel.fromPath(file(params.input, checkIfExists:true)) : Channel.value([])
 
+/*
+Check that the reference directory is actually present
+*/
+if (params.input) {
+    refDir = file(params.reference_base + "/gabi/1.0")
+    if (!refDir.exists()) {
+        log.info "The required reference directory was not found on your system, exiting!"
+        System.exit(1)
+    }
+}
+
 ch_multiqc_config = params.multiqc_config   ? Channel.fromPath(params.multiqc_config, checkIfExists: true).collect()    : []
 ch_multiqc_logo   = params.multiqc_logo     ? Channel.fromPath(params.multiqc_logo, checkIfExists: true).collect()      : []
 

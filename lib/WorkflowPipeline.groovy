@@ -12,6 +12,10 @@ class WorkflowPipeline {
             log.info 'Must provide a run_name (--run_name)'
             System.exit(1)
         }
+        if (!params.build_references && !params.input) {
+            log.info "No input provided, exiting..."
+            System.exit(1)
+        }
         if (!params.reference_base) {
             log.info "No --reference_base specified, cannot proceed!"
             System.exit(1)
