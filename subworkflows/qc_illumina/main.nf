@@ -1,7 +1,7 @@
 include { FASTP }                       from './../../modules/fastp'
 include { CAT_FASTQ }                   from './../../modules/cat_fastq'
 include { FASTQC }                      from './../../modules/fastqc'
-
+include { RASUSA }                      from './../../modules/rasusa'
 include { CONTAMINATION }               from './../contamination'
 
 ch_versions = Channel.from([])
@@ -49,9 +49,20 @@ workflow QC_ILLUMINA {
     )
     ch_versions = ch_versions.mix(CONTAMINATION.out.versions)
 
+    if (params.subsample_reads) {
+        RASUSA(
+            ch_illumina_trimmed.map { m, r -> [ m, r, params.genome_size] },
+            params.max_coverage
+        )
+        ch_versions = ch_versions.mix(RASUSA.out.versions)
+        ch_processed_reads = RASUSA.out.reads
+    } else {
+        ch_processed_reads = ch_illumina_trimmed
+    }
+
     emit:
     confindr_report = CONTAMINATION.out.report
-    reads = ch_illumina_trimmed
+    reads = ch_processed_reads
     versions = ch_versions
     qc = multiqc_files
     }

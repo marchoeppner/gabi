@@ -1,5 +1,7 @@
 # Installation
 
+If you are new to our pipeline ecosystem, we recommend you first check out our general setup guide [here](https://github.com/marchoeppner/nf-configs/blob/main/doc/installation.md). That said, the instructions below will probably be sufficient for most users. 
+
 ## Installing nextflow
 
 Nextflow is a highly portable pipeline engine. Please see the official [installation guide](https://www.nextflow.io/docs/latest/getstarted.html#installation) to learn how to set it up.
@@ -28,7 +30,7 @@ Also note that Nextflow supports additional software provisioning [frameworks](h
 
 This pipeline requires locally stored references. To build these, do:
 
-```
+```bash
 nextflow run marchoeppner/gabi -profile singularity \\
 --build_references \\
 --run_name build_refs \\

@@ -242,14 +242,12 @@ workflow GABI {
         ch_prokka_prodigal
     )
     ch_versions = ch_versions.mix(ANNOTATE.out.versions)
+    fna = ANNOTATE.out.fna
     faa = ANNOTATE.out.faa
     gff = ANNOTATE.out.gff
 
     // Create a channel with joint proteins and gff files for AMRfinderplus
-    faa.join(gff).map { m, f, g ->
-        m.is_proteins = true
-        tuple(m, f, g)
-    }.set { ch_amr_input }
+    ch_amr_input = fna.join(faa).join(gff)
 
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

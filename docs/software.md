@@ -44,3 +44,9 @@ Version 3.11.18, [doi](https://doi.org/10.1038/s41598-021-91456-0) | [PubMed](ht
 
 **ConfindR**
 Version 0.7.4, [doi](https://doi.org/10.7717/peerj.6995) | [PubMed](https://pubmed.ncbi.nlm.nih.gov/31183253/) | [github](https://github.com/OLC-Bioinformatics/ConFindr)
+
+**Abricate**
+Version 1.0.1, [github](https://github.com/tseemann/abricate)
+
+**Hamronization**
+Version 1.1.4, [github](https://github.com/pha4ge/hAMRonization)

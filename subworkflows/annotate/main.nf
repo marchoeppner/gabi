@@ -18,6 +18,7 @@ workflow ANNOTATE {
     ch_versions = ch_versions.mix(PROKKA.out.versions)
 
     emit:
+    fna         = PROKKA.out.fna
     faa         = PROKKA.out.faa
     gbk         = PROKKA.out.gbk
     gff         = PROKKA.out.gff
