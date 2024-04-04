@@ -30,9 +30,9 @@ workflow AMR_PROFILING {
     }
 
     AMRFINDERPLUS_RUN(
-        assembly.map { m,f,a,g -> 
+        assembly.map { m, f, a, g ->
             m.is_proteins = true
-            [ m,a,g] 
+            [ m, a, g]
         },
         ch_amrfinderplus_db.collect()
     )
@@ -40,8 +40,8 @@ workflow AMR_PROFILING {
 
     HAMRONIZATION_AMRFINDERPLUS(
         AMRFINDERPLUS_RUN.out.report,
-        'json', 
-        AMRFINDERPLUS_RUN.out.tool_version, 
+        'json',
+        AMRFINDERPLUS_RUN.out.tool_version,
         AMRFINDERPLUS_RUN.out.db_version
     )
     ch_hamronization_input = ch_hamronization_input.mix(HAMRONIZATION_AMRFINDERPLUS.out.json)
@@ -51,25 +51,24 @@ workflow AMR_PROFILING {
     Run Abricate and make JSON report
     */
     ABRICATE_RUN(
-        assembly.map {m,f,a,g -> [ m,f ]}
+        assembly.map { m, f, a, g -> [ m, f ] }
     )
     ch_versions = ch_versions.mix(ABRICATE_RUN.out.versions)
 
     HAMRONIZATION_ABRICATE(
         ABRICATE_RUN.out.report,
         'json',
-        '1.0.1', 
+        '1.0.1',
         '2021-Mar-27'
     )
     ch_versions = ch_versions.mix(HAMRONIZATION_ABRICATE.out.versions)
     ch_hamronization_input = ch_hamronization_input.mix(HAMRONIZATION_ABRICATE.out.json)
-    
+
     /*
     Summarize reports across tools
     */
-    ch_hamronization_input.map {m,j -> j}.view()
     HAMRONIZATION_SUMMARIZE(
-        ch_hamronization_input.map {m,j -> j}.collect(),
+        ch_hamronization_input.map { m, j -> j }.collect(),
         params.arg_hamronization_summarizeformat
     )
     ch_versions = ch_versions.mix(HAMRONIZATION_SUMMARIZE.out.versions)

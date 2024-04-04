@@ -16,7 +16,7 @@ process QUAST {
     tuple val(meta), path("${prefix}_transcriptome.tsv") , optional: true , emit: transcriptome
     tuple val(meta), path("${prefix}_misassemblies.tsv") , optional: true , emit: misassemblies
     tuple val(meta), path("${prefix}_unaligned.tsv")     , optional: true , emit: unaligned
-    path "versions.yml"                                  , emit: versions
+    path 'versions.yml'                                  , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -45,5 +45,4 @@ process QUAST {
         quast: \$(quast.py --version 2>&1 | sed 's/^.*QUAST v//; s/ .*\$//')
     END_VERSIONS
     """
-
 }

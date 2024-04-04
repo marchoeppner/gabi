@@ -20,7 +20,7 @@ process MOBSUITE_RECON {
     script:
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.sample_id}"
-    
+
     """
     mob_recon \\
         --infile $fasta \\

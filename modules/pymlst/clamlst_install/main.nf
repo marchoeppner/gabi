@@ -1,5 +1,4 @@
 process PYMLST_CLAMLST_INSTALL {
-
     label 'short_serial'
 
     conda "${moduleDir}/environment.yml"
@@ -12,9 +11,8 @@ process PYMLST_CLAMLST_INSTALL {
 
     script:
 
-    """
+    '''
     mkdir -p db
     download_pymlst_clamlst.sh
-    """
-
+    '''
 }

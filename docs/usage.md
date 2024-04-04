@@ -14,8 +14,6 @@ Please fist check out our [installation guide](installation.md), if you haven't 
 
 ## Running the pipeline
 
-Please see our [installation guide](installation.md) to learn how to set up this pipeline first. 
-
 A basic execution of the pipeline looks as follows:
 
 a) Without a site-specific config file
@@ -125,7 +123,7 @@ If sub-sampling (`--subsample_reads`) is enabled, this is the assumed genome siz
 
 ### `--reference_fasta` [ default = null ]
 
-GABI internally runs QUAST for assembly QC. For select taxa, we have [pre-configured](../conf/resources.config) the NCBI reference genome and annotation for this purpose - which the pipeline will select automatically, if possible. If GABI cannot match an assembly to a reference, Quast will run without one.
+GABI internally runs QUAST for assembly QC. For select taxa, we have [pre-configured](../conf/resources.config) the Refseq reference genome and annotation for this purpose - which the pipeline will select automatically, if possible. If GABI cannot match an assembly to a reference, Quast will run without one.
 
 If you have a run with samples from a single taxon and you wish to use your own reference genome for QUAST analysis, you can specify it with this option. This then also requires a custom annotation in gff3 format (`--reference_gff`, see below). 
 

@@ -20,7 +20,7 @@ workflow QC {
         torrent: meta.platform == 'TORRENT'
     }.set { ch_reads }
 
-    ch_reads.torrent.subscribe { m,r ->
+    ch_reads.torrent.subscribe { m, r ->
         log.warn "Torrent data not yet supported, skipping ${meta.sample_id}..."
     }
 
@@ -63,4 +63,4 @@ workflow QC {
     pacbio = ch_pacbio_trimmed
     versions = ch_versions
     qc = multiqc_files
-}
+    }

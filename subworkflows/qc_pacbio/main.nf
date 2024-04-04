@@ -33,7 +33,7 @@ workflow QC_PACBIO {
         reads
     )
     ch_versions = ch_versions.mix(FASTQC.out.versions)
-    multiqc_files = multiqc_files.mix(FASTQC.out.zip.map{m,z -> z})
+    multiqc_files = multiqc_files.mix(FASTQC.out.zip.map { m, z -> z })
 
     CONTAMINATION(
         ch_pb_trimmed,

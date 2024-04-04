@@ -25,3 +25,7 @@ If this is already the case for you, then it is more likely that you have not se
 We assume you mean the overall start-up time - the performance of the individual processes is dictated by the capabilities of your hardware and the complexity/depth of your data. If the latter is a concern, you can check out the [usage](usage.md) information and ensure that the `--subsample_reads` option is not disabled. 
 
 Otherwise, if you run this pipeline without a site-specific config file, the pipeline will not know where to cache the various containers or conda environments. In such cases, it will install/download these dependencies into the respective work directory of your pipeline run, every time you run the pipeline. And yes, that is a little slow. Consider adding your own config file to make use of the caching functionality.
+
+## Quast reports many differences and an incomplete assembly
+
+Gabi uses a set of pre-configured genomes against which Quast benchmarks the respective assembly, based on the best-guess species assignment. That said, for each species, we use the RefSeq reference representative - which may nevertheless be phylogenetically distant to your sequenced bacterium. For example, for E. coli Gabi uses Escherichia coli K12; if you are sequencing E. coli O127:H6, you can expect quite a few differences. You can use a custom reference genome and annotation, if you wish - see our [usage](software.md) information.  

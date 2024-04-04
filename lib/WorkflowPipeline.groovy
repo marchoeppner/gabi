@@ -13,15 +13,15 @@ class WorkflowPipeline {
             System.exit(1)
         }
         if (!params.build_references && !params.input) {
-            log.info "No input provided, exiting..."
+            log.info 'No input provided, exiting...'
             System.exit(1)
         }
         if (!params.reference_base) {
-            log.info "No --reference_base specified, cannot proceed!"
+            log.info 'No --reference_base specified, cannot proceed!'
             System.exit(1)
         }
-        if (params.reference_fasta && !params.reference_gff || !params.reference_fasta && params.reference_gff ) {
-            log.info "You need to provide both a reference FASTA file and reference GFF file for Quast."
+        if (params.reference_fasta && !params.reference_gff || !params.reference_fasta && params.reference_gff) {
+            log.info 'You need to provide both a reference FASTA file and reference GFF file for Quast.'
             System.exit(1)
         }
     }

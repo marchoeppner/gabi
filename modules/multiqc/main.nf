@@ -7,14 +7,14 @@ process MULTIQC {
         'quay.io/biocontainers/multiqc:1.21--pyhdfd78af_0' }"
 
     input:
-    path  multiqc_files, stageAs: "?/*"
+    path  multiqc_files, stageAs: '?/*'
     path(multiqc_config)
     path(multiqc_logo)
 
     output:
-    path "*multiqc*.html"      , emit: report
-    path "*_plots"             , optional:true, emit: plots
-    path "versions.yml"        , emit: versions
+    path '*multiqc*.html'      , emit: report
+    path '*_plots'             , optional:true, emit: plots
+    path 'versions.yml'        , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -38,5 +38,4 @@ process MULTIQC {
         multiqc: \$( multiqc --version | sed -e "s/multiqc, version //g" )
     END_VERSIONS
     """
-
 }

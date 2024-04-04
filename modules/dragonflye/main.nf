@@ -24,9 +24,9 @@ process DRAGONFLYE {
     script:
     def args    = task.ext.args ?: ''
     def prefix  = task.ext.prefix ?: "${meta.sample_id}.dragonflye"
-    def memory  = task.memory.toGiga()-1
+    def memory  = task.memory.toGiga() - 1
     def shortreads_polishing = shortreads ? "--R1 ${shortreads[0]} --R2 ${shortreads[1]}" : ''
-    def ont_option = (params.onthq) ? "--nanohq" : ""
+    def ont_option = (params.onthq) ? '--nanohq' : ''
 
     """
     dragonflye \\
@@ -39,7 +39,6 @@ process DRAGONFLYE {
         --ram $memory \\
         --outdir ./ \\
         --force
-
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

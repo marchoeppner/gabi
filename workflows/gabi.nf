@@ -5,9 +5,9 @@ Import Modules
 */
 include { INPUT_CHECK }                 from './../modules/input_check'
 include { MULTIQC }                     from './../modules/multiqc'
-include { MULTIQC as MULTIQC_ILLUMINA}  from './../modules/multiqc'
-include { MULTIQC as MULTIQC_NANOPORE}  from './../modules/multiqc'
-include { MULTIQC as MULTIQC_PACBIO}    from './../modules/multiqc'
+include { MULTIQC as MULTIQC_ILLUMINA } from './../modules/multiqc'
+include { MULTIQC as MULTIQC_NANOPORE } from './../modules/multiqc'
+include { MULTIQC as MULTIQC_PACBIO }   from './../modules/multiqc'
 include { SHOVILL }                     from './../modules/shovill'
 include { RENAME_CTG as RENAME_SHOVILL_CTG } from './../modules/rename_ctg'
 include { RENAME_CTG as RENAME_DRAGONFLYE_CTG } from './../modules/rename_ctg'
@@ -40,9 +40,9 @@ samplesheet = params.input ? Channel.fromPath(file(params.input, checkIfExists:t
 Check that the reference directory is actually present
 */
 if (params.input) {
-    refDir = file(params.reference_base + "/gabi/1.0")
+    refDir = file(params.reference_base + '/gabi/1.0')
     if (!refDir.exists()) {
-        log.info "The required reference directory was not found on your system, exiting!"
+        log.info 'The required reference directory was not found on your system, exiting!'
         System.exit(1)
     }
 }
@@ -74,7 +74,7 @@ workflow GABI {
 
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    Run read trimming and contamination check(s)
+    SUB: Run read trimming and contamination check(s)
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     */
     QC(
@@ -90,7 +90,7 @@ workflow GABI {
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Platform specific MultiQC reports
-    since different technologies are difficult to 
+    since different technologies are difficult to
     display jointly (scale etc)
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     */
@@ -112,7 +112,7 @@ workflow GABI {
 
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    See which samples are Illumina-only, ONT-only, Pacbio-only
+    SUB: See which samples are Illumina-only, ONT-only, Pacbio-only
     or have a mix of both for hybrid assembly
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     */
@@ -129,7 +129,7 @@ workflow GABI {
 
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    Predict taxonomy from read data
+    SUB: Predict taxonomy from read data
     One set of reads per sample, preferrably Illumina
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     */
@@ -146,7 +146,7 @@ workflow GABI {
 
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    Assemble reads based on what data is available
+    SUB: Assemble reads based on what data is available
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     */
 
@@ -199,7 +199,7 @@ workflow GABI {
 
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    Identify and analyse plasmids from draft assemblies
+    SUB: Identify and analyse plasmids from draft assemblies
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     */
     PLASMIDS(
@@ -221,7 +221,7 @@ workflow GABI {
 
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    Perform MLST typing of assemblies
+    SUB: Perform MLST typing of assemblies
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     */
     MLST_TYPING(
@@ -231,7 +231,7 @@ workflow GABI {
 
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    Predict gene models
+    SUB: Predict gene models
     We use taxonomy-enriched meta hashes to add
     genus/species to the Prokka output(s)
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -251,7 +251,7 @@ workflow GABI {
 
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    Identify antimocrobial resistance genes
+    SUB: Identify antimocrobial resistance genes
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     */
     AMR_PROFILING(
@@ -263,7 +263,7 @@ workflow GABI {
 
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    Gauge quality of the assembly
+    SUB: Gauge quality of the assembly
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     */
     ASSEMBLY_QC(
@@ -276,7 +276,7 @@ workflow GABI {
 
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    Generate QC reports 
+    Generate QC reports
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     */
 
@@ -285,7 +285,7 @@ workflow GABI {
     )
 
     multiqc_files = multiqc_files.mix(CUSTOM_DUMPSOFTWAREVERSIONS.out.mqc_yml)
-    
+
     MULTIQC(
         multiqc_files.collect(),
         ch_multiqc_config,

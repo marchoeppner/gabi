@@ -11,6 +11,7 @@ extra_fn_clean_exts:
     - _duplicate_metrics.txt
     - .pass
     - .dragonflye
+    - .flye
 
 report_comment: >
     This report has been generated automatically by marchoeppner/gabi.
