@@ -12,6 +12,12 @@ workflow REPORT {
 
     main:
 
+    /*
+    Evil mapping module from hell -
+    we need to join all the reports while dealing with optionally
+    missing reports, which cannot be ommited but must yield a null
+    value
+    */
     ch_kraken.map { m,k -> 
         [ m.sample_id, k ] 
     }.join(
