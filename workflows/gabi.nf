@@ -28,6 +28,7 @@ include { ASSEMBLY_QC }                 from './../subworkflows/assembly_qc'
 include { PLASMIDS }                    from './../subworkflows/plasmids'
 include { ANNOTATE }                    from './../subworkflows/annotate'
 include { MLST_TYPING }                 from './../subworkflows/mlst'
+include { REPORT }                      from './../subworkflows/report'
 
 /*
 --------------------
@@ -51,14 +52,12 @@ ch_multiqc_config = params.multiqc_config   ? Channel.fromPath(params.multiqc_co
 ch_multiqc_logo   = params.multiqc_logo     ? Channel.fromPath(params.multiqc_logo, checkIfExists: true).collect()      : []
 
 ch_prokka_proteins = params.prokka_proteins ? Channel.fromPath(params.prokka_proteins, checkIfExists: true).collect()   : []
-ch_prokka_prodigal = params.prokka_prodigal ? Channel.fromPath(params.prokka_prodigal, checkIfExists:true).collect()   : []
+ch_prokka_prodigal = params.prokka_prodigal ? Channel.fromPath(params.prokka_prodigal, checkIfExists:true).collect()    : []
 
-tools = params.tools ? params.tools.split(',').collect { tool -> clean_tool(tool) } : []
+amrfinder_db    = params.reference_base ? params.references['amrfinderdb'].db   : []
+kraken2_db      = params.reference_base ? params.references['kraken2'].db       : []
 
-amrfinder_db    = params.reference_base ? params.references['amrfinderdb'].db : []
-kraken2_db      = params.reference_base ? params.references['kraken2'].db : []
-
-busco_db_path   = params.reference_base ? params.references['busco'].db : []
+busco_db_path   = params.reference_base ? params.references['busco'].db         : []
 busco_lineage   = params.busco_lineage
 
 confindr_db     = params.reference_base ? Channel.fromPath(params.references['confindr'].db).collect() : []
@@ -227,6 +226,7 @@ workflow GABI {
     MLST_TYPING(
         ch_assemblies_with_taxa
     )
+    ch_mlst = MLST_TYPING.out.report
     ch_versions = ch_versions.mix(MLST_TYPING.out.versions)
 
     /*
@@ -272,7 +272,27 @@ workflow GABI {
         busco_db_path
     )
     ch_versions = ch_versions.mix(ASSEMBLY_QC.out.versions)
+    ch_assembly_qc = ASSEMBLY_QC.out.quast
     multiqc_files = multiqc_files.mix(ASSEMBLY_QC.out.qc.map { m, r -> r })
+
+    /*
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    SUB: Make JSON summary report
+    This is optonal in case of unforseen 
+    issues.
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    */
+
+    if (!params.skip_report) {
+
+        REPORT(
+            ch_taxon,
+            ch_mlst,
+            ch_assembly_qc
+        )
+        ch_versions = ch_versions.mix(REPORT.out.versions)
+
+    }
 
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -294,8 +314,4 @@ workflow GABI {
 
     emit:
     qc = MULTIQC.out.report
-    }
-
-def clean_tool(String tool) {
-    return tool.trim().toLowerCase().replaceAll('-', '').replaceAll('_', '')
 }

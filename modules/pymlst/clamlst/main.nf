@@ -12,7 +12,7 @@ process PYMLST_CLAMLST {
     tuple val(meta), path(assembly), val(db)
 
     output:
-    tuple val(meta), path('*mlst.txt')  , emit: mlst
+    tuple val(meta), path('*mlst.txt')  , emit: report
     path('versions.yml')                , emit: versions
 
     script:

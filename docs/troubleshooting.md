@@ -28,4 +28,8 @@ Otherwise, if you run this pipeline without a site-specific config file, the pip
 
 ## Quast reports many differences and an incomplete assembly
 
-Gabi uses a set of pre-configured genomes against which Quast benchmarks the respective assembly, based on the best-guess species assignment. That said, for each species, we use the RefSeq reference representative - which may nevertheless be phylogenetically distant to your sequenced bacterium. For example, for E. coli Gabi uses Escherichia coli K12; if you are sequencing E. coli O127:H6, you can expect quite a few differences. You can use a custom reference genome and annotation, if you wish - see our [usage](software.md) information.  
+Gabi uses a set of pre-configured genomes against which Quast benchmarks the respective assembly, based on the best-guess species assignment. That said, for each species, we use the RefSeq reference representative - which may nevertheless be phylogenetically distant to your sequenced bacterium. For example, for E. coli Gabi uses Escherichia coli K12; if you are sequencing E. coli O127:H6, you can expect quite a few differences. You can use a custom reference genome and annotation, if you wish - see our [usage](usage.md) information.  
+
+## My ONT assembly crashes with an obscure error
+
+Please check if the option `--onthq` is set to `true` (this is the default!). It's possible that this setting is not appropriate for your data, which can lead Dragonflye to exit on an empty Fasta file halfway through the assembly process; you can disable this option by setting `--onthq false` and resume the pipeline (`-resume`).

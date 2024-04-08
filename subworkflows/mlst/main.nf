@@ -40,4 +40,5 @@ workflow MLST_TYPING {
 
     emit:
     versions = ch_versions
+    report = PYMLST_CLAMLST.out.report
     }
