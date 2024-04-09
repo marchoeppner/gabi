@@ -245,6 +245,7 @@ workflow GABI {
     fna = ANNOTATE.out.fna
     faa = ANNOTATE.out.faa
     gff = ANNOTATE.out.gff
+    multiqc_files = multiqc_files.mix(ANNOTATE.out.qc).map{m,r -> r}
 
     // Create a channel with joint proteins and gff files for AMRfinderplus
     ch_amr_input = fna.join(faa).join(gff)

@@ -1,9 +1,10 @@
+/*
+Include Modules
+*/
 
 include { PORECHOP_ABI }                    from './../../modules/porechop/abi'
 include { RASUSA }                          from './../../modules/rasusa'
 include { CAT_FASTQ  }                      from './../../modules/cat_fastq'
-include { FASTQC }                          from './../../modules/fastqc'
-
 include { CONTAMINATION }                   from './../contamination'
 
 ch_versions = Channel.from([])
@@ -21,6 +22,7 @@ workflow QC_NANOPORE {
         reads
     )
     ch_versions = ch_versions.mix(PORECHOP_ABI.out.versions)
+    multiqc_files = multiqc_files.mix(PORECHOP_ABI.out.log.map {m,l -> l })
 
     // Merge Nanopore reads per sample
     PORECHOP_ABI.out.reads.groupTuple().branch { meta, reads ->
@@ -36,12 +38,6 @@ workflow QC_NANOPORE {
 
     // The trimmed ONT reads, concatenated by sample
     ch_ont_trimmed = ch_reads_ont.single.mix(CAT_FASTQ.out.reads)
-
-    FASTQC(
-        PORECHOP_ABI.out.reads
-    )
-    ch_versions = ch_versions.mix(FASTQC.out.versions)
-    multiqc_files = multiqc_files.mix(FASTQC.out.zip.map { m, z -> z })
 
     CONTAMINATION(
         ch_ont_trimmed,

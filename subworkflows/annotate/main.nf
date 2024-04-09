@@ -1,6 +1,7 @@
 include { PROKKA }          from './../../modules/prokka'
 
 ch_versions = Channel.from([])
+multiqc_files = Channel.from([])
 
 workflow ANNOTATE {
     take:
@@ -16,6 +17,7 @@ workflow ANNOTATE {
         ch_prokka_prodigal
     )
     ch_versions = ch_versions.mix(PROKKA.out.versions)
+    multiqc_files = multiqc_files.mix(PROKKA.out.txt)
 
     emit:
     fna         = PROKKA.out.fna
@@ -23,4 +25,5 @@ workflow ANNOTATE {
     gbk         = PROKKA.out.gbk
     gff         = PROKKA.out.gff
     versions    = ch_versions
+    qc          = multiqc_files
 }
