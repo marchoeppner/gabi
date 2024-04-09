@@ -39,10 +39,12 @@ process PROKKA {
         elements = meta.taxon.split(' ')
         (genus,species) = elements[0..1]
         args = args.concat(" --genus ${genus} --species ${species}")
+        args = args.concat(" --strain ${meta.sample_id}")
     }
     if (meta.containsKey('domain') && meta.domain != 'unknown') {
         args = args.concat(" --kingdom ${meta.domain}")
     }
+    
 
     """
     prokka \\
