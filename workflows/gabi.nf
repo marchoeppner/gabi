@@ -81,7 +81,7 @@ workflow GABI {
         confindr_db
     )
     ch_versions         = ch_versions.mix(QC.out.versions)
-
+    ch_confindr_qc      = QC.out.qc_confindr
     ch_illumina_trimmed = QC.out.illumina
     ch_ont_trimmed      = QC.out.ont
     ch_pacbio_trimmed   = QC.out.pacbio
@@ -247,16 +247,13 @@ workflow GABI {
     gff = ANNOTATE.out.gff
     multiqc_files = multiqc_files.mix(ANNOTATE.out.qc).map{m,r -> r}
 
-    // Create a channel with joint proteins and gff files for AMRfinderplus
-    ch_amr_input = fna.join(faa).join(gff)
-
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     SUB: Identify antimocrobial resistance genes
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     */
     AMR_PROFILING(
-        ch_amr_input,
+        ch_assemblies_clean,
         amrfinder_db
     )
     ch_versions = ch_versions.mix(AMR_PROFILING.out.versions)

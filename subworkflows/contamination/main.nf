@@ -1,4 +1,5 @@
-include { CONFINDR }    from './../../modules/confindr'
+include { CONFINDR }        from './../../modules/confindr'
+include { CONFINDR2JSON }   from './../../modules/helper/confindr2json'
 
 ch_versions = Channel.from([])
 
@@ -18,6 +19,13 @@ workflow CONTAMINATION {
     )
 
     /*
+    Convert ConfindR report to JSON
+    */
+    CONFINDR2JSON(
+        CONFINDR.out.report
+    )
+
+    /*
     Check the contamination status and add
     to meta hash
     */
@@ -30,8 +38,8 @@ workflow CONTAMINATION {
     ch_versions = ch_versions.mix(CONFINDR.out.versions)
 
     confindr_report_with_status.branch { m, r ->
-        pass: m.pass
-        fail: !m.pass
+        pass: m.pass  == true
+        fail: m.pass == false
     }.set { confindr_by_status }
 
     /*
@@ -43,18 +51,22 @@ workflow CONTAMINATION {
 
     emit:
     report      = CONFINDR.out.report
+    json        = CONFINDR2JSON.out.json
     versions    = ch_versions
     }
 
 def parse_confindr_report(aFile) {
     def pass = true
-    aFile.eachLine { line ->
+    lines = aFile.readLines()
+    header = lines.head()
+    entries = lines.tail()
+
+    entries.each { line ->
         (Sample,Genus,NumContamSNVs,ContamStatus,PercentContam,PercentContamStandardDeviation,BasesExamined,DatabaseDownloadDate) = line.trim().split(',')
-        //
-        if (!ContamStatus == 'False' && !ContamStatus == 'ContamStatus') {
+        if (ContamStatus != 'False') {
             pass = false
         }
     }
-
+   
     return pass
 }
