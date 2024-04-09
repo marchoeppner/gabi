@@ -4,6 +4,8 @@ Please fist check out our [installation guide](installation.md), if you haven't 
 
 [Running the pipeline](#running-the-pipeline)
 
+[Pipeline version](#specifying-pipeline-version)
+
 [Choosing assembly method](#choosing-an-assembly-method)
 
 [Options](#options)
