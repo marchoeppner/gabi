@@ -75,6 +75,7 @@ workflow AMR_PROFILING {
 
     emit:
     report = HAMRONIZATION_SUMMARIZE.out.json
+    amrfinder_report = AMRFINDERPLUS_RUN.out.report
     versions = ch_versions
     qc = multiqc_files
 }

@@ -8,8 +8,8 @@ process GABI_SUMMARY {
         'quay.io/biocontainers/perl-json-xs:4.03--pl5321h4ac6f70_2' }"
 
     input:
-    tuple val(meta), path(kraken),path(mlst),path(quast)
-
+    tuple val(meta), path(reports, stageAs: '?/*')
+    
     output:
     path('*.json')          , emit: json
     path 'versions.yml'     , emit: versions
@@ -19,20 +19,8 @@ process GABI_SUMMARY {
     def prefix = task.ext.prefix ?: meta.sample_id
     result = prefix + '.json'
 
-    def options = ""
-    if (kraken) {
-        options = options.concat(" --kraken $kraken")
-    }
-    if (mlst) {
-        options = options.concat(" --mlst $mlst")
-    }
-    if (quast) {
-        options = options.concat(" --quast $quast")
-    }
-
     """
     gabi_summary.pl --sample ${meta.sample_id} \
-    $options \
     $args \
     --outfile $result
 
