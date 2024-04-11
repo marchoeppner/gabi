@@ -28,6 +28,9 @@ process PORECHOP_ABI {
         $args \\
         --output ${prefix}.fastq.gz \\
         > ${prefix}.log
+
+        rm TEMP_*.fastq
+        
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         porechop_abi: \$( porechop_abi --version )
