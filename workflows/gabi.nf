@@ -290,6 +290,7 @@ workflow GABI {
     
     if (!params.skip_report) {
 
+        // standardize the meta hash to enable downstream grouping
         ch_report.map { m,r ->
             def meta = [:]
             meta.sample_id = m.sample_id
