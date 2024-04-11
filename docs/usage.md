@@ -4,6 +4,8 @@ Please fist check out our [installation guide](installation.md), if you haven't 
 
 [Running the pipeline](#running-the-pipeline)
 
+[Pipeline version](#specifying-pipeline-version)
+
 [Choosing assembly method](#choosing-an-assembly-method)
 
 [Options](#options)
@@ -79,6 +81,8 @@ S100,ILLUMINA,/home/marc/projects/gaba/data/S100_R1.fastq.gz,/home/marc/projects
 ```
 
 If the pipeline sees more than one set of reads for a given sample ID and platform type, it will merge them automatically at the appropriate time. Based on what types of reads the pipeline sees, it will automatically trigger suitable tool chains. 
+
+Please note that there is an optional column `library_id`, which is used to name some of the output folders for read-set specific QC measures. If `library_id` is not given, the pipeline will use the file name.
 
 Allowed platforms and data types are:
 

@@ -65,6 +65,7 @@ confindr_db     = params.reference_base ? Channel.fromPath(params.references['co
 ch_versions     = Channel.from([])
 multiqc_files   = Channel.from([])
 ch_assemblies   = Channel.from([])
+ch_report       = Channel.from([])
 
 workflow GABI {
     main:
@@ -81,10 +82,12 @@ workflow GABI {
         confindr_db
     )
     ch_versions         = ch_versions.mix(QC.out.versions)
-
+    ch_confindr_qc      = QC.out.qc_confindr
     ch_illumina_trimmed = QC.out.illumina
     ch_ont_trimmed      = QC.out.ont
     ch_pacbio_trimmed   = QC.out.pacbio
+
+    ch_report = ch_report.mix(QC.out.confindr_reports)
 
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -141,6 +144,8 @@ workflow GABI {
     )
     ch_taxon = TAXONOMY_PROFILING.out.report
     ch_versions = ch_versions.mix(TAXONOMY_PROFILING.out.versions)
+    ch_report = ch_report.mix(TAXONOMY_PROFILING.out.report)
+
     //multiqc_files = multiqc_files.mix(TAXONOMY_PROFILING.out.report.map { m, r -> r })
 
     /*
@@ -228,7 +233,7 @@ workflow GABI {
     )
     ch_mlst = MLST_TYPING.out.report
     ch_versions = ch_versions.mix(MLST_TYPING.out.versions)
-
+    ch_report = ch_report.mix(MLST_TYPING.out.report)
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     SUB: Predict gene models
@@ -247,20 +252,18 @@ workflow GABI {
     gff = ANNOTATE.out.gff
     multiqc_files = multiqc_files.mix(ANNOTATE.out.qc).map{m,r -> r}
 
-    // Create a channel with joint proteins and gff files for AMRfinderplus
-    ch_amr_input = fna.join(faa).join(gff)
-
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     SUB: Identify antimocrobial resistance genes
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     */
     AMR_PROFILING(
-        ch_amr_input,
+        ch_assemblies_clean,
         amrfinder_db
     )
     ch_versions = ch_versions.mix(AMR_PROFILING.out.versions)
     amr_report  = AMR_PROFILING.out.report
+    ch_report = ch_report.mix(AMR_PROFILING.out.amrfinder_report)
 
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -275,6 +278,7 @@ workflow GABI {
     ch_versions = ch_versions.mix(ASSEMBLY_QC.out.versions)
     ch_assembly_qc = ASSEMBLY_QC.out.quast
     multiqc_files = multiqc_files.mix(ASSEMBLY_QC.out.qc.map { m, r -> r })
+    ch_report = ch_report.mix(ch_assembly_qc)
 
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -283,18 +287,20 @@ workflow GABI {
     issues.
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     */
-
+    
     if (!params.skip_report) {
 
+        // standardize the meta hash to enable downstream grouping
+        ch_report.map { m,r ->
+            def meta = [:]
+            meta.sample_id = m.sample_id
+            tuple(meta,r)
+        }.groupTuple().set { ch_reports_grouped }
+
         REPORT(
-            ch_taxon,
-            ch_mlst,
-            ch_assembly_qc
+            ch_reports_grouped
         )
-        ch_versions = ch_versions.mix(REPORT.out.versions)
-
     }
-
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Generate QC reports

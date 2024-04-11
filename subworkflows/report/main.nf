@@ -6,39 +6,12 @@ ch_versions = Channel.from([])
 workflow REPORT {
 
     take:
-    ch_kraken
-    ch_mlst
-    ch_quast
+    reports
 
     main:
 
-    /*
-    Evil mapping module from hell -
-    we need to join all the reports while dealing with optionally
-    missing reports, which cannot be ommited but must yield a null
-    value
-    */
-    ch_kraken.map { m,k -> 
-        [ m.sample_id, k ] 
-    }.join(
-        ch_mlst.map { m,t ->
-            [ m.sample_id,t]
-        }, 
-        remainder: true
-    ).set { ch_kraken_mlst }
-
-    ch_kraken_mlst.join(
-        ch_quast.map { m,a ->
-            [ m.sample_id, a ]
-        }, remainder: true
-    ).map { key,k,m,q ->
-        meta = [:]
-        meta.sample_id = key
-        tuple(meta,k,m,q)
-    }.set { ch_kraken_mlst_quast }
-
     GABI_SUMMARY(
-        ch_kraken_mlst_quast
+        reports
     )
     ch_versions = ch_versions.mix(GABI_SUMMARY.out.versions)
 

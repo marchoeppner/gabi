@@ -35,6 +35,13 @@ def fastq_channel(LinkedHashMap row) {
         exit 1, "ERROR: Please check input samplesheet -> Read 1 FastQ file does not exist!\n${row.R1}"
     }
 
+    /*
+    Library ID has no real function beyond folder naming, so we make it optional and 
+    fill lthe field with the file name otherwise
+    */
+
+    meta.library_id = row.library_id ? row.library_id : file(row.R1).getSimpleName()
+
     if (row.R2) {
         meta.single_end = false
         if (!file(row.R2).exists()) {
@@ -45,5 +52,6 @@ def fastq_channel(LinkedHashMap row) {
         array = [ meta, [ file(row.R1)]]
     }
 
+    
     return array
 }

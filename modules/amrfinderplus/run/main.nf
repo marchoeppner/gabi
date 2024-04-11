@@ -8,7 +8,7 @@ process AMRFINDERPLUS_RUN {
         'quay.io/biocontainers/ncbi-amrfinderplus:3.11.18--h283d18e_0' }"
 
     input:
-    tuple val(meta), path(fasta), path(gff)
+    tuple val(meta), path(fasta)
     path db
 
     output:
@@ -27,7 +27,6 @@ process AMRFINDERPLUS_RUN {
     def is_compressed_db = db.getName().endsWith('.gz') ? true : false
     prefix = task.ext.prefix ?: "${meta.sample_id}"
     organism_param = meta.containsKey('organism') ? "--organism ${meta.organism} --mutation_all ${prefix}-mutations.tsv" : ''
-    annotation_param = gff ? "-g $gff" : ''
     fasta_name = fasta.getName().replace('.gz', '')
     fasta_param = '-n'
     if (meta.containsKey('is_proteins')) {
@@ -50,7 +49,6 @@ process AMRFINDERPLUS_RUN {
     amrfinder \\
         $fasta_param $fasta_name \\
         $organism_param \\
-        $annotation_param \\
         $args \\
         --database amrfinderdb \\
         --threads $task.cpus > ${prefix}.tsv

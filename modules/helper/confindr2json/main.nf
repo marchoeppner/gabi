@@ -1,4 +1,4 @@
-process GABI_SUMMARY {
+process CONFINDR2JSON {
 
     tag "${meta.sample_id}"
 
@@ -8,19 +8,20 @@ process GABI_SUMMARY {
         'quay.io/biocontainers/perl-json-xs:4.03--pl5321h4ac6f70_2' }"
 
     input:
-    tuple val(meta), path(reports, stageAs: '?/*')
-    
+    tuple val(meta), path(report)
+
     output:
     path('*.json')          , emit: json
     path 'versions.yml'     , emit: versions
 
     script:
     def args = task.ext.args ?: ''
-    def prefix = task.ext.prefix ?: meta.sample_id
+    def prefix = task.ext.prefix ?: report.getSimpleName()
     result = prefix + '.json'
 
     """
-    gabi_summary.pl --sample ${meta.sample_id} \
+    confindr2json.pl --sample ${meta.sample_id} \
+    --infile $report \
     $args \
     --outfile $result
 

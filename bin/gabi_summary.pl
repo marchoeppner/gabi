@@ -13,14 +13,6 @@ perl gabi_summary.pl
     [--help]
 
     Input:
-    [--sample name]
-        Name of this sample
-    [--kraken filename]
-        The name of the Krakenreport
-    [--mlst filename]
-        claMLST result file
-    [--quast filename]
-        Quast Report 
     
     Ouput:    
     [--outfile filename]
@@ -28,20 +20,14 @@ perl gabi_summary.pl
         standard output
 };
 
-my $outfile     = undef;
 my $sample      = undef;
-my $kraken      = undef;
-my $mlst        = undef;
-my $quast       = undef;
+my $outfile     = undef;
 
 my $help;
 
 GetOptions(
     "help" => \$help,
     "sample=s" => \$sample,
-    "mlst=s" => \$mlst,
-    "kraken=s" => \$kraken,
-    "quast=s" => \$quast,
     "outfile=s" => \$outfile);
 
 # Print Help and exit
@@ -59,17 +45,96 @@ my %matrix = (
     "sample" => $sample, 
     "quast" => {},
     "mlst" => {},
-    "kraken" => {} 
+    "confindr" => [],
+    "kraken" => {}
 );
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~
-# We read the Kraken table
-# ~~~~~~~~~~~~~~~~~~~~~~~~
+my @files = glob '*/*' ;
 
-if ($kraken) {
-    open (my $KRAKEN, '<', $kraken) or die "FATAL: Can't open file: $kraken for reading.\n$!\n";
+foreach my $file ( @files ) {
 
-    chomp(my @lines = <$KRAKEN>);
+    my $filename = (split "/", $file)[-1];
+    open (my $FILE , '<', $file) or die "FATAL: Can't open file: $file for reading.\n$!\n";
+
+    chomp(my @lines = <$FILE>);
+
+    # Crude way to avoid empty files - we expect at least 2 lines: header and result
+    next if (scalar @lines < 2);
+
+    if ($filename =~ /.*kraken.*/) {
+        my %data = parse_kraken(\@lines);
+        $matrix{"kraken"} = \%data;
+    } elsif ( $filename =~ /.*confindr.*/ ) {
+        my @data = parse_confindr(\@lines);
+        # We may see more than one ConfindR report!
+        push ( @{$matrix{"confindr"}}, \@data );
+    } elsif ( $filename eq "report.tsv") {
+        my %data = parse_quast(\@lines);
+        $matrix{"quast"} = \%data;
+    } elsif ( @lines[0] =~ /^Protein identifier.*/) {
+        my @data = parse_amrfinder(\@lines);
+        $matrix{"amrfinder"} = \@data;
+    } elsif ( $filename =~ /.clamlst.txt/) {
+        my %data = parse_clamlst(\@lines);
+        $matrix{"mlst"} = \%data;
+    }
+
+    close($FILE);
+}
+
+my $json_out = encode_json(\%matrix);
+
+printf $json_out ;
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Tool-specific parsing methods
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+sub parse_clamlst {
+
+    my @lines = @{$_[0]} ;
+
+    my $h = shift @lines;
+    my @header = split "\t",$h;
+
+    my %data;
+    my $this_line = shift @lines;
+
+    my @elements = split "\t", $this_line;
+    for my $i (0..$#header) {
+        my $column = @header[$i];
+        my $entry = @elements[$i];
+        $data{$column} = $entry 
+    }
+
+    return %data;
+}
+sub parse_amrfinder {
+
+    my @lines = @{$_[0]} ;
+    my @data;
+
+    my $h = shift @lines;
+    my @header = split "\t",$h;
+
+    foreach my $line (@lines) {
+        my %this_data;
+        my @elements = split "\t", $line;
+        for my $i (0..$#header) {
+            my $column = @header[$i];
+            my $entry = @elements[$i];
+            $this_data{$column} = $entry 
+        }
+        push(@data,\%this_data);
+    }
+    
+    return @data ;
+}
+sub parse_kraken {
+
+    my @lines = @{$_[0]} ;
+
+    my %data = (  );
 
     my $tax = undef;
     my $perc = undef;
@@ -91,78 +156,45 @@ if ($kraken) {
 
     }
 
-    $matrix{"kraken"}{"taxon"} = $tax;
-    $matrix{"kraken"}{"percentage"} = $perc;
+    $data{"taxon"} = $tax;
+    $data{"percentage"} = $perc;
 
-    close($KRAKEN);
-}
-
-# ~~~~~~~~~~~~~~~~~~
-# We read the MLST file
-# ~~~~~~~~~~~~~~~~~~
-
-if ($mlst) {
-
-    open (my $MLST, '<', $mlst) or die "FATAL: Can't open file: $mlst for reading.\n$!\n";
-
-    chomp(my @lines = <$MLST>);
-
-    my $header = shift @lines;
-    my @columns = split /\s+/, $header;
-    my $call = shift @lines;
-    my @elements = split(/\s+/,$call);
-    my $mlst_call = @elements[1];
-    my @genes = @columns[2..$#elements];
-
-    $matrix{"mlst"}{"call"} = $mlst_call ;
-    $matrix{"mlst"}{"genes"} = \@genes;
-
-    close($MLST);
-
-}
-
-# ~~~~~~~~~~~~~~
-# We read the QUAST report
-# ~~~~~~~~~~~~~~
-
-if ($quast) {
-
-    open (my $QUAST, '<', $quast) or die "FATAL: Can't open file: $quast for reading.\n$\n";
-
-    # Quast has many relevant metrics, so we create a rule dictionary to capture them
-    my %rules = ( 
-        "assembly" => qr/^Assembly.*/,
-        "total_length" => qr/^Total length \(>= 0 bp\).*/,
-        "N50" => qr/^N50.*/,
-        "GC" => qr/^GC \(/
-
-    );
-
-    chomp(my @lines = <$QUAST>);
-
-    foreach my $rule_key (keys %rules) {
+    return %data;
     
-        my $rule = $rules{$rule_key};
+}
 
-        # Perl has no clean way to get the first occurence
-        # of a match, so we do it the long way round. 
-        my @matches = grep { /$rule/ } @lines;
+sub parse_quast {
 
-        if (length @matches > 0 ) {
+    my @lines = @{$_[0]} ;
+    my %data = (  );
 
-            my $match = shift @matches ;
-            my $value = (split /\t/ , $match)[1];
-
-            $matrix{"quast"}{$rule_key} = $value;
-        }
-
+    foreach my $line ( @lines )  {
+        my ($key,$value) = split "\t", $line;
+        $data{$key} = $value
     }
 
+    return %data ;
 }
 
-my $json_out = encode_json(\%matrix);
+sub parse_confindr {
 
-printf $json_out ;
+    my @lines = @{$_[0]} ;
+    my @data ;
 
+    my $h = shift @lines;
+    my @header = split ",",$h;
 
+    foreach my $line ( @lines ) {  
 
+        my %this_data;
+        my @elements = split ",", $line;
+        for my $i (0..$#header) {
+            my $column = @header[$i];
+            my $entry = @elements[$i];
+            $this_data{$column} = $entry 
+        }
+        push(@data,\%this_data);
+    }
+
+    return @data
+}

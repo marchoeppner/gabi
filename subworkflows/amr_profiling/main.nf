@@ -1,3 +1,6 @@
+/*
+Include Modules
+*/
 include { AMRFINDERPLUS_RUN }               from './../../modules/amrfinderplus/run'
 include { AMRFINDERPLUS_UPDATE }            from './../../modules/amrfinderplus/update'
 include { HAMRONIZATION_AMRFINDERPLUS }     from './../../modules/hamronization/amrfinderplus'
@@ -30,10 +33,7 @@ workflow AMR_PROFILING {
     }
 
     AMRFINDERPLUS_RUN(
-        assembly.map { m, f, a, g ->
-            m.is_proteins = true
-            [ m, a, g]
-        },
+        assembly,
         ch_amrfinderplus_db.collect()
     )
     ch_versions = ch_versions.mix(AMRFINDERPLUS_RUN.out.versions)
@@ -51,7 +51,7 @@ workflow AMR_PROFILING {
     Run Abricate and make JSON report
     */
     ABRICATE_RUN(
-        assembly.map { m, f, a, g -> [ m, f ] }
+        assembly
     )
     ch_versions = ch_versions.mix(ABRICATE_RUN.out.versions)
 
@@ -75,6 +75,7 @@ workflow AMR_PROFILING {
 
     emit:
     report = HAMRONIZATION_SUMMARIZE.out.json
+    amrfinder_report = AMRFINDERPLUS_RUN.out.report
     versions = ch_versions
     qc = multiqc_files
 }

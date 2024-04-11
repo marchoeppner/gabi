@@ -6,6 +6,7 @@ include { PORECHOP_ABI }                    from './../../modules/porechop/abi'
 include { RASUSA }                          from './../../modules/rasusa'
 include { CAT_FASTQ  }                      from './../../modules/cat_fastq'
 include { CONTAMINATION }                   from './../contamination'
+include { NANOPLOT }                        from './../../modules/nanoplot'
 
 ch_versions = Channel.from([])
 multiqc_files = Channel.from([])
@@ -23,6 +24,12 @@ workflow QC_NANOPORE {
     )
     ch_versions = ch_versions.mix(PORECHOP_ABI.out.versions)
     multiqc_files = multiqc_files.mix(PORECHOP_ABI.out.log.map {m,l -> l })
+
+    NANOPLOT(
+        PORECHOP_ABI.out.reads
+    )
+    ch_versions = ch_versions.mix(NANOPLOT.out.versions)
+    multiqc_files = multiqc_files.mix(NANOPLOT.out.txt.map { m,r -> r })
 
     // Merge Nanopore reads per sample
     PORECHOP_ABI.out.reads.groupTuple().branch { meta, reads ->
@@ -58,6 +65,7 @@ workflow QC_NANOPORE {
 
     emit:
     confindr_report = CONTAMINATION.out.report
+    confindr_json   = CONTAMINATION.out.json
     reads = ch_processed_reads
     qc = multiqc_files
     versions = ch_versions
