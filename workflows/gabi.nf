@@ -41,7 +41,7 @@ samplesheet = params.input ? Channel.fromPath(file(params.input, checkIfExists:t
 Check that the reference directory is actually present
 */
 if (params.input) {
-    refDir = file(params.reference_base + '/gabi/1.0')
+    refDir = file(params.reference_base + "/gabi/${params.reference_version}")
     if (!refDir.exists()) {
         log.info 'The required reference directory was not found on your system, exiting!'
         System.exit(1)
@@ -60,7 +60,7 @@ kraken2_db      = params.reference_base ? params.references['kraken2'].db       
 busco_db_path   = params.reference_base ? params.references['busco'].db         : []
 busco_lineage   = params.busco_lineage
 
-confindr_db     = params.reference_base ? Channel.fromPath(params.references['confindr'].db).collect() : []
+confindr_db     = params.confindr_db ? Channel.fromPath(params.confindr_db, checkIfExists: true).collect() : Channel.from([])
 
 ch_versions     = Channel.from([])
 multiqc_files   = Channel.from([])
