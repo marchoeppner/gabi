@@ -5,7 +5,7 @@ Include Modules
 include { PORECHOP_ABI }                    from './../../modules/porechop/abi'
 include { RASUSA }                          from './../../modules/rasusa'
 include { CAT_FASTQ  }                      from './../../modules/cat_fastq'
-include { CONTAMINATION }                   from './../contamination'
+//include { CONTAMINATION }                   from './../contamination'
 include { NANOPLOT }                        from './../../modules/nanoplot'
 
 ch_versions = Channel.from([])
@@ -46,12 +46,12 @@ workflow QC_NANOPORE {
     // The trimmed ONT reads, concatenated by sample
     ch_ont_trimmed = ch_reads_ont.single.mix(CAT_FASTQ.out.reads)
 
-    CONTAMINATION(
+    /* CONTAMINATION(
         ch_ont_trimmed,
         confindr_db
     )
     ch_versions = ch_versions.mix(CONTAMINATION.out.versions)
-
+ */
     if (params.subsample_reads) {
         RASUSA(
             ch_ont_trimmed.map { m, r -> [ m, r, params.genome_size] },
@@ -64,8 +64,8 @@ workflow QC_NANOPORE {
     }
 
     emit:
-    confindr_report = CONTAMINATION.out.report
-    confindr_json   = CONTAMINATION.out.json
+    //confindr_report = CONTAMINATION.out.report
+    //confindr_json   = CONTAMINATION.out.json
     reads = ch_processed_reads
     qc = multiqc_files
     versions = ch_versions

@@ -82,7 +82,6 @@ workflow GABI {
         confindr_db
     )
     ch_versions         = ch_versions.mix(QC.out.versions)
-    ch_confindr_qc      = QC.out.qc_confindr
     ch_illumina_trimmed = QC.out.illumina
     ch_ont_trimmed      = QC.out.ont
     ch_pacbio_trimmed   = QC.out.pacbio
