@@ -29,6 +29,7 @@ include { PLASMIDS }                    from './../subworkflows/plasmids'
 include { ANNOTATE }                    from './../subworkflows/annotate'
 include { MLST_TYPING }                 from './../subworkflows/mlst'
 include { REPORT }                      from './../subworkflows/report'
+include { FIND_REFERENCES }             from './../subworkflows/find_references'
 
 /*
 --------------------
@@ -198,6 +199,13 @@ workflow GABI {
         newMeta.sample_id = m.sample_id
         tuple(newMeta, f)
     }.set { ch_assemblies_clean }
+
+    /*
+    SUB: Find the appropriate reference genome for each assembly
+    */
+    FIND_REFERENCES(
+        ch_assemblies_clean
+    )
 
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

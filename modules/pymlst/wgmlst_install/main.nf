@@ -1,4 +1,4 @@
-process PYMLST_CLAMLST_INSTALL {
+process PYMLST_WGMLST_INSTALL {
     label 'short_serial'
 
     conda "${moduleDir}/environment.yml"
