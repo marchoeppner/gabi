@@ -1,4 +1,4 @@
-name: pymlst
+name: pymlst_clamlst
 channels:
   - conda-forge
   - bioconda

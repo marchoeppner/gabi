@@ -145,7 +145,6 @@ workflow GABI {
     ch_taxon = TAXONOMY_PROFILING.out.report
     ch_versions = ch_versions.mix(TAXONOMY_PROFILING.out.versions)
     ch_report = ch_report.mix(TAXONOMY_PROFILING.out.report)
-    //multiqc_files = multiqc_files.mix(TAXONOMY_PROFILING.out.report.map { m, r -> r })
 
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -201,11 +200,17 @@ workflow GABI {
     }.set { ch_assemblies_clean }
 
     /*
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     SUB: Find the appropriate reference genome for each assembly
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     */
-    FIND_REFERENCES(
-        ch_assemblies_clean
-    )
+    if (!params.skip_references) {
+        
+        FIND_REFERENCES(
+            ch_assemblies_clean
+        )
+        ch_versions = ch_versions.mix(FIND_REFERENCES.out.versions)
+    }
 
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -240,6 +245,7 @@ workflow GABI {
     ch_mlst = MLST_TYPING.out.report
     ch_versions = ch_versions.mix(MLST_TYPING.out.versions)
     ch_report = ch_report.mix(MLST_TYPING.out.report)
+
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     SUB: Predict gene models
@@ -293,7 +299,6 @@ workflow GABI {
     issues.
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     */
-    
     if (!params.skip_report) {
 
         // standardize the meta hash to enable downstream grouping
@@ -307,6 +312,7 @@ workflow GABI {
             ch_reports_grouped
         )
     }
+    
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Generate QC reports

@@ -1,4 +1,4 @@
-name: pymlst_wgmlst_install
+name: pymlst_wgmlst_add
 channels:
   - conda-forge
   - bioconda
