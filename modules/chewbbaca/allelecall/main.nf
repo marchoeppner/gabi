@@ -29,7 +29,8 @@ process CHEWBBACA_ALLELECALL {
     -i assemblies \\
     -g $db \\
     -o $results \\
-    --cpu ${task.cpus}
+    --hash-profiles true \\
+    --cpu ${task.cpus} $args
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
