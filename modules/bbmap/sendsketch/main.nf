@@ -5,7 +5,7 @@ process BBMAP_SENDSKETCH {
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/bbmap:39.01--h5c4e2a8_0':
+        'https://depot.galaxyproject.org/singularity/bbmap:39.01--h5c4e2a8_0' :
         'quay.io/biocontainers/bbmap:39.01--h5c4e2a8_0' }"
 
     input:
@@ -13,7 +13,7 @@ process BBMAP_SENDSKETCH {
 
     output:
     tuple val(meta), path('*.txt')        , emit: hits
-    path "versions.yml"                   , emit: versions
+    path 'versions.yml'                   , emit: versions
 
     when:
     task.ext.when == null || task.ext.when

@@ -1,5 +1,4 @@
 process CHEWBBACA_ALLELECALL {
-
     maxForks 1
 
     tag "${meta.sample_id}"
@@ -12,7 +11,7 @@ process CHEWBBACA_ALLELECALL {
         'quay.io/biocontainers/chewbbaca:3.3.4--pyhdfd78af_0' }"
 
     input:
-    tuple val(meta), path(assemblies, stageAs: "assemblies/"), val(db)
+    tuple val(meta), path(assemblies, stageAs: 'assemblies/'), val(db)
 
     output:
     tuple val(meta), path(results)      , emit: report
@@ -23,13 +22,13 @@ process CHEWBBACA_ALLELECALL {
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: meta.sample_id
     results = "results_${prefix}"
-    
+
     """
     chewBBACA.py AlleleCall \\
     -i assemblies \\
     -g $db \\
     -o $results \\
-    --cpu ${task.cpus}
+    --cpu ${task.cpus} $args
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

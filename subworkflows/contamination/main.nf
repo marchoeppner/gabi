@@ -16,7 +16,7 @@ workflow CONTAMINATION {
         reads,
         confindr_db
     )
- 
+
     /*
     Check the contamination status and add
     to meta hash
@@ -58,6 +58,6 @@ def parse_confindr_report(aFile) {
             pass = false
         }
     }
-   
+
     return pass
 }

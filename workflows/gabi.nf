@@ -200,19 +200,6 @@ workflow GABI {
     }.set { ch_assemblies_clean }
 
     /*
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    SUB: Find the appropriate reference genome for each assembly
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    */
-    if (!params.skip_references) {
-        
-        FIND_REFERENCES(
-            ch_assemblies_clean
-        )
-        ch_versions = ch_versions.mix(FIND_REFERENCES.out.versions)
-    }
-
-    /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     SUB: Identify and analyse plasmids from draft assemblies
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -221,6 +208,18 @@ workflow GABI {
         ch_assemblies_clean
     )
     ch_versions = ch_versions.mix(PLASMIDS.out.versions)
+
+     /*
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    SUB: Find the appropriate reference genome for each assembly
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    */
+    if (!params.skip_references) {
+        FIND_REFERENCES(
+            PLASMIDS.out.chromosome
+        )
+        ch_versions = ch_versions.mix(FIND_REFERENCES.out.versions)
+    }
 
     /*
     Join the assembly channel with taxonomic assignment information
@@ -262,7 +261,7 @@ workflow GABI {
     fna = ANNOTATE.out.fna
     faa = ANNOTATE.out.faa
     gff = ANNOTATE.out.gff
-    multiqc_files = multiqc_files.mix(ANNOTATE.out.qc).map{m,r -> r}
+    multiqc_files = multiqc_files.mix(ANNOTATE.out.qc).map { m, r -> r }
 
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -295,24 +294,23 @@ workflow GABI {
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     SUB: Make JSON summary report
-    This is optonal in case of unforseen 
+    This is optonal in case of unforseen
     issues.
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     */
     if (!params.skip_report) {
-
         // standardize the meta hash to enable downstream grouping
-        ch_report.map { m,r ->
+        ch_report.map { m, r ->
             def meta = [:]
             meta.sample_id = m.sample_id
-            tuple(meta,r)
+            tuple(meta, r)
         }.groupTuple().set { ch_reports_grouped }
 
         REPORT(
             ch_reports_grouped
         )
     }
-    
+
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Generate QC reports
@@ -333,4 +331,4 @@ workflow GABI {
 
     emit:
     qc = MULTIQC.out.report
-}
+    }

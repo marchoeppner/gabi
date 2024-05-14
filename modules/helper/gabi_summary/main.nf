@@ -1,5 +1,4 @@
 process GABI_SUMMARY {
-
     tag "${meta.sample_id}"
 
     conda "${moduleDir}/environment.yml"
@@ -9,7 +8,7 @@ process GABI_SUMMARY {
 
     input:
     tuple val(meta), path(reports, stageAs: '?/*')
-    
+
     output:
     path('*.json')          , emit: json
     path 'versions.yml'     , emit: versions

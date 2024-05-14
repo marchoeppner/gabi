@@ -11,8 +11,8 @@ kraken_db_url       = Channel.fromPath(params.references['kraken2'].url)
 confindr_db_url     = Channel.fromPath(params.references['confindr'].url)
 ch_busco_lineage    = Channel.from(['bacteria_odb10'])
 
-// The Is currently mapped to Chewbbaca schemas
-chewie_ids = Channel.fromList([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16])
+// The IDs currently mapped to Chewbbaca schemas
+chewie_ids = Channel.fromList([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16])
 
 workflow BUILD_REFERENCES {
     main:
@@ -57,7 +57,7 @@ workflow BUILD_REFERENCES {
     PYMLST_WGMLST_INSTALL()
 
     /*
-    Install Chewbbaca schemas
+    Install Chewbbaca schemas based on schema ID
     */
     CHEWBBACA_DOWNLOADSCHEMA(
         chewie_ids.map { i ->

@@ -1,5 +1,4 @@
 process FILTER_SKETCHES {
-
     tag "${meta.sample_id}"
 
     conda "${moduleDir}/environment.yml"
@@ -11,8 +10,8 @@ process FILTER_SKETCHES {
     tuple val(meta), path(report)
 
     output:
-    tuple val(meta),path(result)    , emit: txt
-    tuple val(meta),env(ACCESSION)  , emit: acc
+    tuple val(meta), path(result), emit: txt
+    tuple val(meta), env(ACCESSION), emit: acc
     path 'versions.yml'             , emit: versions
 
     script:
@@ -21,7 +20,7 @@ process FILTER_SKETCHES {
     result = prefix + '.taxon.txt'
 
     """
-    filter_sketches.pl --infile $report --outfile $result
+    filter_sketches.pl --infile $report --outfile $result $args
 
     ACCESSION="\$(cat $result)"
 

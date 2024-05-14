@@ -5,7 +5,6 @@ include { DOWNLOAD_REFERENCES }     from './../../modules/helper/download_refere
 ch_versions = Channel.from([])
 
 workflow FIND_REFERENCES {
-
     take:
     assembly
 
@@ -24,14 +23,16 @@ workflow FIND_REFERENCES {
     FILTER_SKETCHES.out.txt.view()
 
     FILTER_SKETCHES.out.txt
-    .map { m,t -> t}
+    .map { m, t -> t }
     .splitText()
-    .map { it.replace('\n', '') }                                           
-    .collect()                                                              
-    .toSortedList()                                                         
-    .flatten()                                                              
+    .map { it.replace('\n', '') }
+    .collect()
+    .toSortedList()
+    .flatten()
     .unique()
     .set { ch_taxa }
+
+    ch_taxa.view()
 
     DOWNLOAD_REFERENCES(
         ch_taxa
@@ -40,5 +41,4 @@ workflow FIND_REFERENCES {
     emit:
     taxa = ch_taxa
     versions = ch_versions
-
 }

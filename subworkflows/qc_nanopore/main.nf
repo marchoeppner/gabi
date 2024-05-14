@@ -23,13 +23,13 @@ workflow QC_NANOPORE {
         reads
     )
     ch_versions = ch_versions.mix(PORECHOP_ABI.out.versions)
-    multiqc_files = multiqc_files.mix(PORECHOP_ABI.out.log.map {m,l -> l })
+    multiqc_files = multiqc_files.mix(PORECHOP_ABI.out.log.map { m, l -> l })
 
     NANOPLOT(
         PORECHOP_ABI.out.reads
     )
     ch_versions = ch_versions.mix(NANOPLOT.out.versions)
-    multiqc_files = multiqc_files.mix(NANOPLOT.out.txt.map { m,r -> r })
+    multiqc_files = multiqc_files.mix(NANOPLOT.out.txt.map { m, r -> r })
 
     // Merge Nanopore reads per sample
     PORECHOP_ABI.out.reads.groupTuple().branch { meta, reads ->

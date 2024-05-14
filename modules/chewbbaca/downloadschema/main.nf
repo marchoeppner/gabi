@@ -1,5 +1,4 @@
 process CHEWBBACA_DOWNLOADSCHEMA {
-
     maxForks 1
 
     tag "${meta.sample_id}"
@@ -12,7 +11,7 @@ process CHEWBBACA_DOWNLOADSCHEMA {
         'quay.io/biocontainers/chewbbaca:3.3.4--pyhdfd78af_0' }"
 
     input:
-    tuple val(meta),val(id)
+    tuple val(meta), val(id)
 
     output:
     tuple val(meta), path('schema_*')   , emit: schema
@@ -21,7 +20,6 @@ process CHEWBBACA_DOWNLOADSCHEMA {
     script:
 
     def args = task.ext.args ?: ''
-    def prefix = task.ext.prefix ?: meta.sample_id
 
     """
     chewBBACA.py DownloadSchema \\

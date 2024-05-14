@@ -1,7 +1,6 @@
 process PYMLST_WGMLST_ADD {
-
     maxForks 1
-    
+
     tag "${meta.sample_id}"
 
     label 'short_parallel'
@@ -24,7 +23,7 @@ process PYMLST_WGMLST_ADD {
     def prefix = task.ext.prefix ?: meta.sample_id
 
     """
-    echo ${meta.sample_id} >> sample.txt 
+    echo ${meta.sample_id} >> sample.txt
 
     wgMLST \\
     remove --strains \\
@@ -36,7 +35,7 @@ process PYMLST_WGMLST_ADD {
     $args \\
     -s ${meta.sample_id} \\
     $db \\
-    $assembly 
+    $assembly
     touch ${prefix}.mlst.txt \\
 
     cat <<-END_VERSIONS > versions.yml

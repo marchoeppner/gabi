@@ -83,21 +83,21 @@ workflow MLST_TYPING {
     /*
     Run wgMLST on assemblies for which we have taxonomic information
     and a matching cgMLST schema configured
-    */    
+    */
     PYMLST_WGMLST_ADD(
-        assembly_with_cg_db.filter { a -> a.last()}
+        assembly_with_cg_db.filter { a -> a.last() }
     )
     ch_versions = ch_versions.mix(PYMLST_WGMLST_ADD.out.versions)
 
-    PYMLST_WGMLST_ADD.out.report.map { m,t ->
+    PYMLST_WGMLST_ADD.out.report.map { m, t ->
         [
             [ sample_id: m.db_name, taxon: m.taxon , db_name: m.db_name ],
             t
         ]
     }.groupTuple()
-    .map { m,r ->
+    .map { m, r ->
         db = params.cgmlst[m.db_name]
-        tuple(m,db)
+        tuple(m, db)
     }
     .set { assemblies_for_cgmlst }
 
@@ -120,4 +120,4 @@ workflow MLST_TYPING {
     emit:
     versions = ch_versions
     report = PYMLST_CLAMLST.out.report
-}
+    }
