@@ -20,8 +20,6 @@ workflow FIND_REFERENCES {
     )
     ch_versions = ch_versions.mix(FILTER_SKETCHES.out.versions)
 
-    FILTER_SKETCHES.out.txt.view()
-
     FILTER_SKETCHES.out.txt
     .map { m, t -> t }
     .splitText()
@@ -32,11 +30,9 @@ workflow FIND_REFERENCES {
     .unique()
     .set { ch_taxa }
 
-    ch_taxa.view()
-
-    DOWNLOAD_REFERENCES(
-        ch_taxa
-    )
+    //DOWNLOAD_REFERENCES(
+    //    ch_taxa
+    //)
 
     emit:
     taxa = ch_taxa

@@ -22,6 +22,8 @@ process PYMLST_WGMLST_ADD {
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: meta.sample_id
 
+    // Work-around - we remove these strains first, if they already exist in the database, to avoid a downstream error
+    // For example, if we resume the workflow with different settings. 
     """
     echo ${meta.sample_id} >> sample.txt
 

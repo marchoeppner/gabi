@@ -55,9 +55,20 @@ workflow MLST_TYPING {
     /*
     We use the previously attempted taxonomic classification
     to choose the appropriate Chewbbaca cgMLST schema, if any
+    Assemblies are grouped by taxon to create a multi-sample
+    call matrix per species
     */
-    ch_assembly_filtered.annotated.map { m, a ->
-        (genus,species) = m.taxon.toLowerCase().split(' ')
+    ch_assembly_filtered.annotated.map  { m,a ->
+        def tax = m.taxon.toLowerCase().replaceAll(" ","_")
+        tuple(tax,a)
+    }.groupTuple()
+    .map { taxon, assemblies ->
+        def meta = [:]
+        meta.taxon = taxon
+        meta.sample_id = taxon
+        tuple(meta,assemblies)
+    }.map { m, a ->
+        (genus,species) = m.taxon.toLowerCase().split('_')
         def chewie_db = null
         if (params.chewbbaca[genus]) {
             chewie_db = params.chewbbaca[genus]
