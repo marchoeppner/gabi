@@ -1,7 +1,7 @@
-name: pymlst_clamlst
+name: sendsketch
 channels:
   - conda-forge
   - bioconda
   - defaults
 dependencies:
-  - bioconda::pymlst=2.1.6
+  - bioconda::bbmap=39.01

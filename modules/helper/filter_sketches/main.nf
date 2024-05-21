@@ -1,4 +1,4 @@
-process GABI_SUMMARY {
+process FILTER_SKETCHES {
     tag "${meta.sample_id}"
 
     conda "${moduleDir}/environment.yml"
@@ -7,21 +7,22 @@ process GABI_SUMMARY {
         'quay.io/biocontainers/perl-json-xs:4.03--pl5321h4ac6f70_2' }"
 
     input:
-    tuple val(meta), path(reports, stageAs: '?/*')
+    tuple val(meta), path(report)
 
     output:
-    path('*.json')          , emit: json
-    path 'versions.yml'     , emit: versions
+    tuple val(meta), path(result), emit: txt
+    tuple val(meta), env(ACCESSION), emit: acc
+    path 'versions.yml'             , emit: versions
 
     script:
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: meta.sample_id
-    result = prefix + '.json'
+    result = prefix + '.taxon.txt'
 
     """
-    gabi_summary.pl --sample ${meta.sample_id} \
-    $args \
-    --outfile $result
+    filter_sketches.pl --infile $report --outfile $result $args
+
+    ACCESSION="\$(cat $result)"
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

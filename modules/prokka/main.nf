@@ -44,7 +44,6 @@ process PROKKA {
     if (meta.containsKey('domain') && meta.domain != 'unknown') {
         args = args.concat(" --kingdom ${meta.domain}")
     }
-    
 
     """
     prokka \\

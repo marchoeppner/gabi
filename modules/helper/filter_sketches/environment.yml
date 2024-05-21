@@ -1,7 +1,7 @@
-name: pymlst_clamlst
+name: filtersketches
 channels:
   - conda-forge
   - bioconda
   - defaults
 dependencies:
-  - bioconda::pymlst=2.1.6
+  - conda-forge::perl=5.32

@@ -4,7 +4,6 @@ include { GABI_SUMMARY }    from './../../modules/helper/gabi_summary'
 ch_versions = Channel.from([])
 
 workflow REPORT {
-
     take:
     reports
 

@@ -29,6 +29,7 @@ include { PLASMIDS }                    from './../subworkflows/plasmids'
 include { ANNOTATE }                    from './../subworkflows/annotate'
 include { MLST_TYPING }                 from './../subworkflows/mlst'
 include { REPORT }                      from './../subworkflows/report'
+include { FIND_REFERENCES }             from './../subworkflows/find_references'
 
 /*
 --------------------
@@ -41,7 +42,7 @@ samplesheet = params.input ? Channel.fromPath(file(params.input, checkIfExists:t
 Check that the reference directory is actually present
 */
 if (params.input) {
-    refDir = file(params.reference_base + '/gabi/1.0')
+    refDir = file(params.reference_base + "/gabi/${params.reference_version}")
     if (!refDir.exists()) {
         log.info 'The required reference directory was not found on your system, exiting!'
         System.exit(1)
@@ -60,7 +61,7 @@ kraken2_db      = params.reference_base ? params.references['kraken2'].db       
 busco_db_path   = params.reference_base ? params.references['busco'].db         : []
 busco_lineage   = params.busco_lineage
 
-confindr_db     = params.reference_base ? Channel.fromPath(params.references['confindr'].db).collect() : []
+confindr_db     = params.confindr_db ? Channel.fromPath(params.confindr_db, checkIfExists: true).collect() : Channel.from([])
 
 ch_versions     = Channel.from([])
 multiqc_files   = Channel.from([])
@@ -82,7 +83,6 @@ workflow GABI {
         confindr_db
     )
     ch_versions         = ch_versions.mix(QC.out.versions)
-    ch_confindr_qc      = QC.out.qc_confindr
     ch_illumina_trimmed = QC.out.illumina
     ch_ont_trimmed      = QC.out.ont
     ch_pacbio_trimmed   = QC.out.pacbio
@@ -145,7 +145,6 @@ workflow GABI {
     ch_taxon = TAXONOMY_PROFILING.out.report
     ch_versions = ch_versions.mix(TAXONOMY_PROFILING.out.versions)
     ch_report = ch_report.mix(TAXONOMY_PROFILING.out.report)
-    //multiqc_files = multiqc_files.mix(TAXONOMY_PROFILING.out.report.map { m, r -> r })
 
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -210,6 +209,18 @@ workflow GABI {
     )
     ch_versions = ch_versions.mix(PLASMIDS.out.versions)
 
+     /*
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    SUB: Find the appropriate reference genome for each assembly
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    */
+    if (!params.skip_references) {
+        FIND_REFERENCES(
+            PLASMIDS.out.chromosome
+        )
+        ch_versions = ch_versions.mix(FIND_REFERENCES.out.versions)
+    }
+
     /*
     Join the assembly channel with taxonomic assignment information
     [ meta, assembly ] <-> [ meta, taxreport]
@@ -233,6 +244,7 @@ workflow GABI {
     ch_mlst = MLST_TYPING.out.report
     ch_versions = ch_versions.mix(MLST_TYPING.out.versions)
     ch_report = ch_report.mix(MLST_TYPING.out.report)
+
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     SUB: Predict gene models
@@ -249,7 +261,7 @@ workflow GABI {
     fna = ANNOTATE.out.fna
     faa = ANNOTATE.out.faa
     gff = ANNOTATE.out.gff
-    multiqc_files = multiqc_files.mix(ANNOTATE.out.qc).map{m,r -> r}
+    multiqc_files = multiqc_files.mix(ANNOTATE.out.qc).map { m, r -> r }
 
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -282,24 +294,23 @@ workflow GABI {
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     SUB: Make JSON summary report
-    This is optonal in case of unforseen 
+    This is optonal in case of unforseen
     issues.
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     */
-    
     if (!params.skip_report) {
-
         // standardize the meta hash to enable downstream grouping
-        ch_report.map { m,r ->
+        ch_report.map { m, r ->
             def meta = [:]
             meta.sample_id = m.sample_id
-            tuple(meta,r)
+            tuple(meta, r)
         }.groupTuple().set { ch_reports_grouped }
 
         REPORT(
             ch_reports_grouped
         )
     }
+
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Generate QC reports
@@ -320,4 +331,4 @@ workflow GABI {
 
     emit:
     qc = MULTIQC.out.report
-}
+    }

@@ -4,10 +4,15 @@ include { CONFINDR_INSTALL  }                               from './../modules/h
 include { BUSCO_DOWNLOAD as BUSCO_INSTALL }                 from './../modules/busco/download'
 include { AMRFINDERPLUS_UPDATE as AMRFINDERPLUS_INSTALL }   from './../modules/amrfinderplus/update'
 include { PYMLST_CLAMLST_INSTALL }                          from './../modules/pymlst/clamlst_install'
+include { PYMLST_WGMLST_INSTALL }                           from './../modules/pymlst/wgmlst_install'
+include { CHEWBBACA_DOWNLOADSCHEMA }                        from './../modules/chewbbaca/downloadschema'
 
 kraken_db_url       = Channel.fromPath(params.references['kraken2'].url)
 confindr_db_url     = Channel.fromPath(params.references['confindr'].url)
 ch_busco_lineage    = Channel.from(['bacteria_odb10'])
+
+// The IDs currently mapped to Chewbbaca schemas
+chewie_ids = Channel.fromList([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16])
 
 workflow BUILD_REFERENCES {
     main:
@@ -42,7 +47,24 @@ workflow BUILD_REFERENCES {
     )
 
     /*
-    Install PyMLST schemas
+    Install MLST schemas
     */
     PYMLST_CLAMLST_INSTALL()
+
+    /*
+    Install cgMLST schemas
+    */
+    PYMLST_WGMLST_INSTALL()
+
+    /*
+    Install Chewbbaca schemas based on schema ID
+    */
+    CHEWBBACA_DOWNLOADSCHEMA(
+        chewie_ids.map { i ->
+            [
+                [ sample_id: i],
+                i
+            ]
+        }
+    )
 }

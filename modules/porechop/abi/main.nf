@@ -1,6 +1,6 @@
 process PORECHOP_ABI {
     tag "$meta.sample_id"
-    label 'short_parallel'
+    label 'medium_parallel'
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
@@ -29,8 +29,6 @@ process PORECHOP_ABI {
         --output ${prefix}.fastq.gz \\
         > ${prefix}.log
 
-        rm TEMP_*.fastq
-        
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         porechop_abi: \$( porechop_abi --version )

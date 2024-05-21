@@ -1,7 +1,7 @@
-name: pymlst_clamlst
+name: chewbbaca_allelecall
 channels:
   - conda-forge
   - bioconda
   - defaults
 dependencies:
-  - bioconda::pymlst=2.1.6
+  - bioconda::chewbbaca=3.3.4

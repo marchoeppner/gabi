@@ -1,0 +1,7 @@
+name: downloadreferences
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - conda-forge::ncbi-datasets-cli=15.11.0

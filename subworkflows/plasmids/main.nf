@@ -15,5 +15,6 @@ workflow PLASMIDS {
 
     emit:
     plasmids = MOBSUITE_RECON.out.plasmids
+    chromosome = MOBSUITE_RECON.out.chromosome
     versions = ch_versions
 }

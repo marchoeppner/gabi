@@ -38,6 +38,8 @@ In this example, the pipeline will assume it runs on a single computer with the 
 
 `-profile conda` 
 
+` -profile apptainer`
+
 Additional software provisioning tools as described [here](https://www.nextflow.io/docs/latest/container.html) may also work, but have not been tested by us. Please note that conda may not work for all packages on all platforms. If this turns out to be the case for you, please consider switching to one of the supported container engines. In addition, you can set parameters such as maximum number of computing cores, RAM or the type of resource manager used (if any).
 
 b) with a site-specific config file
@@ -142,6 +144,10 @@ If you analyse a single species and wish to optimize the quality of the genome a
 ### `--prokka_prodigal` [ default = null ]
 
 If you analyse a single species and wish to optimize the quality of the genome annotation, you can pass a custom prodigal training file using this option, as described [here](https://github.com/tseemann/prokka?tab=readme-ov-file#option---prodigaltf).
+
+### `--confindr_db` [ default = null ]
+
+A local version of the ConfindR rMLST database, available [here](https://olc-bioinformatics.github.io/ConFindr/install/#downloading-confindr-databases). Unfortunately, this database requires a personalized registration so we cannot bundle it with GABI. If no database is provided, CondindR will run without one and can consquently only use the built-in references for Escherichia, Listeria and Salmonella. 
 
 ## Resources
 

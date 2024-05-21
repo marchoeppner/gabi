@@ -1,6 +1,5 @@
 include { CONFINDR }        from './../../modules/confindr'
-include { CONFINDR2JSON }   from './../../modules/helper/confindr2json'
-
+0
 ch_versions = Channel.from([])
 
 workflow CONTAMINATION {
@@ -16,13 +15,6 @@ workflow CONTAMINATION {
     CONFINDR(
         reads,
         confindr_db
-    )
-
-    /*
-    Convert ConfindR report to JSON
-    */
-    CONFINDR2JSON(
-        CONFINDR.out.report
     )
 
     /*
@@ -51,7 +43,6 @@ workflow CONTAMINATION {
 
     emit:
     report      = CONFINDR.out.report
-    json        = CONFINDR2JSON.out.json
     versions    = ch_versions
     }
 
@@ -67,6 +58,6 @@ def parse_confindr_report(aFile) {
             pass = false
         }
     }
-   
+
     return pass
 }

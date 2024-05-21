@@ -36,7 +36,7 @@ def fastq_channel(LinkedHashMap row) {
     }
 
     /*
-    Library ID has no real function beyond folder naming, so we make it optional and 
+    Library ID has no real function beyond folder naming, so we make it optional and
     fill lthe field with the file name otherwise
     */
 
@@ -52,6 +52,5 @@ def fastq_channel(LinkedHashMap row) {
         array = [ meta, [ file(row.R1)]]
     }
 
-    
     return array
 }

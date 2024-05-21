@@ -1,5 +1,4 @@
 process CONFINDR2JSON {
-
     tag "${meta.sample_id}"
 
     conda "${moduleDir}/environment.yml"

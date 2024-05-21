@@ -62,7 +62,6 @@ workflow QC_ILLUMINA {
 
     emit:
     confindr_report = CONTAMINATION.out.report
-    confindr_json   = CONTAMINATION.out.json
     reads = ch_processed_reads
     versions = ch_versions
     qc = multiqc_files
