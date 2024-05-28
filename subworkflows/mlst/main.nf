@@ -1,7 +1,8 @@
-include { PYMLST_CLAMLST }          from './../../modules/pymlst/clamlst'
-include { PYMLST_WGMLST_ADD }       from './../../modules/pymlst/wgmlst/add'
-include { PYMLST_WGMLST_DISTANCE }  from './../../modules/pymlst/wgmlst/distance'
-include { CHEWBBACA_ALLELECALL }    from './../../modules/chewbbaca/allelecall'
+include { PYMLST_CLAMLST }                  from './../../modules/pymlst/clamlst'
+include { PYMLST_WGMLST_ADD }               from './../../modules/pymlst/wgmlst/add'
+include { PYMLST_WGMLST_DISTANCE }          from './../../modules/pymlst/wgmlst/distance'
+include { CHEWBBACA_ALLELECALL }            from './../../modules/chewbbaca/allelecall'
+include { CHEWBBACA_ALLELECALLEVALUATOR }   from './../../modules/chewbbaca/allelecallevaluator'
 
 ch_versions = Channel.from([])
 
@@ -127,6 +128,11 @@ workflow MLST_TYPING {
         assembly_with_chewie_db.filter { a -> a.last() }
     )
     ch_versions = ch_versions.mix(CHEWBBACA_ALLELECALL.out.versions)
+
+    CHEWBBACA_ALLELECALLEVALUATOR(
+        CHEWBBACA_ALLELECALL.out.report_with_db
+    )
+    ch_versions = ch_versions.mix(CHEWBBACA_ALLELECALLEVALUATOR.out.versions)
 
     emit:
     versions = ch_versions
