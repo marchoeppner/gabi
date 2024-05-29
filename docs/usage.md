@@ -38,7 +38,7 @@ In this example, the pipeline will assume it runs on a single computer with the 
 
 `-profile conda` 
 
-` -profile apptainer`
+`-profile apptainer`
 
 Additional software provisioning tools as described [here](https://www.nextflow.io/docs/latest/container.html) may also work, but have not been tested by us. Please note that conda may not work for all packages on all platforms. If this turns out to be the case for you, please consider switching to one of the supported container engines. In addition, you can set parameters such as maximum number of computing cores, RAM or the type of resource manager used (if any).
 
