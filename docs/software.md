@@ -10,7 +10,7 @@ Version 1.19, [doi](https://doi.org/10.1093/bioinformatics/btw354) | [PubMed](ht
 Version 1.19, [doi](https://doi.org/10.1093/bioinformatics/btp352) | [PubMed](https://pubmed.ncbi.nlm.nih.gov/19505943/) | [github](https://github.com/samtools/samtools)
 
 **pyMLST**
-Version 2.1.5, [doi](https://doi.org/10.1099/mgen.0.001126) | [PubMed](https://pubmed.ncbi.nlm.nih.gov/37966168/) | [github](https://github.com/bvalot/pyMLST)
+Version 2.1.6, [doi](https://doi.org/10.1099/mgen.0.001126) | [PubMed](https://pubmed.ncbi.nlm.nih.gov/37966168/) | [github](https://github.com/bvalot/pyMLST)
 
 **Flye**
 Version 2.9, [doi](https://doi.org/10.1038/s41587-019-0072-8) | [PubMed](https://pubmed.ncbi.nlm.nih.gov/30936562/) |  [github](https://github.com/fenderglass/Flye/tree/flye)
@@ -28,7 +28,7 @@ Version 5.3.0, [doi](https://doi.org/10.1007/978-1-4939-9173-0_14) | [PubMed](ht
 Version 2.1.2, [doi](https://doi.org/10.1186/s13059-019-1891-0) | [PubMed](https://pubmed.ncbi.nlm.nih.gov/31779668/) | [github](https://github.com/DerrickWood/kraken2)
 
 **Mob Suite**
-Version 3.0.3, [doi](https://doi.org/10.1099/mgen.0.000206) | [PubMed](https://pubmed.ncbi.nlm.nih.gov/30052170/) | [github](https://github.com/phac-nml/mob-suite)
+Version 3.1.8, [doi](https://doi.org/10.1099/mgen.0.000206) | [PubMed](https://pubmed.ncbi.nlm.nih.gov/30052170/) | [github](https://github.com/phac-nml/mob-suite)
 
 **Porechop_abi**
 Version 0.5.0, [doi](https://doi.org/10.1101/2022.07.07.499093) | [BiorXiv](https://www.biorxiv.org/content/10.1101/2022.07.07.499093v1) | [github](https://github.com/bonsai-team/Porechop_ABI)

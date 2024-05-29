@@ -59,15 +59,15 @@ workflow MLST_TYPING {
     Assemblies are grouped by taxon to create a multi-sample
     call matrix per species
     */
-    ch_assembly_filtered.annotated.map  { m,a ->
-        def tax = m.taxon.toLowerCase().replaceAll(" ","_")
-        tuple(tax,a)
+    ch_assembly_filtered.annotated.map  { m, a ->
+        def tax = m.taxon.toLowerCase().replaceAll(' ', '_')
+        tuple(tax, a)
     }.groupTuple()
     .map { taxon, assemblies ->
         def meta = [:]
         meta.taxon = taxon
         meta.sample_id = taxon
-        tuple(meta,assemblies)
+        tuple(meta, assemblies)
     }.map { m, a ->
         (genus,species) = m.taxon.toLowerCase().split('_')
         def chewie_db = null

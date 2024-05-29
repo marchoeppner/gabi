@@ -7,7 +7,7 @@ process HAMRONIZATION_SUMMARIZE {
         'quay.io/biocontainers/hamronization:1.1.4--pyhdfd78af_0' }"
 
     input:
-    path(reports)
+    path(reports, stageAs: 'reports/?' )
     val(format)
 
     output:

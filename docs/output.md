@@ -27,6 +27,19 @@ For each sample, a folder is created with results from various tools, as follows
 
 </details>
 
+<details markdown=1>
+<summary>Combined results</summary>
+
+Some results are computed for all samples of a run, or for all samples belonging to the same species. These results are as follows:
+
+- cgMLST - core genome MLST calls
+  - chewbbaca - Results from Chewbbaca across all samples from the same species, including minimal spanning tree and distance matrix
+  - pymlst - Results from pyMLST across all samples from the same species (distance matrix only)
+- AMR
+  - Aggregated results from supported antimicrobial resistance gene predictors
+
+</details>
+
 ## QC
 
 <details markdown=1>

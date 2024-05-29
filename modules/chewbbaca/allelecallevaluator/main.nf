@@ -11,7 +11,7 @@ process CHEWBBACA_ALLELECALLEVALUATOR {
         'quay.io/biocontainers/chewbbaca:3.3.4--pyhdfd78af_0' }"
 
     input:
-    tuple val(meta), path(calls),val(db)
+    tuple val(meta), path(calls), val(db)
 
     output:
     tuple val(meta), path(results)      , emit: report
