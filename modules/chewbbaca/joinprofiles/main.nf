@@ -1,6 +1,4 @@
-process CHEWBBACA_ALLELECALL {
-    maxForks 1
-
+process CHEWBBACA_JOINPROFILES {
     tag "${meta.sample_id}"
 
     label 'short_parallel'
@@ -11,26 +9,23 @@ process CHEWBBACA_ALLELECALL {
         'quay.io/biocontainers/chewbbaca:3.3.4--pyhdfd78af_0' }"
 
     input:
-    tuple val(meta), path(assemblies, stageAs: 'assemblies/'), val(db)
+    tuple val(meta), path(reports, stageAs: 'reports/?')
 
     output:
-    tuple val(meta), path(results)                          , emit: report
-    tuple val(meta), path("${results}/results_alleles.tsv") , emit: profile
-    path('versions.yml')                                    , emit: versions
+    tuple val(meta), path(results)              , emit: report
+    path('versions.yml')                        , emit: versions
 
     script:
 
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: meta.sample_id
-    results = "results_${prefix}"
+    results = "${prefix}.tsv"
 
     """
-    chewBBACA.py AlleleCall \\
-    -i assemblies \\
-    -g $db \\
+    chewBBACA.py JoinProfiles \\
+    -p $reports \\
     -o $results \\
-    --hash-profiles true \\
-    --cpu ${task.cpus} $args
+    $args
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
