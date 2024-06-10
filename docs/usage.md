@@ -149,6 +149,12 @@ If you analyse a single species and wish to optimize the quality of the genome a
 
 A local version of the ConfindR rMLST database, available [here](https://olc-bioinformatics.github.io/ConFindr/install/#downloading-confindr-databases). Unfortunately, this database requires a personalized registration so we cannot bundle it with GABI. If no database is provided, CondindR will run without one and can consquently only use the built-in references for Escherichia, Listeria and Salmonella. 
 
+### `--skip_mlst` [ default = false ]
+Do not run MLST typing tools (chewbbaca, pyMLST)
+
+### `--skip_references [ default = false ]
+Do not run reference checks using BBMap (e.g. if you are behind a proxy)
+
 ## Resources
 
 The following options can be set to control resource usage outside of a site-specific [config](https://github.com/marchoeppner/nf-configs) file.

@@ -209,7 +209,7 @@ workflow GABI {
     )
     ch_versions = ch_versions.mix(PLASMIDS.out.versions)
 
-     /*
+    /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     SUB: Find the appropriate reference genome for each assembly
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -238,12 +238,15 @@ workflow GABI {
     SUB: Perform MLST typing of assemblies
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     */
-    MLST_TYPING(
-        ch_assemblies_with_taxa
-    )
-    ch_mlst = MLST_TYPING.out.report
-    ch_versions = ch_versions.mix(MLST_TYPING.out.versions)
-    ch_report = ch_report.mix(MLST_TYPING.out.report)
+
+    if (!params.skip_mlst) {
+        MLST_TYPING(
+            ch_assemblies_with_taxa
+        )
+        ch_mlst = MLST_TYPING.out.report
+        ch_versions = ch_versions.mix(MLST_TYPING.out.versions)
+        ch_report = ch_report.mix(MLST_TYPING.out.report)
+    }
 
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

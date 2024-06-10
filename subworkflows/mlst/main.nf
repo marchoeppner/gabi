@@ -136,7 +136,8 @@ workflow MLST_TYPING {
     ch_versions = ch_versions.mix(CHEWBBACA_JOINPROFILES.out.versions)
 
     CHEWBBACA_ALLELECALL(
-        assembly_with_chewie_db.map { m, a, d ->
+        assembly_with_chewie_db.filter { a -> a.last() }
+        .map { m, a, d ->
             def meta = [:]
             meta.sample_id = m.db_name
             meta.db_name = m.db_name
