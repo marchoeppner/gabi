@@ -58,6 +58,8 @@ ch_prokka_prodigal = params.prokka_prodigal ? Channel.fromPath(params.prokka_pro
 amrfinder_db    = params.reference_base ? params.references['amrfinderdb'].db   : []
 kraken2_db      = params.reference_base ? params.references['kraken2'].db       : []
 
+mashdb          = params.reference_base ? params.references['mashdb'].db       : []
+
 busco_db_path   = params.reference_base ? params.references['busco'].db         : []
 busco_lineage   = params.busco_lineage
 
@@ -216,7 +218,8 @@ workflow GABI {
     */
     if (!params.skip_references) {
         FIND_REFERENCES(
-            PLASMIDS.out.chromosome
+            PLASMIDS.out.chromosome,
+            mashdb
         )
         ch_versions = ch_versions.mix(FIND_REFERENCES.out.versions)
     }

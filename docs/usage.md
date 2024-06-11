@@ -115,6 +115,10 @@ This option is only used when installing the pipelines references as described [
 
 These options are only meant for users who have a specific reason to touch them. For most use cases, the defaults should be fine. 
 
+### `--shovill_assembler` [ default = spades ]
+
+Choose which assembly tool to use with Shovill. Valid options are skesa, velvet, megahit or spades. Default is: spades.
+
 ### `--subsample_reads` [ true|false, default = true]
 
 Perform sub-sampling of (long reads) prior to assembly. This is meant to deal with needlessly deep data sets that could otherwise result in excessive run times or crashes. The degree of sub-sampling is controlled by `--max_coverage` combined with `--genome_size`. 
