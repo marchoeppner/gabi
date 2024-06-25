@@ -1,4 +1,4 @@
-"process DOWNLOAD_GENOME {                                                  
+process DOWNLOAD_GENOME {                                                  
     tag "$id"                                                              
     label 'short_serial'
     maxForks 1
@@ -50,4 +50,3 @@
     END_VERSIONS                                                                
     """                                                                         
 }
-"
