@@ -1,4 +1,4 @@
-name: downloadreferences
+name: download_genome
 channels:
   - conda-forge
   - bioconda

@@ -6,9 +6,7 @@ process DOWNLOAD_REFERENCES {
     maxRetries 5
 
     conda 'environment.yml'
-    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/ncbi-datasets-cli:14.26.0 ' :
-        'quay.io/biocontainers/ncbi-datasets-cli:14.26.0' }"
+    container 'quay.io/biocontainers/ncbi-datasets-cli:16.22.1_cv24.3.0-0'
 
     input:
     val id // There is no meta because we want to cache based only the ID
@@ -30,7 +28,7 @@ process DOWNLOAD_REFERENCES {
     def args = task.ext.args ?: ''
     """
     # Download assemblies as zip archives
-    datasets download genome accession '$id' --include gff3,rna,cds,protein,genome,seq-report --filename ${prefix}.zip $args
+    datasets download genome accession '$id' --include gff3,genome,seq-report --filename ${prefix}.zip $args
 
     # Unzip
     unzip ${prefix}.zip

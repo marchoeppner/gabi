@@ -86,76 +86,78 @@ workflow MLST_TYPING {
     )
     ch_versions = ch_versions.mix(PYMLST_CLAMLST.out.versions)
 
-    /*
-    Run wgMLST on assemblies for which we have taxonomic information
-    and a matching cgMLST schema configured
-    */
-    PYMLST_WGMLST_ADD(
-        assembly_with_cg_db.filter { a -> a.last() }
-    )
-    ch_versions = ch_versions.mix(PYMLST_WGMLST_ADD.out.versions)
+    if (!params.skip_cgmlst) {
+        /*
+        Run wgMLST on assemblies for which we have taxonomic information
+        and a matching cgMLST schema configured
+        */
+        PYMLST_WGMLST_ADD(
+            assembly_with_cg_db.filter { a -> a.last() }
+        )
+        ch_versions = ch_versions.mix(PYMLST_WGMLST_ADD.out.versions)
 
-    PYMLST_WGMLST_ADD.out.report.map { m, t ->
-        [
-            [ sample_id: m.db_name, taxon: m.taxon , db_name: m.db_name ],
-            t
-        ]
-    }.groupTuple()
-    .map { m, r ->
-        db = params.cgmlst[m.db_name]
-        tuple(m, db)
+        PYMLST_WGMLST_ADD.out.report.map { m, t ->
+            [
+                [ sample_id: m.db_name, taxon: m.taxon , db_name: m.db_name ],
+                t
+            ]
+        }.groupTuple()
+        .map { m, r ->
+            db = params.cgmlst[m.db_name]
+            tuple(m, db)
+        }
+        .set { assemblies_for_cgmlst }
+
+        /*
+        Perform clustering on the given database
+        */
+        PYMLST_WGMLST_DISTANCE(
+            assemblies_for_cgmlst
+        )
+        ch_versions = ch_versions.mix(PYMLST_WGMLST_DISTANCE.out.versions)
+
+        /*
+        Perform cgMLST calling with Chewbbaca
+        Part one consists of a joint allele calling approach in which all samples belonging to the same species are jointly call
+        In addition, each sample is called invidivually to support downstream analysis of samples from across runs
+        */
+        CHEWBBACA_ALLELECALL_SINGLE(
+            assembly_with_chewie_db.filter { a -> a.last() }
+        )
+        ch_versions = ch_versions.mix(CHEWBBACA_ALLELECALL_SINGLE.out.versions)
+
+        CHEWBBACA_JOINPROFILES(
+            CHEWBBACA_ALLELECALL_SINGLE.out.profile.map { m, r ->
+                def meta = [:]
+                meta.db_name = m.db_name
+                meta.sample_id = m.db_name
+                tuple(meta, r)
+            }.groupTuple()
+        )
+        ch_versions = ch_versions.mix(CHEWBBACA_JOINPROFILES.out.versions)
+
+        CHEWBBACA_ALLELECALL(
+            assembly_with_chewie_db.filter { a -> a.last() }
+            .map { m, a, d ->
+                def meta = [:]
+                meta.sample_id = m.db_name
+                meta.db_name = m.db_name
+                tuple(meta, a)
+            }.groupTuple()
+            .map { m, assemblies ->
+                def chewie_db = params.chewbbaca[m.db_name]
+                tuple(m, assemblies, chewie_db)
+            }
+        )
+        ch_versions = ch_versions.mix(CHEWBBACA_ALLELECALL.out.versions)
+        CHEWBBACA_ALLELECALLEVALUATOR(
+            CHEWBBACA_ALLELECALL.out.report.map { m, r ->
+                def chewie_db = params.chewbbaca[m.db_name]
+                tuple(m, r, chewie_db)
+            }
+        )
+        ch_versions = ch_versions.mix(CHEWBBACA_ALLELECALLEVALUATOR.out.versions)
     }
-    .set { assemblies_for_cgmlst }
-
-    /*
-    Perform clustering on the given database
-    */
-    PYMLST_WGMLST_DISTANCE(
-        assemblies_for_cgmlst
-    )
-    ch_versions = ch_versions.mix(PYMLST_WGMLST_DISTANCE.out.versions)
-
-    /*
-    Perform cgMLST calling with Chewbbaca
-    Part one consists of a joint allele calling approach in which all samples belonging to the same species are jointly call
-    In addition, each sample is called invidivually to support downstream analysis of samples from across runs
-    */
-    CHEWBBACA_ALLELECALL_SINGLE(
-        assembly_with_chewie_db.filter { a -> a.last() }
-    )
-    ch_versions = ch_versions.mix(CHEWBBACA_ALLELECALL_SINGLE.out.versions)
-
-    CHEWBBACA_JOINPROFILES(
-        CHEWBBACA_ALLELECALL_SINGLE.out.profile.map { m, r ->
-            def meta = [:]
-            meta.db_name = m.db_name
-            meta.sample_id = m.db_name
-            tuple(meta, r)
-        }.groupTuple()
-    )
-    ch_versions = ch_versions.mix(CHEWBBACA_JOINPROFILES.out.versions)
-
-    CHEWBBACA_ALLELECALL(
-        assembly_with_chewie_db.filter { a -> a.last() }
-        .map { m, a, d ->
-            def meta = [:]
-            meta.sample_id = m.db_name
-            meta.db_name = m.db_name
-            tuple(meta, a)
-        }.groupTuple()
-        .map { m, assemblies ->
-            def chewie_db = params.chewbbaca[m.db_name]
-            tuple(m, assemblies, chewie_db)
-        }
-    )
-    ch_versions = ch_versions.mix(CHEWBBACA_ALLELECALL.out.versions)
-    CHEWBBACA_ALLELECALLEVALUATOR(
-        CHEWBBACA_ALLELECALL.out.report.map { m, r ->
-            def chewie_db = params.chewbbaca[m.db_name]
-            tuple(m, r, chewie_db)
-        }
-    )
-    ch_versions = ch_versions.mix(CHEWBBACA_ALLELECALLEVALUATOR.out.versions)
 
     emit:
     versions = ch_versions
