@@ -126,13 +126,18 @@ workflow MLST_TYPING {
         )
         ch_versions = ch_versions.mix(CHEWBBACA_ALLELECALL_SINGLE.out.versions)
 
-        CHEWBBACA_JOINPROFILES(
-            CHEWBBACA_ALLELECALL_SINGLE.out.profile.map { m, r ->
+        ch_profiles = CHEWBBACA_ALLELECALL_SINGLE.out.profile.map { m, r ->
                 def meta = [:]
                 meta.db_name = m.db_name
                 meta.sample_id = m.db_name
                 tuple(meta, r)
             }.groupTuple()
+
+        /*
+        Join profiles, assuming we have more than one
+        */
+        CHEWBBACA_JOINPROFILES(
+            ch_profiles.filter{ m,reports -> reports.size() > 1 }
         )
         ch_versions = ch_versions.mix(CHEWBBACA_JOINPROFILES.out.versions)
 
