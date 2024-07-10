@@ -93,7 +93,7 @@ workflow GABI {
 
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    Platform specific MultiQC reports
+    Platform-specific MultiQC reports
     since different technologies are difficult to
     display jointly (scale etc)
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -210,19 +210,30 @@ workflow GABI {
         ch_assemblies_clean
     )
     ch_versions = ch_versions.mix(PLASMIDS.out.versions)
-
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    SUB: Find the appropriate reference genome for each assembly
+    SUB: Find the appropriate reference genome+annotation for each assembly
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     */
-    if (!params.skip_references) {
-        FIND_REFERENCES(
-            PLASMIDS.out.chromosome,
-            mashdb
-        )
-        ch_versions = ch_versions.mix(FIND_REFERENCES.out.versions)
-    }
+    FIND_REFERENCES(
+        PLASMIDS.out.chromosome,
+        mashdb
+    )
+    ch_versions = ch_versions.mix(FIND_REFERENCES.out.versions)
+
+    /* 
+    Combine the assembly with the best reference genome and annotation
+    Here we use the full assembly incl. Plasmids again since we may need that for BUSCO
+    */
+    ch_assemblies_clean.map {m,s -> 
+        tuple(m.sample_id,m,s)
+    }.join(
+        FIND_REFERENCES.out.reference.map { m,r,g ->
+            tuple(m.sample_id,r,g)
+        }
+    ).map { i,m,s,r,g ->
+        tuple(m,s,r,g)
+    }.set { ch_assemblies_with_reference }
 
     /*
     Join the assembly channel with taxonomic assignment information
@@ -288,7 +299,7 @@ workflow GABI {
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     */
     ASSEMBLY_QC(
-        ch_assemblies_with_taxa,
+        ch_assemblies_with_reference,
         busco_lineage,
         busco_db_path
     )

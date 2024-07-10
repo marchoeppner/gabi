@@ -5,8 +5,8 @@ process DOWNLOAD_GENOME {
     errorStrategy { return task.attempt > 3 ? 'ignore' : 'retry' }
     maxRetries 5                                                      
 
-    conda 'environment.yml'
-    container 'biocontainers/ncbi-datasets-cli:16.22.1_cv24.3.0-0'
+    conda "${moduleDir}/environment.yml"
+    container 'biocontainers/ncbi-datasets-cli:16.22.1_cv1'
 
     input:
     val id // There is no meta because we want to cache based only on the ID

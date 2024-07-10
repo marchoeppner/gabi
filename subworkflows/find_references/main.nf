@@ -38,17 +38,23 @@ workflow FIND_REFERENCES {
     )
     ch_versions = ch_versions.mix(DOWNLOAD_GENOME.out.versions)
 
+    ch_genome_with_gff = DOWNLOAD_GENOME.out.sequence.join(DOWNLOAD_GENOME.out.gff)
+
     mash_with_gbk.map { m,r ->
         tuple(gbk,m,r)
     }.join(
-        DOWNLOAD_GENOME.out.sequence
-    ).map { g,m,r,s ->
-        tuple(m,s)
+        ch_genome_with_gff
+    ).map { g,m,r,s,a ->
+        def meta = [:]
+        meta.sample_id = m.sample_id
+        meta.taxon = m.taxon
+        meta.domain = m.domain
+        meta.db_name = m.db_name
+        tuple(meta,s,a)
     }.set { meta_with_sequence }
 
-    meta_with_sequence.view()
-
     emit:
+    reference = meta_with_sequence
     versions = ch_versions
 }
 
