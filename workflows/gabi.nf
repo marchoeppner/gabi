@@ -191,11 +191,30 @@ workflow GABI {
     ch_assemblies = ch_assemblies.mix(FLYE.out.fasta)
 
     /*
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Tag and optionally remove highly fragmented assemblies
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    */
+    ch_assemblies.branch { m,f ->
+        fail: f.countFasta() > params.max_contigs
+        pass: f.countFasta() <= params.max_contigs
+    }.set { ch_assemblies_status }
+
+    ch_assemblies_status.fail.subscribe { m,f ->
+        log.warn "WARN: ${m.sample_id} - assembly is highly fragmented!"
+    }
+
+    if (params.skip_failed) {
+        ch_assemblies_filtered = ch_assemblies_status.pass
+    } else {
+        ch_assemblies_filtered = ch_assemblies
+    }
+    /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Clean the meta data object to remove stuff we don't need anymore
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     */
-    ch_assemblies.map { m, f ->
+    ch_assemblies_filtered.map { m, f ->
         def newMeta = [:]
         newMeta.sample_id = m.sample_id
         tuple(newMeta, f)
@@ -326,7 +345,7 @@ workflow GABI {
         REPORT(
             ch_reports_grouped
         )
-        }
+    }
 
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

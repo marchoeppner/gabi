@@ -115,6 +115,17 @@ This option is only used when installing the pipelines references as described [
 
 These options are only meant for users who have a specific reason to touch them. For most use cases, the defaults should be fine. 
 
+### `--skip_failed` [ default = false ]
+
+By default, all samples are processed all the way to the end of the pipeline. This flag allows you to apply criteria to stop samples along the processing graph. The following criteria will be applied:
+
+- Remove highly fragmented assemblies (see [--max_contigs](#--max_contigs))
+- Remove reads that fail the ConfindR QC for intra-/inter species contamination (Illumina and Pacbio only)
+
+### `--max_contigs` [ default = 150 ]
+
+If `--skip_failed` is enabled, this parameter controls the maximum number of contigs an assembly is allowed to have before it is stopped. High contig numnbers are typically a sign of insufficient coverage and/or read length (in some cases it can also be a sign of excessive contamination).
+
 ### `--shovill_assembler` [ default = spades ]
 
 Choose which assembly tool to use with Shovill. Valid options are skesa, velvet, megahit or spades. Default is: spades.

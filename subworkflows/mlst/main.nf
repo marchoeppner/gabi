@@ -91,7 +91,7 @@ workflow MLST_TYPING {
     if (!params.skip_cgmlst) {
 
         /*
-        Inform users about to-be-skipped samples to a lack of a matching cgMLST database
+        Inform users about to-be-skipped samples due to a lack of a matching cgMLST database
         */
         assembly_with_cg_db.filter( a -> !a.last() ).subscribe { m,s,d ->
             log.warn "WARN: ${m.sample_id} - could not match a pyMLST cgMLST database for ${m.taxon}."

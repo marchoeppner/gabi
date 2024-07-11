@@ -41,7 +41,23 @@ workflow CONTAMINATION {
         log.warn "Failed contamination check for sample ${m.sample_id} - please check the report ${r.getSimpleName()}"
     }
 
+    // Samples can be failed forver or be forwarded with a warning
+    if (params.skip_failed) {
+        reads.map {m,r -> 
+            tuple(m.sample_id,m,r)
+        }.join(
+            confindr_by_status.pass.map { m,t ->
+                tuple(m.sample_id,t)
+            }
+        )
+        .map { i,m,r,t -> tuple(m,r) }
+        .set { ch_pass_reads }
+    } else {
+        ch_pass_reads = reads
+    }
+
     emit:
+    reads       = ch_pass_reads
     report      = CONFINDR.out.report
     versions    = ch_versions
     }
