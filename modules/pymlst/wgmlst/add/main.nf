@@ -1,4 +1,5 @@
 process PYMLST_WGMLST_ADD {
+
     maxForks 1
 
     tag "${meta.sample_id}"
@@ -39,6 +40,8 @@ process PYMLST_WGMLST_ADD {
     $db \\
     $assembly
     touch ${prefix}.mlst.txt \\
+
+    sleep 2
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

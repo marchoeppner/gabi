@@ -63,7 +63,7 @@ mashdb          = params.reference_base ? params.references['mashdb'].db       :
 busco_db_path   = params.reference_base ? params.references['busco'].db         : []
 busco_lineage   = params.busco_lineage
 
-confindr_db     = params.confindr_db ? Channel.fromPath(params.confindr_db, checkIfExists: true).collect() : Channel.from([])
+confindr_db     = params.confindr_db ? params.confindr_db : params.references['confindr'].db
 
 ch_versions     = Channel.from([])
 multiqc_files   = Channel.from([])
@@ -228,13 +228,13 @@ workflow GABI {
     ch_assemblies_clean.map {m,s -> 
         tuple(m.sample_id,m,s)
     }.join(
-        FIND_REFERENCES.out.reference.map { m,r,g ->
-            tuple(m.sample_id,r,g)
+        FIND_REFERENCES.out.reference.map { m,r,g,k ->
+            tuple(m.sample_id,r,g,k)
         }
-    ).map { i,m,s,r,g ->
-        tuple(m,s,r,g)
-    }.set { ch_assemblies_with_reference }
-
+    ).map { i,m,s,r,g,k ->
+        tuple(m,s,r,g,k)
+    }.set { ch_assemblies_with_reference_and_gbk }
+    
     /*
     Join the assembly channel with taxonomic assignment information
     [ meta, assembly ] <-> [ meta, taxreport]
@@ -299,7 +299,7 @@ workflow GABI {
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     */
     ASSEMBLY_QC(
-        ch_assemblies_with_reference,
+        ch_assemblies_with_reference_and_gbk,
         busco_lineage,
         busco_db_path
     )

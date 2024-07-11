@@ -38,19 +38,23 @@ workflow FIND_REFERENCES {
     )
     ch_versions = ch_versions.mix(DOWNLOAD_GENOME.out.versions)
 
-    ch_genome_with_gff = DOWNLOAD_GENOME.out.sequence.join(DOWNLOAD_GENOME.out.gff)
+    ch_genome_with_gff = DOWNLOAD_GENOME.out.sequence.join(DOWNLOAD_GENOME.out.gff).join(DOWNLOAD_GENOME.out.genbank)
 
+    /*
+    We use combine here because several assemblies may 
+    map to the same reference genome
+    */
     mash_with_gbk.map { m,r ->
         tuple(gbk,m,r)
-    }.join(
-        ch_genome_with_gff
-    ).map { g,m,r,s,a ->
+    }.combine(
+        ch_genome_with_gff, by: 0
+    ).map { g,m,r,s,a,k ->
         def meta = [:]
         meta.sample_id = m.sample_id
         meta.taxon = m.taxon
         meta.domain = m.domain
         meta.db_name = m.db_name
-        tuple(meta,s,a)
+        tuple(meta,s,a,k)
     }.set { meta_with_sequence }
 
     emit:

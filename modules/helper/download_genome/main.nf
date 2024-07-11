@@ -15,6 +15,7 @@ process DOWNLOAD_GENOME {
     tuple val(id), path("${prefix}.zip"), emit: assembly
     tuple val(id), path("ncbi_dataset/data/${prefix}/${prefix}_*_genomic.fna"), emit: sequence
     tuple val(id), path("ncbi_dataset/data/${prefix}/${prefix}.gff"), emit: gff, optional: true
+    tuple val(id), path("ncbi_dataset/data/${prefix}/${prefix}.gbff"), emit: genbank, optional: true
                              
     path "versions.yml"                 , emit: versions
 
@@ -26,7 +27,7 @@ process DOWNLOAD_GENOME {
     def args = task.ext.args ?: ''
     """
     # Download assemblies as zip archives
-    datasets download genome accession $id --include gff3,genome,seq-report --filename ${prefix}.zip
+    datasets download genome accession $id --include gff3,genome,gbff,seq-report --filename ${prefix}.zip
     
     # Unzip
     unzip ${prefix}.zip
@@ -34,6 +35,10 @@ process DOWNLOAD_GENOME {
     # Rename files with assembly name
     if [ -f ncbi_dataset/data/${prefix}/genomic.gff ]; then
         mv ncbi_dataset/data/${prefix}/genomic.gff ncbi_dataset/data/${prefix}/${prefix}.gff
+    fi
+
+    if [ -f ncbi_dataset/data/${prefix}/genomic.gbff ]; then
+        mv ncbi_dataset/data/${prefix}/genomic.gbff ncbi_dataset/data/${prefix}/${prefix}.gbff
     fi
 
     cat <<-END_VERSIONS > versions.yml
