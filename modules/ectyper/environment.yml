@@ -1,7 +1,7 @@
-name: confindr
+name: fastp
 channels:
   - conda-forge
   - bioconda
   - defaults
 dependencies:
-  - bioconda::confindr=0.8.1
+  - bioconda::fastp=0.23.4

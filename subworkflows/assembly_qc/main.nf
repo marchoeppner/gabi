@@ -1,54 +1,44 @@
 include { BUSCO_BUSCO }         from './../../modules/busco/busco'
 include { BUSCO_DOWNLOAD }      from './../../modules/busco/download'
 include { QUAST }               from './../../modules/quast'
+include { MUMMER2CIRCOS }       from './../../modules/mummer2circos'
 
 ch_versions = Channel.from([])
 multiqc_files = Channel.from([])
 
 workflow ASSEMBLY_QC {
     take:
-    assembly
-    busco_lineage
-    busco_db_path
+    assembly        // [ meta, assembly, reference_fa, reference_gff, reference_gbk ]
+    busco_lineage   // lineage
+    busco_db_path   // db_path
 
     main:
 
-    assembly.branch { m, a ->
-        annotated: m.taxon != 'unknown'
-        unknown: m.taxon == 'unknown'
-    }.set { ch_assembly_filtered }
-
     /*
-    We use the previously attempted taxonomic classification to
-    choose the appropriate reference genome, if any
+    Generate a circos plot against 
+    the designated reference genome
+    Currently, assemblies with more than 200 contigs are not supported!
     */
-    ch_assembly_filtered.annotated.map { m, a ->
-        (genus,species) = m.taxon.toLowerCase().split(' ')
-        if (params.reference_fasta && params.reference_gff) {
-            ref = file(params.reference_fasta)
-            gff = file(params.reference_gff)
-        } else if (params.genomes[genus]) {
-            db = params.genomes[genus]
-            ref = file(db.fasta)
-            gff = file(db.gff)
-        } else if (params.genomes["${genus}_${species}"]) {
-            db = params.genomes["${genus}_${species}"]
-            ref = file(db.fasta)
-            gff = file(db.gff)
-        } else {
-            db = null
-            ref = []
-            gff = []
-        }
-        tuple(m, a, ref, gff)
-    }.set { assembly_with_db }
+
+    assembly.branch { m,s,r,g,k -> 
+        pass: s.countFasta() < 200 && r.countFasta() < 200
+        fail: s.countFasta() >= 200 || r.countFasta() >= 200
+    }.set { assembly_by_completeness }
+
+    assembly_by_completeness.fail.subscribe { m,s,r,g,k ->
+        log.warn "WARN: ${m.sample_id} - skipping circos plot, assembly or reference too fragmented!"
+    }
+    
+    MUMMER2CIRCOS(
+        assembly_by_completeness.pass
+    )
+    ch_versions = ch_versions.mix(MUMMER2CIRCOS.out.versions)
 
     /*
-    Assembly QC using Quast - with
-    optional reference genome
+    Assembly quality using Quast
     */
     QUAST(
-        assembly_with_db
+        assembly.map {  m,s,r,g,k -> tuple(m,s,r,g) }
     )
     ch_versions = ch_versions.mix(QUAST.out.versions)
     multiqc_files = multiqc_files.mix(QUAST.out.tsv)
@@ -63,8 +53,10 @@ workflow ASSEMBLY_QC {
         )
         busco_db_path = BUSCO_DOWNLOAD.out.db
     }
+
+    assembly.map { m,s,r,g,k -> tuple(m,s) }.set { ch_assembly_clean }
     BUSCO_BUSCO(
-        assembly,
+        ch_assembly_clean,
         busco_lineage,
         busco_db_path
     )

@@ -1,7 +1,7 @@
-name: confindr
+name: mummer2circos
 channels:
   - conda-forge
   - bioconda
   - defaults
 dependencies:
-  - bioconda::confindr=0.8.1
+  - bioconda::mummer2circos=1.4.2

@@ -1,7 +1,7 @@
-name: confindr
+name: mash_sketch
 channels:
   - conda-forge
   - bioconda
   - defaults
 dependencies:
-  - bioconda::confindr=0.8.1
+  - bioconda::mash=2.3

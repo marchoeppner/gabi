@@ -1,40 +1,77 @@
-include { BBMAP_SENDSKETCH }        from './../../modules/bbmap/sendsketch'
-include { FILTER_SKETCHES }         from './../../modules/helper/filter_sketches'
-include { DOWNLOAD_REFERENCES }     from './../../modules/helper/download_references'
+include { MASH_SKETCH }     from './../../modules/mash/sketch'
+include { MASH_DIST }       from './../../modules/mash/dist'
+include { DOWNLOAD_GENOME } from './../../modules/helper/download_genome'
 
 ch_versions = Channel.from([])
 
 workflow FIND_REFERENCES {
     take:
     assembly
+    mashdb
 
     main:
 
-    BBMAP_SENDSKETCH(
+    MASH_SKETCH(
         assembly
     )
-    ch_versions = ch_versions.mix(BBMAP_SENDSKETCH.out.versions)
+    ch_versions = ch_versions.mix(MASH_SKETCH.out.versions)
 
-    FILTER_SKETCHES(
-        BBMAP_SENDSKETCH.out.hits
+    MASH_DIST(
+        MASH_SKETCH.out.mash,
+        mashdb
     )
-    ch_versions = ch_versions.mix(FILTER_SKETCHES.out.versions)
+    ch_versions = ch_versions.mix(MASH_DIST.out.versions)
 
-    FILTER_SKETCHES.out.txt
-    .map { m, t -> t }
-    .splitText()
-    .map { it.replace('\n', '') }
-    .collect()
-    .toSortedList()
-    .flatten()
-    .unique()
-    .set { ch_taxa }
+    MASH_DIST.out.dist.map { m,r ->
+        gbk = mash_get_best(r)
+        m.gbk = gbk
+        tuple(m,r)
+    }.set { mash_with_gbk}
 
-    //DOWNLOAD_REFERENCES(
-    //    ch_taxa
-    //)
+    mash_with_gbk.map { m,r ->
+        m.gbk
+    }.unique()
+    .set { genome_accessions }
+
+    DOWNLOAD_GENOME(
+        genome_accessions
+    )
+    ch_versions = ch_versions.mix(DOWNLOAD_GENOME.out.versions)
+
+    ch_genome_with_gff = DOWNLOAD_GENOME.out.sequence.join(DOWNLOAD_GENOME.out.gff).join(DOWNLOAD_GENOME.out.genbank)
+
+    /*
+    We use combine here because several assemblies may 
+    map to the same reference genome
+    */
+    mash_with_gbk.map { m,r ->
+        tuple(gbk,m,r)
+    }.combine(
+        ch_genome_with_gff, by: 0
+    ).map { g,m,r,s,a,k ->
+        def meta = [:]
+        meta.sample_id = m.sample_id
+        meta.taxon = m.taxon
+        meta.domain = m.domain
+        meta.db_name = m.db_name
+        tuple(meta,s,a,k)
+    }.set { meta_with_sequence }
 
     emit:
-    taxa = ch_taxa
+    reference = meta_with_sequence
     versions = ch_versions
+}
+
+def mash_get_best(report) {
+    gbk = ""
+    lines = file(report).readLines()
+    if (lines.size() > 0 ) {
+        def elements = lines[0].trim().split(/\s+/)
+        gbk_file = elements[0]
+        if (gbk_file.contains("GCF_")) {
+            gbk = gbk_file.split("_")[0..1].join("_")
+        }
+    }
+   
+    return gbk
 }

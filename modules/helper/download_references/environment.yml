@@ -4,4 +4,4 @@ channels:
   - bioconda
   - defaults
 dependencies:
-  - conda-forge::ncbi-datasets-cli=15.11.0
+  - conda-forge::ncbi-datasets-cli=16.22.1

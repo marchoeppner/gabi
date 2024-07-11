@@ -48,16 +48,17 @@ workflow QC_ILLUMINA {
         confindr_db
     )
     ch_versions = ch_versions.mix(CONTAMINATION.out.versions)
+    ch_reads_decont = CONTAMINATION.out.reads
 
     if (params.subsample_reads) {
         RASUSA(
-            ch_illumina_trimmed.map { m, r -> [ m, r, params.genome_size] },
+            ch_reads_decont.map { m, r -> [ m, r, params.genome_size] },
             params.max_coverage
         )
         ch_versions = ch_versions.mix(RASUSA.out.versions)
         ch_processed_reads = RASUSA.out.reads
     } else {
-        ch_processed_reads = ch_illumina_trimmed
+        ch_processed_reads = ch_reads_decont
     }
 
     emit:

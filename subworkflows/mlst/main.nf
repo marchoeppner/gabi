@@ -2,6 +2,8 @@ include { PYMLST_CLAMLST }                  from './../../modules/pymlst/clamlst
 include { PYMLST_WGMLST_ADD }               from './../../modules/pymlst/wgmlst/add'
 include { PYMLST_WGMLST_DISTANCE }          from './../../modules/pymlst/wgmlst/distance'
 include { CHEWBBACA_ALLELECALL }            from './../../modules/chewbbaca/allelecall'
+include { CHEWBBACA_ALLELECALL as CHEWBBACA_ALLELECALL_SINGLE }            from './../../modules/chewbbaca/allelecall'
+include { CHEWBBACA_JOINPROFILES }          from './../../modules/chewbbaca/joinprofiles'
 include { CHEWBBACA_ALLELECALLEVALUATOR }   from './../../modules/chewbbaca/allelecallevaluator'
 
 ch_versions = Channel.from([])
@@ -22,7 +24,7 @@ workflow MLST_TYPING {
     choose the appropriate MLST schema, if any
     */
     ch_assembly_filtered.annotated.map { m, a ->
-        (genus,species) = m.taxon.toLowerCase().split(' ')
+        def (genus,species) = m.taxon.toLowerCase().split(' ')
         def db = null
         if (params.mlst[genus]) {
             db = params.mlst[genus]
@@ -39,7 +41,7 @@ workflow MLST_TYPING {
     to choose the appropriate cgMLST schema, if any
     */
     ch_assembly_filtered.annotated.map { m, a ->
-        (genus,species) = m.taxon.toLowerCase().split(' ')
+        def (genus,species) = m.taxon.toLowerCase().split(' ')
         def cg_db = null
         if (params.cgmlst[genus]) {
             cg_db = params.cgmlst[genus]
@@ -59,17 +61,9 @@ workflow MLST_TYPING {
     Assemblies are grouped by taxon to create a multi-sample
     call matrix per species
     */
-    ch_assembly_filtered.annotated.map  { m, a ->
-        def tax = m.taxon.toLowerCase().replaceAll(' ', '_')
-        tuple(tax, a)
-    }.groupTuple()
-    .map { taxon, assemblies ->
-        def meta = [:]
-        meta.taxon = taxon
-        meta.sample_id = taxon
-        tuple(meta, assemblies)
-    }.map { m, a ->
-        (genus,species) = m.taxon.toLowerCase().split('_')
+
+    ch_assembly_filtered.annotated.map { m, a ->
+        def (genus,species) = m.taxon.toLowerCase().split(' ')
         def chewie_db = null
         if (params.chewbbaca[genus]) {
             chewie_db = params.chewbbaca[genus]
@@ -83,56 +77,115 @@ workflow MLST_TYPING {
         tuple(m, a, chewie_db)
     }.set { assembly_with_chewie_db }
 
+    
     /*
     Run claMLST on assemblies for which we have taxonomic information
-    and a matching MLST schema configured
+    and a matching MLST schema configured, i.e. the last element must
+    not be null
     */
     PYMLST_CLAMLST(
         assembly_with_db.filter { a -> a.last() }
     )
     ch_versions = ch_versions.mix(PYMLST_CLAMLST.out.versions)
 
-    /*
-    Run wgMLST on assemblies for which we have taxonomic information
-    and a matching cgMLST schema configured
-    */
-    PYMLST_WGMLST_ADD(
+    if (!params.skip_cgmlst) {
+
+        /*
+        Inform users about to-be-skipped samples due to a lack of a matching cgMLST database
+        */
+        assembly_with_cg_db.filter( a -> !a.last() ).subscribe { m,s,d ->
+            log.warn "WARN: ${m.sample_id} - could not match a pyMLST cgMLST database for ${m.taxon}."
+        }
+        assembly_with_chewie_db.filter( a -> !a.last() ).subscribe { m,s,d ->
+            log.warn "WARN: ${m.sample_id} - could not match a Chewbbaca cgMLST database for ${m.taxon}."
+        }
+
+        /*
+        Run wgMLST on assemblies for which we have taxonomic information
+        and a matching cgMLST schema configured, i.e. the last element must
+        not be null
+        */
+        PYMLST_WGMLST_ADD(
+            assembly_with_cg_db.filter { a -> a.last() }
+        )
+        ch_versions = ch_versions.mix(PYMLST_WGMLST_ADD.out.versions)
+
+        /*
+        Get the databases for which we have assemblies to 
+        perform cgMLST clustering
+        */
         assembly_with_cg_db.filter { a -> a.last() }
-    )
-    ch_versions = ch_versions.mix(PYMLST_WGMLST_ADD.out.versions)
+        .map { m,a,d -> tuple(m,d)}
+        .groupTuple(by: 1)
+        .map { metas, db ->
+            def meta = [:]
+            meta.db_name = file(db).getSimpleName()
+            meta.sample_id = file(db).getSimpleName()
+            tuple(meta,db)
+        }.set { ch_cgmlst_database }
+        
+        /*
+        Perform clustering on the given database
+        */
+        PYMLST_WGMLST_DISTANCE(
+            ch_cgmlst_database
+        )
+        ch_versions = ch_versions.mix(PYMLST_WGMLST_DISTANCE.out.versions)
 
-    PYMLST_WGMLST_ADD.out.report.map { m, t ->
-        [
-            [ sample_id: m.db_name, taxon: m.taxon , db_name: m.db_name ],
-            t
-        ]
-    }.groupTuple()
-    .map { m, r ->
-        db = params.cgmlst[m.db_name]
-        tuple(m, db)
-    }
-    .set { assemblies_for_cgmlst }
+        /*
+        Perform cgMLST calling with Chewbbaca
+        Part one consists of a joint allele calling approach in which all samples belonging to the same species are jointly call
+        In addition, each sample is called invidivually to support downstream analysis of samples from across runs
+        */
+        CHEWBBACA_ALLELECALL_SINGLE(
+            assembly_with_chewie_db.filter { a -> a.last() }
+        )
+        ch_versions = ch_versions.mix(CHEWBBACA_ALLELECALL_SINGLE.out.versions)
 
-    /*
-    Perform clustering on the given database
-    */
-    PYMLST_WGMLST_DISTANCE(
-        assemblies_for_cgmlst
-    )
-    ch_versions = ch_versions.mix(PYMLST_WGMLST_DISTANCE.out.versions)
+        ch_profiles = CHEWBBACA_ALLELECALL_SINGLE.out.profile.map { m, r ->
+                def meta = [:]
+                meta.db_name = m.db_name
+                meta.sample_id = m.db_name
+                tuple(meta, r)
+            }.groupTuple()
 
-    /*
-    Perform cgMLST calling with Chewbbaca
-    */
-    CHEWBBACA_ALLELECALL(
+        /*
+        Join profiles, assuming we have more than one
+        */
+        CHEWBBACA_JOINPROFILES(
+            ch_profiles.filter{ m,reports -> reports.size() > 1 }
+        )
+        ch_versions = ch_versions.mix(CHEWBBACA_JOINPROFILES.out.versions)
+
+        /* Join assemblies and databases to generate
+        [ meta, [ assemblies ], db ] and filter out all 
+        cases where # assemblies is < 3 (no point to compute relationships)
+        */
         assembly_with_chewie_db.filter { a -> a.last() }
-    )
-    ch_versions = ch_versions.mix(CHEWBBACA_ALLELECALL.out.versions)
-
-    CHEWBBACA_ALLELECALLEVALUATOR(
-        CHEWBBACA_ALLELECALL.out.report_with_db
-    )
-    ch_versions = ch_versions.mix(CHEWBBACA_ALLELECALLEVALUATOR.out.versions)
+        .map { m, a, d ->
+            def meta = [:]
+            meta.sample_id = m.db_name
+            meta.db_name = m.db_name
+            tuple(meta, a)
+        }.groupTuple()
+        .map { m, assemblies ->
+            def chewie_db = params.chewbbaca[m.db_name]
+            tuple(m, assemblies, chewie_db)
+        }.filter { m,a,d -> a.size() > 2}
+        .set { ch_assemblies_chewie_call }
+        
+        CHEWBBACA_ALLELECALL(
+            ch_assemblies_chewie_call
+        )
+        ch_versions = ch_versions.mix(CHEWBBACA_ALLELECALL.out.versions)
+        CHEWBBACA_ALLELECALLEVALUATOR(
+            CHEWBBACA_ALLELECALL.out.report.map { m, r ->
+                def chewie_db = params.chewbbaca[m.db_name]
+                tuple(m, r, chewie_db)
+            }
+        )
+        ch_versions = ch_versions.mix(CHEWBBACA_ALLELECALLEVALUATOR.out.versions)
+    }
 
     emit:
     versions = ch_versions

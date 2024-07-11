@@ -58,10 +58,12 @@ ch_prokka_prodigal = params.prokka_prodigal ? Channel.fromPath(params.prokka_pro
 amrfinder_db    = params.reference_base ? params.references['amrfinderdb'].db   : []
 kraken2_db      = params.reference_base ? params.references['kraken2'].db       : []
 
+mashdb          = params.reference_base ? params.references['mashdb'].db       : []
+
 busco_db_path   = params.reference_base ? params.references['busco'].db         : []
 busco_lineage   = params.busco_lineage
 
-confindr_db     = params.confindr_db ? Channel.fromPath(params.confindr_db, checkIfExists: true).collect() : Channel.from([])
+confindr_db     = params.confindr_db ? params.confindr_db : params.references['confindr'].db
 
 ch_versions     = Channel.from([])
 multiqc_files   = Channel.from([])
@@ -91,7 +93,7 @@ workflow GABI {
 
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    Platform specific MultiQC reports
+    Platform-specific MultiQC reports
     since different technologies are difficult to
     display jointly (scale etc)
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -189,11 +191,30 @@ workflow GABI {
     ch_assemblies = ch_assemblies.mix(FLYE.out.fasta)
 
     /*
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Tag and optionally remove highly fragmented assemblies
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    */
+    ch_assemblies.branch { m,f ->
+        fail: f.countFasta() > params.max_contigs
+        pass: f.countFasta() <= params.max_contigs
+    }.set { ch_assemblies_status }
+
+    ch_assemblies_status.fail.subscribe { m,f ->
+        log.warn "WARN: ${m.sample_id} - assembly is highly fragmented!"
+    }
+
+    if (params.skip_failed) {
+        ch_assemblies_filtered = ch_assemblies_status.pass
+    } else {
+        ch_assemblies_filtered = ch_assemblies
+    }
+    /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Clean the meta data object to remove stuff we don't need anymore
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     */
-    ch_assemblies.map { m, f ->
+    ch_assemblies_filtered.map { m, f ->
         def newMeta = [:]
         newMeta.sample_id = m.sample_id
         tuple(newMeta, f)
@@ -208,19 +229,31 @@ workflow GABI {
         ch_assemblies_clean
     )
     ch_versions = ch_versions.mix(PLASMIDS.out.versions)
-
-     /*
+    /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    SUB: Find the appropriate reference genome for each assembly
+    SUB: Find the appropriate reference genome+annotation for each assembly
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     */
-    if (!params.skip_references) {
-        FIND_REFERENCES(
-            PLASMIDS.out.chromosome
-        )
-        ch_versions = ch_versions.mix(FIND_REFERENCES.out.versions)
-    }
+    FIND_REFERENCES(
+        PLASMIDS.out.chromosome,
+        mashdb
+    )
+    ch_versions = ch_versions.mix(FIND_REFERENCES.out.versions)
 
+    /* 
+    Combine the assembly with the best reference genome and annotation
+    Here we use the full assembly incl. Plasmids again since we may need that for BUSCO
+    */
+    ch_assemblies_clean.map {m,s -> 
+        tuple(m.sample_id,m,s)
+    }.join(
+        FIND_REFERENCES.out.reference.map { m,r,g,k ->
+            tuple(m.sample_id,r,g,k)
+        }
+    ).map { i,m,s,r,g,k ->
+        tuple(m,s,r,g,k)
+    }.set { ch_assemblies_with_reference_and_gbk }
+    
     /*
     Join the assembly channel with taxonomic assignment information
     [ meta, assembly ] <-> [ meta, taxreport]
@@ -238,12 +271,15 @@ workflow GABI {
     SUB: Perform MLST typing of assemblies
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     */
-    MLST_TYPING(
-        ch_assemblies_with_taxa
-    )
-    ch_mlst = MLST_TYPING.out.report
-    ch_versions = ch_versions.mix(MLST_TYPING.out.versions)
-    ch_report = ch_report.mix(MLST_TYPING.out.report)
+
+    if (!params.skip_mlst) {
+        MLST_TYPING(
+            ch_assemblies_with_taxa
+        )
+        ch_mlst = MLST_TYPING.out.report
+        ch_versions = ch_versions.mix(MLST_TYPING.out.versions)
+        ch_report = ch_report.mix(MLST_TYPING.out.report)
+    }
 
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -282,7 +318,7 @@ workflow GABI {
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     */
     ASSEMBLY_QC(
-        ch_assemblies_with_taxa,
+        ch_assemblies_with_reference_and_gbk,
         busco_lineage,
         busco_db_path
     )
@@ -309,7 +345,7 @@ workflow GABI {
         REPORT(
             ch_reports_grouped
         )
-        }
+    }
 
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

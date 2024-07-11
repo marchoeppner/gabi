@@ -115,6 +115,21 @@ This option is only used when installing the pipelines references as described [
 
 These options are only meant for users who have a specific reason to touch them. For most use cases, the defaults should be fine. 
 
+### `--skip_failed` [ default = false ]
+
+By default, all samples are processed all the way to the end of the pipeline. This flag allows you to apply criteria to stop samples along the processing graph. The following criteria will be applied:
+
+- Remove highly fragmented assemblies (see [--max_contigs](#--max_contigs))
+- Remove reads that fail the ConfindR QC for intra-/inter species contamination (Illumina and Pacbio only)
+
+### `--max_contigs` [ default = 150 ]
+
+If `--skip_failed` is enabled, this parameter controls the maximum number of contigs an assembly is allowed to have before it is stopped. High contig numnbers are typically a sign of insufficient coverage and/or read length (in some cases it can also be a sign of excessive contamination).
+
+### `--shovill_assembler` [ default = spades ]
+
+Choose which assembly tool to use with Shovill. Valid options are skesa, velvet, megahit or spades. Default is: spades.
+
 ### `--subsample_reads` [ true|false, default = true]
 
 Perform sub-sampling of (long reads) prior to assembly. This is meant to deal with needlessly deep data sets that could otherwise result in excessive run times or crashes. The degree of sub-sampling is controlled by `--max_coverage` combined with `--genome_size`. 
@@ -148,6 +163,12 @@ If you analyse a single species and wish to optimize the quality of the genome a
 ### `--confindr_db` [ default = null ]
 
 A local version of the ConfindR rMLST database, available [here](https://olc-bioinformatics.github.io/ConFindr/install/#downloading-confindr-databases). Unfortunately, this database requires a personalized registration so we cannot bundle it with GABI. If no database is provided, CondindR will run without one and can consquently only use the built-in references for Escherichia, Listeria and Salmonella. 
+
+### `--skip_mlst` [ default = false ]
+Do not run MLST typing tools (chewbbaca, pyMLST)
+
+### `--skip_references [ default = false ]
+Do not run reference checks using BBMap (e.g. if you are behind a proxy)
 
 ## Resources
 

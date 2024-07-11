@@ -1,7 +1,7 @@
-name: confindr
+name: chewbbaca_joinprofiles
 channels:
   - conda-forge
   - bioconda
   - defaults
 dependencies:
-  - bioconda::confindr=0.8.1
+  - bioconda::chewbbaca=3.3.4

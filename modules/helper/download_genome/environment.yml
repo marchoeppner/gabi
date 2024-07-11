@@ -1,7 +1,7 @@
-name: confindr
+name: download_genome
 channels:
   - conda-forge
   - bioconda
   - defaults
 dependencies:
-  - bioconda::confindr=0.8.1
+  - conda-forge::ncbi-datasets-cli=16.22.1
