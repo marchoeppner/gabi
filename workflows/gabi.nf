@@ -201,7 +201,7 @@ workflow GABI {
     }.set { ch_assemblies_status }
 
     ch_assemblies_status.fail.subscribe { m,f ->
-        log.warn "WARN: ${m.sample_id} - assembly is highly fragmented!"
+        log.warn "${m.sample_id} - assembly is highly fragmented!"
     }
 
     if (params.skip_failed) {

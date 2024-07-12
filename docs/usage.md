@@ -124,7 +124,7 @@ By default, all samples are processed all the way to the end of the pipeline. Th
 
 ### `--max_contigs` [ default = 150 ]
 
-If `--skip_failed` is enabled, this parameter controls the maximum number of contigs an assembly is allowed to have before it is stopped. High contig numnbers are typically a sign of insufficient coverage and/or read length (in some cases it can also be a sign of excessive contamination).
+If `--skip_failed` is enabled, this parameter controls the maximum number of contigs an assembly is allowed to have before it is stopped. High contig numbers are typically a sign of insufficient coverage and/or read length (in some cases it can also be a sign of excessive contamination).
 
 ### `--shovill_assembler` [ default = spades ]
 

@@ -94,10 +94,10 @@ workflow MLST_TYPING {
         Inform users about to-be-skipped samples due to a lack of a matching cgMLST database
         */
         assembly_with_cg_db.filter( a -> !a.last() ).subscribe { m,s,d ->
-            log.warn "WARN: ${m.sample_id} - could not match a pyMLST cgMLST database for ${m.taxon}."
+            log.warn "${m.sample_id} - could not match a pyMLST cgMLST database to ${m.taxon}."
         }
         assembly_with_chewie_db.filter( a -> !a.last() ).subscribe { m,s,d ->
-            log.warn "WARN: ${m.sample_id} - could not match a Chewbbaca cgMLST database for ${m.taxon}."
+            log.warn "${m.sample_id} - could not match a Chewbbaca cgMLST database to ${m.taxon}."
         }
 
         /*
@@ -115,7 +115,7 @@ workflow MLST_TYPING {
         perform cgMLST clustering
         */
         assembly_with_cg_db.filter { a -> a.last() }
-        .map { m,a,d -> tuple(m,d)}
+        .map { m,a,d -> tuple(m,d) }
         .groupTuple(by: 1)
         .map { metas, db ->
             def meta = [:]
@@ -123,7 +123,6 @@ workflow MLST_TYPING {
             meta.sample_id = file(db).getSimpleName()
             tuple(meta,db)
         }.set { ch_cgmlst_database }
-        
         /*
         Perform clustering on the given database
         */
@@ -161,17 +160,15 @@ workflow MLST_TYPING {
         [ meta, [ assemblies ], db ] and filter out all 
         cases where # assemblies is < 3 (no point to compute relationships)
         */
+
         assembly_with_chewie_db.filter { a -> a.last() }
         .map { m, a, d ->
             def meta = [:]
             meta.sample_id = m.db_name
             meta.db_name = m.db_name
-            tuple(meta, a)
-        }.groupTuple()
-        .map { m, assemblies ->
-            def chewie_db = params.chewbbaca[m.db_name]
-            tuple(m, assemblies, chewie_db)
-        }.filter { m,a,d -> a.size() > 2}
+            tuple(meta,a,d)
+        }.groupTuple(by: [0,2])
+        .filter { m,a,d -> a.size() > 2 }
         .set { ch_assemblies_chewie_call }
         
         CHEWBBACA_ALLELECALL(

@@ -26,7 +26,7 @@ workflow ASSEMBLY_QC {
     }.set { assembly_by_completeness }
 
     assembly_by_completeness.fail.subscribe { m,s,r,g,k ->
-        log.warn "WARN: ${m.sample_id} - skipping circos plot, assembly or reference too fragmented!"
+        log.warn "${m.sample_id} - skipping circos plot, assembly or reference too fragmented!"
     }
     
     MUMMER2CIRCOS(

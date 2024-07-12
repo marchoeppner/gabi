@@ -11,17 +11,20 @@ workflow FIND_REFERENCES {
 
     main:
 
+    // Produce a mash sketch from the assembly
     MASH_SKETCH(
         assembly
     )
     ch_versions = ch_versions.mix(MASH_SKETCH.out.versions)
 
+    // Find hits against RefSeq database
     MASH_DIST(
         MASH_SKETCH.out.mash,
         mashdb
     )
     ch_versions = ch_versions.mix(MASH_DIST.out.versions)
 
+    // Get a unique list of best reference genomes
     MASH_DIST.out.dist.map { m,r ->
         gbk = mash_get_best(r)
         m.gbk = gbk
@@ -33,6 +36,7 @@ workflow FIND_REFERENCES {
     }.unique()
     .set { genome_accessions }
 
+    // Download the best reference genome
     DOWNLOAD_GENOME(
         genome_accessions
     )
@@ -62,6 +66,7 @@ workflow FIND_REFERENCES {
     versions = ch_versions
 }
 
+// Crude method to get the best hit from the mash list
 def mash_get_best(report) {
     gbk = ""
     lines = file(report).readLines()
