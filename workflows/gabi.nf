@@ -30,6 +30,7 @@ include { ANNOTATE }                    from './../subworkflows/annotate'
 include { MLST_TYPING }                 from './../subworkflows/mlst'
 include { REPORT }                      from './../subworkflows/report'
 include { FIND_REFERENCES }             from './../subworkflows/find_references'
+include { SEROTYPING }                  from './../subworkflows/serotyping'
 
 /*
 --------------------
@@ -265,6 +266,17 @@ workflow GABI {
         m.domain = t.domain
         tuple(m, f)
     }.set { ch_assemblies_with_taxa }
+
+    /*
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    SUB: Perform serotyping of assemblies
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    */
+
+    SEROTYPING(
+        ch_assemblies_with_taxa
+    )
+    ch_versions = ch_versions.mix(SEROTYPING.out.versions)
 
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

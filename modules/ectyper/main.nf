@@ -12,8 +12,7 @@ process ECTYPER {
     tuple val(meta), path(fasta)
 
     output:
-    tuple val(meta), path('*trimmed.fastq.gz'), emit: reads
-    path("*.json"), emit: json
+    tuple val(meta), path("*.tsv"), emit: tsv
     path('versions.yml'), emit: versions
 
     script:
@@ -23,7 +22,11 @@ process ECTYPER {
     """
     ectyper -i $fasta \\
     -c ${task.cpus} \\
-    -o $prefix
+    -o $prefix $args
+
+    if [ -f ${prefix}/output.tsv ]; then
+        cp  ${prefix}/output.tsv ${prefix}.ectyper.tsv
+    fi
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
