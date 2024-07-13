@@ -277,6 +277,7 @@ workflow GABI {
         ch_assemblies_with_taxa
     )
     ch_versions = ch_versions.mix(SEROTYPING.out.versions)
+    ch_report = ch_report.mix(SEROTYPING.out.reports)
 
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

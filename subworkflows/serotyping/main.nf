@@ -2,6 +2,7 @@ include { ECTYPER }     from './../../modules/ectyper'
 include { SEQSERO2 }    from './../../modules/seqsero2'
 
 ch_versions = Channel.from([])
+ch_reports = Channel.from([])
 
 workflow SEROTYPING {
 
@@ -15,17 +16,26 @@ workflow SEROTYPING {
         salmonella: m.taxon ==~ /^Salmonella.*/
     }.set { assembly_by_taxon }
 
+    /*
+    Run Ectyper - Serotyping of E. coli
+    */
     ECTYPER(
         assembly_by_taxon.ecoli
     )
     ch_versions = ch_versions.mix(ECTYPER.out.versions)
+    ch_reports = ch_reports.mix(ECTYPER.out.tsv)
 
+    /*
+    Run SeqSero2 - Serotyping for Salonella
+    */
     SEQSERO2(
         assembly_by_taxon.salmonella
     )
     ch_versions = ch_versions.mix(SEQSERO2.out.versions)
+    ch_reports = ch_reports.mix(SEQSERO2.out.tsv)
 
     emit:
     versions = ch_versions
+    reports = ch_reports
 
 }
