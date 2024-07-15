@@ -104,7 +104,7 @@ sub parse_seqsero {
     my $h = shift @lines ;
     my @header = split "\t" , $h ;
 
-    my %data ;
+    my %data;
 
     my $this_line = shift @lines;
 
@@ -116,7 +116,9 @@ sub parse_seqsero {
         $data{$column} = $entry 
     }
 
-    return %data;
+    my %sero ; 
+    return %sero = { "Serotype" => %data }
+    #return %sero;
 }
 
 sub parse_ectyper {
