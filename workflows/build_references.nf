@@ -6,7 +6,7 @@ include { AMRFINDERPLUS_UPDATE as AMRFINDERPLUS_INSTALL }   from './../modules/a
 include { PYMLST_CLAMLST_INSTALL }                          from './../modules/pymlst/clamlst_install'
 include { PYMLST_WGMLST_INSTALL }                           from './../modules/pymlst/wgmlst_install'
 include { CHEWBBACA_DOWNLOADSCHEMA }                        from './../modules/chewbbaca/downloadschema'
-include { DOWNLOAD_MASHDB }                                 from './../modules/helper/download_mashdb'
+include { GUNZIP as GUNZIP_MASHDB }                                   from './../modules/gunzip'
 
 kraken_db_url       = Channel.fromPath(params.references['kraken2'].url)
 confindr_db_url     = Channel.fromPath(params.references['confindr'].url)
@@ -22,8 +22,8 @@ workflow BUILD_REFERENCES {
     /*
     Download MashDB refseq database
     */
-    DOWNLOAD_MASHDB(
-       mashdb
+    GUNZIP_MASHDB(
+        mashdb
     )
 
     /*

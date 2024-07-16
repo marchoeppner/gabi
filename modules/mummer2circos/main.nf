@@ -12,8 +12,8 @@ process MUMMER2CIRCOS {
     tuple val(meta), path(fasta), path(ref), path(gff), path(gbk)
 
     output:
-    tuple val(meta), path('*.png'), emit: png
-    tuple val(meta), path('*.svg'), emit: svg
+    tuple val(meta), path('*.png'), emit: png, optional: true
+    tuple val(meta), path('*.svg'), emit: svg, optional: true
     path('versions.yml'), emit: versions
 
     script:
