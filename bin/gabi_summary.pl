@@ -84,6 +84,9 @@ foreach my $file ( @files ) {
     } elsif ( $filename =~ /.*seqsero2.tsv/) {
         my %data = parse_seqsero(\@lines);
         $matrix{'SeqSero2'} = \%data;
+    } elsif ( $filename =~ /.*lissero.tsv/) {
+        my %data = parse_lissero(\@lines);
+        $matrix{'LisSero'} = \%data;
     }
 
     close($FILE);
@@ -96,6 +99,28 @@ printf $json_out ;
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Tool-specific parsing methods
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+sub parse_lissero {
+
+    my @lines = @{$_[0] };
+
+    my $h = shift @lines ;
+    my @header = split "\t" , $h ;
+
+    my %data;
+
+    my $this_line = shift @lines;
+
+    my @elements = split "\t", $this_line;
+
+    for my $i (0..$#header) {
+        my $column = @header[$i];
+        my $entry = @elements[$i];
+        $data{$column} = $entry 
+    }
+
+   return %data ;
+}
 
 sub parse_seqsero {
 
@@ -116,9 +141,7 @@ sub parse_seqsero {
         $data{$column} = $entry 
     }
 
-    my %sero ; 
-    return %sero = { "Serotype" => %data }
-    #return %sero;
+   return %data ;
 }
 
 sub parse_ectyper {
