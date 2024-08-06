@@ -11,7 +11,7 @@ include { GUNZIP as GUNZIP_MASHDB }                                   from './..
 kraken_db_url       = Channel.fromPath(params.references['kraken2'].url)
 confindr_db_url     = Channel.fromPath(params.references['confindr'].url)
 ch_busco_lineage    = Channel.from(['bacteria_odb10'])
-mashdb              = file(params.references['mashdb'].url)
+mashdb              = Channel.fromPath(file(params.references['mashdb'].url)).map { f -> [ [target: "MashDB"],f]}
 
 // The IDs currently mapped to Chewbbaca schemas
 chewie_ids = Channel.fromList([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16])
