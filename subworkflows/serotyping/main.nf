@@ -1,5 +1,6 @@
 include { ECTYPER }     from './../../modules/ectyper'
 include { SEQSERO2 }    from './../../modules/seqsero2'
+include { LISSERO }     from './../../modules/lissero'
 
 ch_versions = Channel.from([])
 ch_reports = Channel.from([])
@@ -14,6 +15,7 @@ workflow SEROTYPING {
     assembly.branch { m,a ->
         ecoli: m.taxon ==~ /^Escherichia.*/
         salmonella: m.taxon ==~ /^Salmonella.*/
+        listeria: m.taxon ==~ /^Listeria.*/
     }.set { assembly_by_taxon }
 
     /*
@@ -33,6 +35,15 @@ workflow SEROTYPING {
     )
     ch_versions = ch_versions.mix(SEQSERO2.out.versions)
     ch_reports = ch_reports.mix(SEQSERO2.out.tsv)
+
+    /*
+    Run LisSero - Serotyping L. monocytogenes
+    */
+    LISSERO(
+        assembly_by_taxon.listeria
+    )
+    ch_versions = ch_versions.mix(LISSERO.out.versions)
+    ch_reports  = ch_reports.mix(LISSERO.out.tsv)
 
     emit:
     versions = ch_versions
