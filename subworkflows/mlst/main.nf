@@ -34,6 +34,9 @@ workflow MLST_TYPING {
             db = null
         }
         tuple(m, a, db)
+    }.branch { m, a, db ->
+        fail: db == null
+        pass: db
     }.set { assembly_with_db }
 
     /*
@@ -53,6 +56,9 @@ workflow MLST_TYPING {
             cg_db = null
         }
         tuple(m, a, cg_db)
+    }.branch { m, a, db ->
+        fail: db == null
+        pass: db
     }.set { assembly_with_cg_db }
 
     /*
@@ -75,16 +81,18 @@ workflow MLST_TYPING {
             chewie_db = null
         }
         tuple(m, a, chewie_db)
+    }.branch { m, a, db ->
+        fail: db == null
+        pass: db
     }.set { assembly_with_chewie_db }
 
-    
     /*
     Run claMLST on assemblies for which we have taxonomic information
     and a matching MLST schema configured, i.e. the last element must
     not be null
     */
     PYMLST_CLAMLST(
-        assembly_with_db.filter { a -> a.last() }
+        assembly_with_db.pass
     )
     ch_versions = ch_versions.mix(PYMLST_CLAMLST.out.versions)
 
@@ -93,10 +101,10 @@ workflow MLST_TYPING {
         /*
         Inform users about to-be-skipped samples due to a lack of a matching cgMLST database
         */
-        assembly_with_cg_db.filter( a -> !a.last() ).subscribe { m,s,d ->
+        assembly_with_cg_db.fail.subscribe { m,s,d ->
             log.warn "${m.sample_id} - could not match a pyMLST cgMLST database to ${m.taxon}."
         }
-        assembly_with_chewie_db.filter( a -> !a.last() ).subscribe { m,s,d ->
+        assembly_with_chewie_db.fail.subscribe { m,s,d ->
             log.warn "${m.sample_id} - could not match a Chewbbaca cgMLST database to ${m.taxon}."
         }
 
@@ -106,7 +114,7 @@ workflow MLST_TYPING {
         not be null
         */
         PYMLST_WGMLST_ADD(
-            assembly_with_cg_db.filter { a -> a.last() }
+            assembly_with_cg_db.pass
         )
         ch_versions = ch_versions.mix(PYMLST_WGMLST_ADD.out.versions)
 
@@ -114,8 +122,9 @@ workflow MLST_TYPING {
         Get the databases for which we have assemblies to 
         perform cgMLST clustering
         */
-        assembly_with_cg_db.filter { a -> a.last() }
-        .map { m,a,d -> tuple(m,d) }
+        assembly_with_cg_db.pass.map { m,a,d -> 
+            tuple(m,d) 
+        }
         .groupTuple(by: 1)
         .map { metas, db ->
             def meta = [:]
@@ -137,7 +146,7 @@ workflow MLST_TYPING {
         In addition, each sample is called invidivually to support downstream analysis of samples from across runs
         */
         CHEWBBACA_ALLELECALL_SINGLE(
-            assembly_with_chewie_db.filter { a -> a.last() }
+            assembly_with_chewie_db.pass
         )
         ch_versions = ch_versions.mix(CHEWBBACA_ALLELECALL_SINGLE.out.versions)
 
@@ -161,8 +170,7 @@ workflow MLST_TYPING {
         cases where # assemblies is < 3 (no point to compute relationships)
         */
 
-        assembly_with_chewie_db.filter { a -> a.last() }
-        .map { m, a, d ->
+        assembly_with_chewie_db.pass.map { m, a, d ->
             def meta = [:]
             meta.sample_id = m.db_name
             meta.db_name = m.db_name

@@ -4,6 +4,7 @@ use strict;
 use Getopt::Long;
 use JSON::XS;
 use POSIX qw(strftime);
+use Data::Dumper;
 
 my $date = strftime "%m/%d/%Y", localtime;
 
@@ -74,9 +75,18 @@ foreach my $file ( @files ) {
     } elsif ( @lines[0] =~ /^Protein identifier.*/) {
         my @data = parse_amrfinder(\@lines);
         $matrix{"amrfinder"} = \@data;
-    } elsif ( $filename =~ /.clamlst.txt/) {
+    } elsif ( $filename =~ /.*clamlst.txt/) {
         my %data = parse_clamlst(\@lines);
         $matrix{"mlst"} = \%data;
+    } elsif ( $filename =~ /.*ectyper.tsv/) {
+        my %data = parse_ectyper(\@lines);
+        $matrix{'ectyper'} = \%data;
+    } elsif ( $filename =~ /.*seqsero2.tsv/) {
+        my %data = parse_seqsero(\@lines);
+        $matrix{'SeqSero2'} = \%data;
+    } elsif ( $filename =~ /.*lissero.tsv/) {
+        my %data = parse_lissero(\@lines);
+        $matrix{'LisSero'} = \%data;
     }
 
     close($FILE);
@@ -90,6 +100,72 @@ printf $json_out ;
 # Tool-specific parsing methods
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+sub parse_lissero {
+
+    my @lines = @{$_[0] };
+
+    my $h = shift @lines ;
+    my @header = split "\t" , $h ;
+
+    my %data;
+
+    my $this_line = shift @lines;
+
+    my @elements = split "\t", $this_line;
+
+    for my $i (0..$#header) {
+        my $column = @header[$i];
+        my $entry = @elements[$i];
+        $data{$column} = $entry 
+    }
+
+   return %data ;
+}
+
+sub parse_seqsero {
+
+    my @lines = @{$_[0]} ;
+
+    my $h = shift @lines ;
+    my @header = split "\t" , $h ;
+
+    my %data;
+
+    my $this_line = shift @lines;
+
+    my @elements = split "\t", $this_line;
+
+    for my $i (0..$#header) {
+        my $column = @header[$i];
+        my $entry = @elements[$i];
+        $data{$column} = $entry 
+    }
+
+   return %data ;
+}
+
+sub parse_ectyper {
+
+    my @lines = @{$_[0]} ;    
+
+    my $h = shift @lines ;
+    my @header = split "\t" , $h ;
+
+    my %data ;
+
+    my $this_line = shift @lines;
+
+    my @elements = split "\t" , $this_line;
+
+    for my $i (0..$#header) {
+        my $column = @header[$i];
+        my $entry = @elements[$i];
+        
+        $data{$column} = $entry 
+    }
+
+    return %data;
+}
 sub parse_clamlst {
 
     my @lines = @{$_[0]} ;

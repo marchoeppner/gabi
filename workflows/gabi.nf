@@ -30,6 +30,7 @@ include { ANNOTATE }                    from './../subworkflows/annotate'
 include { MLST_TYPING }                 from './../subworkflows/mlst'
 include { REPORT }                      from './../subworkflows/report'
 include { FIND_REFERENCES }             from './../subworkflows/find_references'
+include { SEROTYPING }                  from './../subworkflows/serotyping'
 
 /*
 --------------------
@@ -55,15 +56,15 @@ ch_multiqc_logo   = params.multiqc_logo     ? Channel.fromPath(params.multiqc_lo
 ch_prokka_proteins = params.prokka_proteins ? Channel.fromPath(params.prokka_proteins, checkIfExists: true).collect()   : []
 ch_prokka_prodigal = params.prokka_prodigal ? Channel.fromPath(params.prokka_prodigal, checkIfExists:true).collect()    : []
 
-amrfinder_db    = params.reference_base ? params.references['amrfinderdb'].db   : []
-kraken2_db      = params.reference_base ? params.references['kraken2'].db       : []
+amrfinder_db    = params.reference_base ? file(params.references['amrfinderdb'].db, checkIfExists:true)   : []
+kraken2_db      = params.reference_base ? file(params.references['kraken2'].db, checkIfExists:true)       : []
 
-mashdb          = params.reference_base ? params.references['mashdb'].db       : []
+mashdb          = params.reference_base ? file(params.references['mashdb'].db, checkIfExists:true)        : []
 
-busco_db_path   = params.reference_base ? params.references['busco'].db         : []
+busco_db_path   = params.reference_base ? file(params.references['busco'].db, checkIfExists:true)         : []
 busco_lineage   = params.busco_lineage
 
-confindr_db     = params.confindr_db ? params.confindr_db : params.references['confindr'].db
+confindr_db     = params.confindr_db ? params.confindr_db : file(params.references['confindr'].db, checkIfExists: true)
 
 ch_versions     = Channel.from([])
 multiqc_files   = Channel.from([])
@@ -265,6 +266,18 @@ workflow GABI {
         m.domain = t.domain
         tuple(m, f)
     }.set { ch_assemblies_with_taxa }
+
+    /*
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    SUB: Perform serotyping of assemblies
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    */
+
+    SEROTYPING(
+        ch_assemblies_with_taxa
+    )
+    ch_versions = ch_versions.mix(SEROTYPING.out.versions)
+    ch_report = ch_report.mix(SEROTYPING.out.reports)
 
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

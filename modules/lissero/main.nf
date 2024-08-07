@@ -1,12 +1,12 @@
-process ECTYPER {
+process LISSERO {
     tag "${meta.sample_id}"
 
-    label 'short_parallel'
+    label 'short_serial'
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/ectyper:1.0.0--pyhdfd78af_1' :
-        'quay.io/biocontainers/ectyper:1.0.0--pyhdfd78af_1' }"
+        'https://depot.galaxyproject.org/singularity/lissero:0.4.9--py_0' :
+        'quay.io/biocontainers/lissero:0.4.9--py_0' }"
 
     input:
     tuple val(meta), path(fasta)
@@ -20,17 +20,11 @@ process ECTYPER {
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: meta.sample_id
     """
-    ectyper -i $fasta \\
-    -c ${task.cpus} \\
-    -o $prefix $args
-
-    if [ -f ${prefix}/output.tsv ]; then
-        cp  ${prefix}/output.tsv ${prefix}.ectyper.tsv
-    fi
+    lissero $fasta > ${prefix}.lissero.tsv $args
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        ectyper: \$(ectyper --version 2>&1 | cut -f2 -d " ")
+        LisSero: \$(lissero --version 2>&1 | cut -f2 -d " ")
     END_VERSIONS
 
     """

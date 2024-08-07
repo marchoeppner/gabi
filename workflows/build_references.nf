@@ -6,12 +6,12 @@ include { AMRFINDERPLUS_UPDATE as AMRFINDERPLUS_INSTALL }   from './../modules/a
 include { PYMLST_CLAMLST_INSTALL }                          from './../modules/pymlst/clamlst_install'
 include { PYMLST_WGMLST_INSTALL }                           from './../modules/pymlst/wgmlst_install'
 include { CHEWBBACA_DOWNLOADSCHEMA }                        from './../modules/chewbbaca/downloadschema'
-include { DOWNLOAD_MASHDB }                                 from './../modules/helper/download_mashdb'
+include { GUNZIP as GUNZIP_MASHDB }                                   from './../modules/gunzip'
 
 kraken_db_url       = Channel.fromPath(params.references['kraken2'].url)
 confindr_db_url     = Channel.fromPath(params.references['confindr'].url)
 ch_busco_lineage    = Channel.from(['bacteria_odb10'])
-mashdb              = file(params.references['mashdb'].url)
+mashdb              = Channel.fromPath(file(params.references['mashdb'].url)).map { f -> [ [target: "MashDB"],f]}
 
 // The IDs currently mapped to Chewbbaca schemas
 chewie_ids = Channel.fromList([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16])
@@ -22,8 +22,8 @@ workflow BUILD_REFERENCES {
     /*
     Download MashDB refseq database
     */
-    DOWNLOAD_MASHDB(
-       mashdb
+    GUNZIP_MASHDB(
+        mashdb
     )
 
     /*
