@@ -33,3 +33,13 @@ Gabi uses a set of pre-configured genomes against which Quast benchmarks the res
 ## My ONT assembly crashes with an obscure error
 
 Please check if the option `--onthq` is set to `true` (this is the default!). It's possible that this setting is not appropriate for your data, which can lead Dragonflye to exit on an empty Fasta file halfway through the assembly process; you can disable this option by setting `--onthq false` and resume the pipeline (`-resume`).
+
+## The pipeline immediately fails with a "no such file" error
+
+Most likely you saw something like this:
+
+```bash
+ERROR ~ No such file or directory: 
+```
+
+This is most likely happening because you passed the `reference_base` option from a custom config file via the "-c" argument. There is currently a [known bug](https://github.com/nextflow-io/nextflow/issues/2662) in Nextflow which prevents the correct passing of parameters from a custom config file to the workflow. Please use the command line argument `--reference_base` instead or consider contributing a site-specific [config file](https://github.com/marchoeppner/nf-configs). 
