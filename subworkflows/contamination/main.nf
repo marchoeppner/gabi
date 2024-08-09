@@ -69,8 +69,9 @@ def parse_confindr_report(aFile) {
     entries = lines.tail()
 
     entries.each { line ->
-        (Sample,Genus,NumContamSNVs,ContamStatus,PercentContam,PercentContamStandardDeviation,BasesExamined,DatabaseDownloadDate) = line.trim().split(',')
-        if (ContamStatus != 'False') {
+        elements = line.trim().split(',')
+        def contam_stat = elements[3]
+        if (contam_stat != 'False') {
             pass = false
         }
     }

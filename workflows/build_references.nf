@@ -77,3 +77,10 @@ workflow BUILD_REFERENCES {
         }
     )
 }
+
+if (params.build_references) {
+    workflow.onComplete = {
+        log.info "Installation complete - deleting staged files. "
+        workDir.resolve("stage-${workflow.sessionId}").deleteDir()
+    }
+}

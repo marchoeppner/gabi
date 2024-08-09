@@ -142,16 +142,6 @@ If sub-sampling (`--subsample_reads`) is enabled, this is the target coverage. T
 
 If sub-sampling (`--subsample_reads`) is enabled, this is the assumed genome size against which the coverage is measured. Since this pipeline supports processing of diverse species in parallel, the default of 6Mb is a compromise and should at the very least prevent grossly over-sampled data to bring the workflow to its knees. Of course, if you only sequence a single species, you are welcome to set this to that specific genome size. 
 
-### `--reference_fasta` [ default = null ]
-
-GABI internally runs QUAST for assembly QC. For select taxa, we have [pre-configured](../conf/resources.config) the Refseq reference genome and annotation for this purpose - which the pipeline will select automatically, if possible. If GABI cannot match an assembly to a reference, Quast will run without one.
-
-If you have a run with samples from a single taxon and you wish to use your own reference genome for QUAST analysis, you can specify it with this option. This then also requires a custom annotation in gff3 format (`--reference_gff`, see below). 
-
-### `--reference_gff` [ default = null ]
-
-If you want to run Quast against your own reference genome, you also need to provide a matching annotation in gff3 format with this option. 
-
 ### `--prokka_proteins` [ default = null ]
 
 If you analyse a single species and wish to optimize the quality of the genome annotation, you can pass a Fasta file with known proteins to Prokka using this option, as described [here](https://github.com/tseemann/prokka?tab=readme-ov-file#option---proteins).
@@ -166,9 +156,6 @@ A local version of the ConfindR rMLST database, available [here](https://olc-bio
 
 ### `--skip_mlst` [ default = false ]
 Do not run MLST typing tools (chewbbaca, pyMLST)
-
-### `--skip_references [ default = false ]
-Do not run reference checks using BBMap (e.g. if you are behind a proxy)
 
 ## Resources
 

@@ -160,10 +160,10 @@ workflow MLST_TYPING {
         /*
         Join profiles, assuming we have more than one
         */
-        CHEWBBACA_JOINPROFILES(
-            ch_profiles.filter{ m,reports -> reports.size() > 1 }
-        )
-        ch_versions = ch_versions.mix(CHEWBBACA_JOINPROFILES.out.versions)
+        //CHEWBBACA_JOINPROFILES(
+        //    ch_profiles.filter{ m,reports -> reports.size() > 1 }
+        //)
+        //ch_versions = ch_versions.mix(CHEWBBACA_JOINPROFILES.out.versions)
 
         /* Join assemblies and databases to generate
         [ meta, [ assemblies ], db ] and filter out all 
