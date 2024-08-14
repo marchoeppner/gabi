@@ -25,6 +25,7 @@ process PYMLST_WGMLST_ADD {
 
     // Work-around - we remove these strains first, if they already exist in the database, to avoid a downstream error
     // For example, if we resume the workflow with different settings.
+    // We also wait a little bit to avoid file lock issues. 
     """
     echo ${meta.sample_id} >> sample.txt
 

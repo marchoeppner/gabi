@@ -145,9 +145,10 @@ workflow GABI {
         ch_reads_for_taxonomy,
         kraken2_db
     )
-    ch_taxon = TAXONOMY_PROFILING.out.report
+    ch_taxon    = TAXONOMY_PROFILING.out.report
     ch_versions = ch_versions.mix(TAXONOMY_PROFILING.out.versions)
-    ch_report = ch_report.mix(TAXONOMY_PROFILING.out.report)
+    ch_report   = ch_report.mix(TAXONOMY_PROFILING.out.report)
+    multiqc_files = TAXONOMY_PROFILING.out.report
 
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

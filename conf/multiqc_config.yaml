@@ -6,8 +6,8 @@ custom_logo_url: "http://www.github.com/marchoeppner/gabi"
 skip_versions_section: true
 
 extra_fn_clean_exts:
-    - _R1
-    - _R2
+    - _R1_
+    - _R2_
     - _duplicate_metrics.txt
     - .pass
     - .dragonflye
@@ -24,5 +24,5 @@ top_modules:
     - 'general_stats'
 
 report_section_order:
-    software_versions:
+    software_versions-module:
         order: -1001
