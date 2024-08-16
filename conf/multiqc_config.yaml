@@ -17,8 +17,10 @@ report_comment: >
     This report has been generated automatically by marchoeppner/gabi.
     For help interpreting the outputs, please see: https://github.com/marchoeppner/gabi
 report_header_info:
-    - Contact E-mail: "mphoeppner@gmail.com"
     - Application Type: "Bacterial genome analysis"
+
+table_columns_visible:
+  Kraken: False
 
 top_modules:
     - 'general_stats'

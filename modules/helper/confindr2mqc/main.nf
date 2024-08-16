@@ -1,5 +1,5 @@
-process CONFINDR2JSON {
-    tag "${meta.sample_id}"
+process CONFINDR2MQC {
+    tag params.run_name
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
@@ -7,20 +7,19 @@ process CONFINDR2JSON {
         'quay.io/biocontainers/multiqc:1.23--pyhdfd78af_0' }"
 
     input:
-    tuple val(meta), path(report)
+    path(reports)
 
     output:
-    path('*.json')          , emit: json
+    path('*_mqc.json')      , emit: json
     path 'versions.yml'     , emit: versions
 
     script:
     def args = task.ext.args ?: ''
-    def prefix = task.ext.prefix ?: report.getSimpleName()
-    result = prefix + '.json'
+    def prefix = task.ext.prefix ?: params.run_name 
+    result = prefix + '_mqc.json'
 
     """
-    confindr2json.py --confindr $report \
-    $args \
+    confindr2mqc.py $args \
     --output $result
 
     cat <<-END_VERSIONS > versions.yml

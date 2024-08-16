@@ -1,4 +1,4 @@
-name: confindr2json
+name: confindr2mqc
 channels:
   - conda-forge
   - bioconda

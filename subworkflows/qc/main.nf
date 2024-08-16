@@ -5,6 +5,7 @@ include { QC_PACBIO }       from './../qc_pacbio'
 ch_versions = Channel.from([])
 multiqc_files = Channel.from([])
 ch_confindr_reports = Channel.from([])
+ch_qc = Channel.from([])
 
 workflow QC {
     take:
@@ -35,6 +36,7 @@ workflow QC {
     ch_illumina_trimmed = QC_ILLUMINA.out.reads
     ch_confindr_reports = ch_confindr_reports.mix(QC_ILLUMINA.out.confindr_report)
     ch_versions         = ch_versions.mix(QC_ILLUMINA.out.versions)
+    multiqc_files       = multiqc_files.mix(QC_ILLUMINA.out.qc)
 
     /*
     Trim and QC nanopore reads
@@ -56,15 +58,16 @@ workflow QC {
     ch_pacbio_trimmed   = QC_PACBIO.out.reads
     ch_confindr_reports = ch_confindr_reports.mix(QC_PACBIO.out.confindr_report)
     ch_versions         = ch_versions.mix(QC_PACBIO.out.versions)
+    multiqc_files       = multiqc_files.mix(QC_PACBIO.out.qc)
 
     emit:
     confindr_reports = ch_confindr_reports
-    qc_illumina = QC_ILLUMINA.out.qc
+    qc_illumina = QC_ILLUMINA.out.qc.mix(QC_ILLUMINA.out.confindr_qc)
     qc_nanopore = QC_NANOPORE.out.qc
-    qc_pacbio = QC_PACBIO.out.qc
+    qc_pacbio = QC_PACBIO.out.qc.mix(QC_PACBIO.out.confindr_qc)
     illumina = ch_illumina_trimmed
     ont = ch_ont_trimmed
     pacbio = ch_pacbio_trimmed
     versions = ch_versions
-    qc = multiqc_files
+    qc = ch_qc
     }

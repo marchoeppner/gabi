@@ -65,12 +65,13 @@ my $header = shift @lines;
 
 foreach my $line (@lines) {
     
-    my ($reads,$genus,$numContamSNVs,$contamStatus,$percentContam,$percentContamStandardDeviation,$basesExamined,$databaseDownloadDate) = split(',',$line);
-    $matrix{"confindr"}{$reads} = {
-        "genus" => $genus,
-        "numContamSNVs" => $numContamSNVs,
-        "contamStatus" => $contamStatus,
-        "percentContam" => $percentContam,
+    my @elements = split(',',$line);
+
+    $matrix{"confindr"}{@{elements[0]}} = {
+        "genus" => @{elements[1]},
+        "numContamSNVs" => @{elements[2]},
+        "contamStatus" => @{elements[3]},
+        "percentContam" => @{elements[5]}
     };
 
 }
