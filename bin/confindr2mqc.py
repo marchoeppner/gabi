@@ -30,7 +30,7 @@ def main(output):
         with open(report,"r") as j:
             rows = csv.DictReader(j, delimiter=",")
             for row in rows:
-                matrix["data"][row["Sample"]] = { "Contaminated" : row["ContamStatus"] }
+                matrix["data"][row["Sample"]] = { "Contaminated" : row["ContamStatus"], "Genus" : row["Genus"], "Contamination %" : row["PercentContam"] }
 
     with open(output, 'w') as fo:
         json.dump(matrix, fo)

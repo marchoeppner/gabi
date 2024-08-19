@@ -1,5 +1,6 @@
 include { CONFINDR }        from './../../modules/confindr'
 include { CONFINDR2MQC }    from './../../modules/helper/confindr2mqc'
+include { CONFINDR2JSON }   from './../../modules/helper/confindr2json'
 
 ch_versions = Channel.from([])
 ch_qc       = Channel.from([])
@@ -58,6 +59,11 @@ workflow CONTAMINATION {
         ch_pass_reads = reads
     }
 
+    // Convert ConfindR report into JSON
+    CONFINDR2JSON(
+        CONFINDR.out.report
+    )
+
     // Combine confindR reports into Multiqc JSON
     CONFINDR2MQC(
         CONFINDR.out.report.map { m,r -> r}.collect()
@@ -65,10 +71,11 @@ workflow CONTAMINATION {
     ch_qc = ch_qc.mix(CONFINDR2MQC.out.json)
 
     emit:
-    reads       = ch_pass_reads
-    report      = CONFINDR.out.report
-    versions    = ch_versions
-    qc          = ch_qc
+    reads           = ch_pass_reads
+    report          = CONFINDR.out.report
+    confindr_json   = CONFINDR2JSON.out.json
+    versions        = ch_versions
+    qc              = ch_qc
 }
 
 def parse_confindr_report(aFile) {

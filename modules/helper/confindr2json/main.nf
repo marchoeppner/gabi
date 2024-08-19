@@ -20,6 +20,7 @@ process CONFINDR2JSON {
 
     """
     confindr2json.py --confindr $report \
+    --sample ${meta.sample_id} \
     $args \
     --output $result
 

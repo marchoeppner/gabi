@@ -7,20 +7,19 @@ import argparse
 
 parser = argparse.ArgumentParser(description="Script options")
 parser.add_argument("--confindr", help="path to confindr report")
+parser.add_argument("--sample", help="Sample name")
 parser.add_argument("--output", help="Name of output file")
 
 args = parser.parse_args()
 
 
-def main(confindr, output):
+def main(confindr, sample, output):
 
     with open(confindr, 'r') as fi:
         lines = fi.readlines()
-        lines = [ l.rstrip() for l in lines ]
+        lines = [line.rstrip() for line in lines]
 
-    header = lines.pop(0).split(",")
-
-    matrix = { 'confindr': {} }
+    matrix = {'sample': sample, 'confindr': {}}
 
     for line in lines:
         elements = line.split(",")
@@ -41,4 +40,4 @@ def main(confindr, output):
 
 
 if __name__ == '__main__':
-    main(args.confindr,args.output)
+    main(args.confindr, args.sample, args.output)
