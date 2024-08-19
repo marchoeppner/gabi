@@ -2,10 +2,11 @@ include { QC_ILLUMINA }     from './../qc_illumina'
 include { QC_NANOPORE }     from './../qc_nanopore'
 include { QC_PACBIO }       from './../qc_pacbio'
 
-ch_versions = Channel.from([])
-multiqc_files = Channel.from([])
+ch_versions         = Channel.from([])
+multiqc_files       = Channel.from([])
 ch_confindr_reports = Channel.from([])
-ch_qc = Channel.from([])
+ch_confindr_json    = Channel.from([])
+ch_qc               = Channel.from([])
 
 workflow QC {
     take:
@@ -35,6 +36,7 @@ workflow QC {
     )
     ch_illumina_trimmed = QC_ILLUMINA.out.reads
     ch_confindr_reports = ch_confindr_reports.mix(QC_ILLUMINA.out.confindr_report)
+    ch_confindr_json    = ch_confindr_json.mix(QC_ILLUMINA.out.confindr_json)
     ch_versions         = ch_versions.mix(QC_ILLUMINA.out.versions)
     multiqc_files       = multiqc_files.mix(QC_ILLUMINA.out.qc)
 
@@ -57,8 +59,16 @@ workflow QC {
     )
     ch_pacbio_trimmed   = QC_PACBIO.out.reads
     ch_confindr_reports = ch_confindr_reports.mix(QC_PACBIO.out.confindr_report)
+    ch_confindr_json    = ch_confindr_json.mix(QC_PACBIO.out.confindr_json)
     ch_versions         = ch_versions.mix(QC_PACBIO.out.versions)
     multiqc_files       = multiqc_files.mix(QC_PACBIO.out.qc)
+
+    // group confindr jsons by sample
+    ch_confindr_json.map { m,j ->
+        [[sample_id: m.sample_id],j] 
+    }.groupTuple()
+    .map { i,jsons -> [[sample_id: i],jsons ]}
+    .set { ch_confindr_by_sample }
 
     emit:
     confindr_reports = ch_confindr_reports

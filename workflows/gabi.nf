@@ -90,7 +90,7 @@ workflow GABI {
     ch_ont_trimmed      = QC.out.ont
     ch_pacbio_trimmed   = QC.out.pacbio
     multiqc_files       = multiqc_files.mix(QC.out.qc)
-    ch_report = ch_report.mix(QC.out.confindr_reports)
+    ch_report           = ch_report.mix(QC.out.confindr_reports)
 
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

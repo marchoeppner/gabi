@@ -10,8 +10,8 @@ process CONFINDR2JSON {
     tuple val(meta), path(report)
 
     output:
-    path('*.json')          , emit: json
-    path 'versions.yml'     , emit: versions
+    tuple val(meta),path('*.json')  , emit: json
+    path 'versions.yml'             , emit: versions
 
     script:
     def args = task.ext.args ?: ''
