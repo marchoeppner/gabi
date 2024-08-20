@@ -1,0 +1,7 @@
+name: confindr2mqc_summary
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - bioconda::multiqc=1.23

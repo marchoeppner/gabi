@@ -21,6 +21,8 @@ def main(confindr, sample, output):
 
     matrix = {'sample': sample, 'confindr': {}}
 
+    header = lines.pop(0)
+                       
     for line in lines:
         elements = line.split(",")
 

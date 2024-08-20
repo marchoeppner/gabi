@@ -29,12 +29,16 @@ def main(output):
     for report in reports:
         with open(report,"r") as j:
             data = json.load(j)
-            for row in rows:
-                if row["Sample"] in matrix["data"]:
-                      if row["ContamStatus"] == "True":
-                          matrix["data"][row["Sample"]] = "True"
+            sample = data["sample"]
+            confindr = data["confindr"]
+
+            for read in confindr:
+                status = confindr[read]["contamStatus"]
+                if read in matrix["data"]:
+                      if status == "True":
+                          matrix["data"][sample]["Contaminated"] = "True"
                 else:
-                    matrix["data"][row["Sample"]] = row["ContamStatus"]
+                    matrix["data"][sample] = { "Contaminated": status }
 
     with open(output, 'w') as fo:
         json.dump(matrix, fo)

@@ -1,6 +1,14 @@
+/*
+Subworkflows
+*/
 include { QC_ILLUMINA }     from './../qc_illumina'
 include { QC_NANOPORE }     from './../qc_nanopore'
 include { QC_PACBIO }       from './../qc_pacbio'
+
+/*
+Modules
+*/
+include { CONFINDR2MQC_SUMMARY } from './../../modules/helper/confindr2mqc_summary'
 
 ch_versions         = Channel.from([])
 multiqc_files       = Channel.from([])
@@ -63,12 +71,15 @@ workflow QC {
     ch_versions         = ch_versions.mix(QC_PACBIO.out.versions)
     multiqc_files       = multiqc_files.mix(QC_PACBIO.out.qc)
 
-    // group confindr jsons by sample
-    ch_confindr_json.map { m,j ->
-        [[sample_id: m.sample_id],j] 
-    }.groupTuple()
-    .map { i,jsons -> [[sample_id: i],jsons ]}
-    .set { ch_confindr_by_sample }
+    /*
+    Summarize all ConfindR reports from the previously
+    generated JSON format to find samples that have failed
+    in any of their contributing reads (Illumina and Pacbio only)
+    */
+    CONFINDR2MQC_SUMMARY(
+        ch_confindr_json.map { m,j -> j }.collect()
+    )
+    ch_qc = ch_qc.mix(CONFINDR2MQC_SUMMARY.out.json)
 
     emit:
     confindr_reports = ch_confindr_reports
