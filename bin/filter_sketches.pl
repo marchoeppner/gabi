@@ -37,7 +37,7 @@ if ($help) {
 open (my $INFILE, '<', $infile) or die "FATAL: Can't open file: $infile for reading.\n$!\n";
 
 if ($outfile) {
-    open(STDOUT, ">$outfile") or die("Cannot open $outfile");
+    open(STDOUT, ">" "$outfile") or die("Cannot open $outfile");
 }
 
 chomp(my @lines = <$INFILE>);

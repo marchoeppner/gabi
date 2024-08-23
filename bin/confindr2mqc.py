@@ -22,7 +22,7 @@ def main(output):
         "section_name": "ConfindR Results",
         "description": "ConfindR identifies intra- and interspecific contaminations from read data",
         "plot_type": "table",
-        "pconfig": { "id": "confindr", "col1_header": "Reads"},
+        "pconfig": {"id": "confindr", "col1_header": "Reads"},
         "data": { }
     }
 
@@ -30,7 +30,7 @@ def main(output):
         with open(report,"r") as j:
             rows = csv.DictReader(j, delimiter=",")
             for row in rows:
-                matrix["data"][row["Sample"]] = { "Contaminated" : row["ContamStatus"], "Genus" : row["Genus"], "Contamination %" : row["PercentContam"] }
+                matrix["data"][row["Sample"]] = {"Contaminated": row["ContamStatus"], "Genus": row["Genus"], "Contamination %": row["PercentContam"]}
 
     with open(output, 'w') as fo:
         json.dump(matrix, fo)

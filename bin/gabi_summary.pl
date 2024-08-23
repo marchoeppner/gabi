@@ -38,7 +38,7 @@ if ($help) {
 }
 
 if ($outfile) {
-    open(STDOUT, ">$outfile") or die("Cannot open $outfile");
+    open(STDOUT, ">", $outfile) or die("Cannot open $outfile");
 }
 
 my %matrix = (
