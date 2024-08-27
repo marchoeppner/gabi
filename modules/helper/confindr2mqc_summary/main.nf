@@ -15,7 +15,7 @@ process CONFINDR2MQC_SUMMARY {
 
     script:
     def args = task.ext.args ?: ''
-    def prefix = task.ext.prefix ?: params.run_name 
+    def prefix = task.ext.prefix ?: params.run_name
     result = prefix + '_confindr_mqc.json'
 
     """

@@ -17,7 +17,7 @@ process MUMMER2CIRCOS {
     path('versions.yml'), emit: versions
 
     script:
-    // Couldnt find a way to read out mummer2circos version, hard-coding it instead. 
+    // Couldnt find a way to read out mummer2circos version, hard-coding it instead.
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: meta.sample_id
     """

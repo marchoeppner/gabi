@@ -46,14 +46,14 @@ workflow CONTAMINATION {
 
     // Samples can be failed forver or be forwarded with a warning
     if (params.skip_failed) {
-        reads.map {m,r -> 
-            tuple(m.sample_id,m,r)
+        reads.map { m, r ->
+            tuple(m.sample_id, m, r)
         }.join(
-            confindr_by_status.pass.map { m,t ->
-                tuple(m.sample_id,t)
+            confindr_by_status.pass.map { m, t ->
+                tuple(m.sample_id, t)
             }
         )
-        .map { i,m,r,t -> tuple(m,r) }
+        .map { i, m, r, t -> tuple(m, r) }
         .set { ch_pass_reads }
     } else {
         ch_pass_reads = reads
@@ -66,7 +66,7 @@ workflow CONTAMINATION {
 
     // Combine confindR reports into Multiqc JSON
     CONFINDR2MQC(
-        CONFINDR.out.report.map { m,r -> r}.collect()
+        CONFINDR.out.report.map { m, r -> r }.collect()
     )
     ch_qc = ch_qc.mix(CONFINDR2MQC.out.json)
 
@@ -76,7 +76,7 @@ workflow CONTAMINATION {
     confindr_json   = CONFINDR2JSON.out.json
     versions        = ch_versions
     qc              = ch_qc
-}
+    }
 
 def parse_confindr_report(aFile) {
     def pass = true

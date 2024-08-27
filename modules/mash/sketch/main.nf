@@ -1,5 +1,4 @@
 process MASH_SKETCH {
-
     tag "$meta.sample_id"
     label 'medium_parallel'
     conda "${moduleDir}/environment.yml"
@@ -11,9 +10,9 @@ process MASH_SKETCH {
     tuple val(meta), path(reads)
 
     output:
-    tuple val(meta), path("*.msh")        , emit: mash
-    tuple val(meta), path("*.mash_stats") , emit: stats
-    path "versions.yml"                   , emit: versions
+    tuple val(meta), path('*.msh')        , emit: mash
+    tuple val(meta), path('*.mash_stats') , emit: stats
+    path 'versions.yml'                   , emit: versions
 
     when:
     task.ext.when == null || task.ext.when

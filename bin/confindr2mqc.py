@@ -23,11 +23,11 @@ def main(output):
         "description": "ConfindR identifies intra- and interspecific contaminations from read data",
         "plot_type": "table",
         "pconfig": {"id": "confindr", "col1_header": "Reads"},
-        "data": { }
+        "data": {}
     }
 
     for report in reports:
-        with open(report,"r") as j:
+        with open(report, "r") as j:
             rows = csv.DictReader(j, delimiter=",")
             for row in rows:
                 matrix["data"][row["Sample"]] = {"Contaminated": row["ContamStatus"], "Genus": row["Genus"], "Contamination %": row["PercentContam"]}

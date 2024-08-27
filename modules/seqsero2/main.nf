@@ -12,8 +12,8 @@ process SEQSERO2 {
     tuple val(meta), path(fasta)
 
     output:
-    tuple val(meta), path("*.tsv"), emit: tsv
-    tuple val(meta), path("*.txt"), emit: txt
+    tuple val(meta), path('*.tsv'), emit: tsv
+    tuple val(meta), path('*.txt'), emit: txt
     path('versions.yml'), emit: versions
 
     script:
@@ -27,7 +27,7 @@ process SEQSERO2 {
     -i $fasta \
     -p ${task.cpus} \
     -d output \
-    -n ${meta.sample_id}
+    -n ${meta.sample_id} $args
 
     if [ -f output/SeqSero_result.tsv ]; then
         cp  output/SeqSero_result.tsv ${prefix}.seqsero2.tsv

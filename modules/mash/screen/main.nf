@@ -4,7 +4,7 @@ process MASH_SCREEN {
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/mash:2.3--he348c14_1':
+        'https://depot.galaxyproject.org/singularity/mash:2.3--he348c14_1' :
         'biocontainers/mash:2.3--he348c14_1' }"
 
     input:
@@ -12,8 +12,8 @@ process MASH_SCREEN {
     tuple val(meta2), path(sequences_sketch)
 
     output:
-    tuple val(meta), path("*.screen"), emit: screen
-    path "versions.yml"              , emit: versions
+    tuple val(meta), path('*.screen'), emit: screen
+    path 'versions.yml'              , emit: versions
 
     when:
     task.ext.when == null || task.ext.when

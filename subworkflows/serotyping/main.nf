@@ -6,13 +6,12 @@ ch_versions = Channel.from([])
 ch_reports = Channel.from([])
 
 workflow SEROTYPING {
-
     take:
     assembly // [ meta, assembly ]
 
     main:
 
-    assembly.branch { m,a ->
+    assembly.branch { m, a ->
         ecoli: m.taxon ==~ /^Escherichia.*/
         salmonella: m.taxon ==~ /^Salmonella.*/
         listeria: m.taxon ==~ /^Listeria.*/
@@ -48,5 +47,4 @@ workflow SEROTYPING {
     emit:
     versions = ch_versions
     reports = ch_reports
-
-}
+    }

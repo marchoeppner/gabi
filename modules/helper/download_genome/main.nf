@@ -1,9 +1,9 @@
-process DOWNLOAD_GENOME {                                                  
-    tag "$id"                                                              
+process DOWNLOAD_GENOME {
+    tag "$id"
     label 'short_serial'
     maxForks 1
     errorStrategy { return task.attempt > 3 ? 'ignore' : 'retry' }
-    maxRetries 5                                                      
+    maxRetries 5
 
     conda "${moduleDir}/environment.yml"
     container 'biocontainers/ncbi-datasets-cli:16.22.1_cv1'
@@ -16,8 +16,8 @@ process DOWNLOAD_GENOME {
     tuple val(id), path("ncbi_dataset/data/${prefix}/${prefix}_*_genomic.fna"), emit: sequence
     tuple val(id), path("ncbi_dataset/data/${prefix}/${prefix}.gff"), emit: gff, optional: true
     tuple val(id), path("ncbi_dataset/data/${prefix}/${prefix}.gbff"), emit: genbank, optional: true
-                             
-    path "versions.yml"                 , emit: versions
+
+    path 'versions.yml'                 , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -27,8 +27,8 @@ process DOWNLOAD_GENOME {
     def args = task.ext.args ?: ''
     """
     # Download assemblies as zip archives
-    datasets download genome accession $id --include gff3,genome,gbff,seq-report --filename ${prefix}.zip
-    
+    datasets download genome accession $id --include gff3,genome,gbff,seq-report --filename ${prefix}.zip $args
+
     # Unzip
     unzip ${prefix}.zip
 
@@ -44,6 +44,6 @@ process DOWNLOAD_GENOME {
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         datasets: \$(datasets --version | sed -e "s/datasets version: //")
-    END_VERSIONS      
+    END_VERSIONS
     """
 }

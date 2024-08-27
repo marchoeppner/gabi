@@ -2,6 +2,8 @@
 
 Genomic Analysis of Bacterial Isolates, or GABI for short, is a bioinformatic workflow to assemble bacterial genomes, annotate genes, detect antimicrobial resistance genes as well assign them to an (cg)MLST clustering schema. GABI supports both (Illumina) short reads and ONT/Pacbio long reads. Hybrid assembly approaches are supported for ONT/Illumina data sets and require for different read types to carry the same sample ID for grouping. Please see our [documentation](docs/usage.md) for detailed information.  
 
+If you  are really impatient, check out our [quickstart](docs/quickstart.md) guide. 
+
 ## Documentation 
 
 1. [What happens in this pipeline?](docs/pipeline.md)
