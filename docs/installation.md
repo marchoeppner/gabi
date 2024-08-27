@@ -53,8 +53,28 @@ If you run on anything other than a local system, this pipeline requires a site-
 
 Site-specific config-files for our pipeline ecosystem are stored centrally on [github](https://github.com/marchoeppner/nf-configs). Please talk to us if you want to add your system. 
 
+### Custom config
+
 If you absolutely do not want to add your system to this repository, you can manually pass a compatible configuration to nextflow using the `-c`  command line option:
 
 ```bash
-nextflow -c my.config run marchoeppner/gabi --input samples.csv --run_name my_run_name 
+nextflow -c my.config run marchoeppner/gabi --input samples.csv --run_name my_run_name --reference_base /path/to/references
+```
+
+A basic example may look as follows:
+
+```GROOVY
+params {
+
+  max_cpus = 16
+  max_memory = 64.GB
+  max_time = 24.h
+
+}
+
+conda {
+  enabled = true
+  useMamba = true
+  cacheDir = "/path/to/conda_cache"
+}
 ``` 

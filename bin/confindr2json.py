@@ -31,8 +31,7 @@ def main(confindr, sample, output):
         data = {
             "genus": elements[1],
             "numContamSNVs": elements[2],
-            "contamStatus": elements[3],
-            "percentContam": elements[5]
+            "contamStatus": elements[3]
         }
 
         matrix['confindr'][reads] = data
