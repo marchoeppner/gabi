@@ -4,5 +4,4 @@ channels:
   - bioconda
   - defaults
 dependencies:
-  - conda-forge::perl=5.32
-  - bioconda::perl-json-xs=4.03
+  - bioconda::multiqc=1.23

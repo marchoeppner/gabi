@@ -55,6 +55,8 @@ workflow QC_PACBIO {
 
     emit:
     confindr_report = CONTAMINATION.out.report
+    confindr_json   = CONTAMINATION.out.confindr_json
+    confindr_qc = CONTAMINATION.out.qc
     reads = ch_processed_reads
     qc = multiqc_files
     versions = ch_versions

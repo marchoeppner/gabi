@@ -1,7 +1,7 @@
-name: pymlst_clamlst_install
+name: confindr2mqc
 channels:
   - conda-forge
   - bioconda
   - defaults
 dependencies:
-  - bioconda::pymlst=2.1.6
+  - bioconda::multiqc=1.23

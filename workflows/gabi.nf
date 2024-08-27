@@ -89,8 +89,8 @@ workflow GABI {
     ch_illumina_trimmed = QC.out.illumina
     ch_ont_trimmed      = QC.out.ont
     ch_pacbio_trimmed   = QC.out.pacbio
-
-    ch_report = ch_report.mix(QC.out.confindr_reports)
+    multiqc_files       = multiqc_files.mix(QC.out.qc)
+    ch_report           = ch_report.mix(QC.out.confindr_reports)
 
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -145,9 +145,10 @@ workflow GABI {
         ch_reads_for_taxonomy,
         kraken2_db
     )
-    ch_taxon = TAXONOMY_PROFILING.out.report
+    ch_taxon    = TAXONOMY_PROFILING.out.report
     ch_versions = ch_versions.mix(TAXONOMY_PROFILING.out.versions)
-    ch_report = ch_report.mix(TAXONOMY_PROFILING.out.report)
+    ch_report   = ch_report.mix(TAXONOMY_PROFILING.out.report)
+    multiqc_files = multiqc_files.mix(TAXONOMY_PROFILING.out.report.map{ m,r -> r })
 
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -310,7 +311,7 @@ workflow GABI {
     fna = ANNOTATE.out.fna
     faa = ANNOTATE.out.faa
     gff = ANNOTATE.out.gff
-    multiqc_files = multiqc_files.mix(ANNOTATE.out.qc).map { m, r -> r }
+    multiqc_files = multiqc_files.mix(ANNOTATE.out.qc.map { m, r -> r })
 
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
