@@ -10,7 +10,7 @@ process CONFINDR2JSON {
     tuple val(meta), path(report)
 
     output:
-    tuple val(meta),path('*.json')  , emit: json
+    tuple val(meta), path('*.json'), emit: json
     path 'versions.yml'             , emit: versions
 
     script:

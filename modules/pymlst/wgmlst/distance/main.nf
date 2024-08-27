@@ -1,5 +1,4 @@
 process PYMLST_WGMLST_DISTANCE {
-    
     maxForks 1
 
     tag "${meta.sample_id}"

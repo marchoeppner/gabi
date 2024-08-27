@@ -25,13 +25,13 @@ workflow FIND_REFERENCES {
     ch_versions = ch_versions.mix(MASH_DIST.out.versions)
 
     // Get a unique list of best reference genomes
-    MASH_DIST.out.dist.map { m,r ->
+    MASH_DIST.out.dist.map { m, r ->
         gbk = mash_get_best(r)
         m.gbk = gbk
-        tuple(m,r)
-    }.set { mash_with_gbk}
+        tuple(m, r)
+    }.set { mash_with_gbk }
 
-    mash_with_gbk.map { m,r ->
+    mash_with_gbk.map { m, r ->
         m.gbk
     }.unique()
     .set { genome_accessions }
@@ -45,38 +45,38 @@ workflow FIND_REFERENCES {
     ch_genome_with_gff = DOWNLOAD_GENOME.out.sequence.join(DOWNLOAD_GENOME.out.gff).join(DOWNLOAD_GENOME.out.genbank)
 
     /*
-    We use combine here because several assemblies may 
+    We use combine here because several assemblies may
     map to the same reference genome
     */
-    mash_with_gbk.map { m,r ->
-        tuple(gbk,m,r)
+    mash_with_gbk.map { m, r ->
+        tuple(gbk, m, r)
     }.combine(
         ch_genome_with_gff, by: 0
-    ).map { g,m,r,s,a,k ->
+    ).map { g, m, r, s, a, k ->
         def meta = [:]
         meta.sample_id = m.sample_id
         meta.taxon = m.taxon
         meta.domain = m.domain
         meta.db_name = m.db_name
-        tuple(meta,s,a,k)
+        tuple(meta, s, a, k)
     }.set { meta_with_sequence }
 
     emit:
     reference = meta_with_sequence
     versions = ch_versions
-}
+    }
 
 // Crude method to get the best hit from the mash list
 def mash_get_best(report) {
-    gbk = ""
+    gbk = ''
     lines = file(report).readLines()
     if (lines.size() > 0 ) {
         def elements = lines[0].trim().split(/\s+/)
         gbk_file = elements[0]
-        if (gbk_file.contains("GCF_")) {
-            gbk = gbk_file.split("_")[0..1].join("_")
+        if (gbk_file.contains('GCF_')) {
+            gbk = gbk_file.split('_')[0..1].join('_')
         }
     }
-   
+
     return gbk
 }

@@ -12,7 +12,7 @@ process LISSERO {
     tuple val(meta), path(fasta)
 
     output:
-    tuple val(meta), path("*.tsv"), emit: tsv
+    tuple val(meta), path('*.tsv'), emit: tsv
     path('versions.yml'), emit: versions
 
     script:

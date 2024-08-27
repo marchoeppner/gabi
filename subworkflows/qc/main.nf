@@ -77,7 +77,7 @@ workflow QC {
     in any of their contributing reads (Illumina and Pacbio only)
     */
     CONFINDR2MQC_SUMMARY(
-        ch_confindr_json.map { m,j -> j }.collect()
+        ch_confindr_json.map { m, j -> j }.collect()
     )
     ch_qc = ch_qc.mix(CONFINDR2MQC_SUMMARY.out.json)
 

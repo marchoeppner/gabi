@@ -22,7 +22,7 @@ def main(confindr, sample, output):
     matrix = {'sample': sample, 'confindr': {}}
 
     lines.pop(0)
-             
+
     for line in lines:
         elements = line.split(",")
 

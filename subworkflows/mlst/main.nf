@@ -97,14 +97,13 @@ workflow MLST_TYPING {
     ch_versions = ch_versions.mix(PYMLST_CLAMLST.out.versions)
 
     if (!params.skip_cgmlst) {
-
         /*
         Inform users about to-be-skipped samples due to a lack of a matching cgMLST database
         */
-        assembly_with_cg_db.fail.subscribe { m,s,d ->
+        assembly_with_cg_db.fail.subscribe { m, s, d ->
             log.warn "${m.sample_id} - could not match a pyMLST cgMLST database to ${m.taxon}."
         }
-        assembly_with_chewie_db.fail.subscribe { m,s,d ->
+        assembly_with_chewie_db.fail.subscribe { m, s, d ->
             log.warn "${m.sample_id} - could not match a Chewbbaca cgMLST database to ${m.taxon}."
         }
 
@@ -119,18 +118,18 @@ workflow MLST_TYPING {
         ch_versions = ch_versions.mix(PYMLST_WGMLST_ADD.out.versions)
 
         /*
-        Get the databases for which we have assemblies to 
+        Get the databases for which we have assemblies to
         perform cgMLST clustering
         */
-        assembly_with_cg_db.pass.map { m,a,d -> 
-            tuple(m,d) 
+        assembly_with_cg_db.pass.map { m, a, d ->
+            tuple(m, d)
         }
         .groupTuple(by: 1)
         .map { metas, db ->
             def meta = [:]
             meta.db_name = file(db).getSimpleName()
             meta.sample_id = file(db).getSimpleName()
-            tuple(meta,db)
+            tuple(meta, db)
         }.set { ch_cgmlst_database }
         /*
         Perform clustering on the given database
@@ -166,7 +165,7 @@ workflow MLST_TYPING {
         //ch_versions = ch_versions.mix(CHEWBBACA_JOINPROFILES.out.versions)
 
         /* Join assemblies and databases to generate
-        [ meta, [ assemblies ], db ] and filter out all 
+        [ meta, [ assemblies ], db ] and filter out all
         cases where # assemblies is < 3 (no point to compute relationships)
         */
 
@@ -174,11 +173,11 @@ workflow MLST_TYPING {
             def meta = [:]
             meta.sample_id = m.db_name
             meta.db_name = m.db_name
-            tuple(meta,a,d)
-        }.groupTuple(by: [0,2])
-        .filter { m,a,d -> a.size() > 2 }
+            tuple(meta, a, d)
+        }.groupTuple(by: [0, 2])
+        .filter { m, a, d -> a.size() > 2 }
         .set { ch_assemblies_chewie_call }
-        
+
         CHEWBBACA_ALLELECALL(
             ch_assemblies_chewie_call
         )
@@ -190,7 +189,7 @@ workflow MLST_TYPING {
             }
         )
         ch_versions = ch_versions.mix(CHEWBBACA_ALLELECALLEVALUATOR.out.versions)
-    }
+        }
 
     emit:
     versions = ch_versions

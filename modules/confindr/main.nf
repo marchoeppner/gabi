@@ -8,12 +8,12 @@ process CONFINDR {
         'quay.io/biocontainers/confindr:0.7.4--py_0' }"
 
     input:
-    tuple val(meta), path(reads, stageAs: "input_dir/*")
+    tuple val(meta), path(reads, stageAs: 'input_dir/*')
     path db
 
     output:
     tuple val(meta), path('confindr_results/*contamination.csv'),   emit: csv, optional: true
-    tuple val(meta), path('confindr_results/*confindr_log.txt'),    emit: log 
+    tuple val(meta), path('confindr_results/*confindr_log.txt'),    emit: log
     tuple val(meta), path('confindr_results/*confindr_report.csv'), emit: report
     tuple val(meta), path('confindr_results/*_rmlst.csv'),          emit: rmlst, optional: true
     path 'versions.yml',                                            emit: versions
@@ -32,7 +32,7 @@ process CONFINDR {
         -i input_dir \\
         -o confindr_results \\
         $args $db_options
-    
+
     mv confindr_results/confindr_log.txt confindr_results/${prefix}_confindr_log.txt
     mv confindr_results/confindr_report.csv confindr_results/${prefix}_confindr_report.csv
 

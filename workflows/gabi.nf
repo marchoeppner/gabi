@@ -148,7 +148,7 @@ workflow GABI {
     ch_taxon    = TAXONOMY_PROFILING.out.report
     ch_versions = ch_versions.mix(TAXONOMY_PROFILING.out.versions)
     ch_report   = ch_report.mix(TAXONOMY_PROFILING.out.report)
-    multiqc_files = multiqc_files.mix(TAXONOMY_PROFILING.out.report.map{ m,r -> r })
+    multiqc_files = multiqc_files.mix(TAXONOMY_PROFILING.out.report.map { m, r -> r })
 
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -197,12 +197,12 @@ workflow GABI {
     Tag and optionally remove highly fragmented assemblies
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     */
-    ch_assemblies.branch { m,f ->
+    ch_assemblies.branch { m, f ->
         fail: f.countFasta() > params.max_contigs
         pass: f.countFasta() <= params.max_contigs
     }.set { ch_assemblies_status }
 
-    ch_assemblies_status.fail.subscribe { m,f ->
+    ch_assemblies_status.fail.subscribe { m, f ->
         log.warn "${m.sample_id} - assembly is highly fragmented!"
     }
 
@@ -242,20 +242,20 @@ workflow GABI {
     )
     ch_versions = ch_versions.mix(FIND_REFERENCES.out.versions)
 
-    /* 
+    /*
     Combine the assembly with the best reference genome and annotation
     Here we use the full assembly incl. Plasmids again since we may need that for BUSCO
     */
-    ch_assemblies_clean.map {m,s -> 
-        tuple(m.sample_id,m,s)
+    ch_assemblies_clean.map { m, s ->
+        tuple(m.sample_id, m, s)
     }.join(
-        FIND_REFERENCES.out.reference.map { m,r,g,k ->
-            tuple(m.sample_id,r,g,k)
+        FIND_REFERENCES.out.reference.map { m, r, g, k ->
+            tuple(m.sample_id, r, g, k)
         }
-    ).map { i,m,s,r,g,k ->
-        tuple(m,s,r,g,k)
+    ).map { i, m, s, r, g, k ->
+        tuple(m, s, r, g, k)
     }.set { ch_assemblies_with_reference_and_gbk }
-    
+
     /*
     Join the assembly channel with taxonomic assignment information
     [ meta, assembly ] <-> [ meta, taxreport]
@@ -359,7 +359,7 @@ workflow GABI {
         REPORT(
             ch_reports_grouped
         )
-    }
+        }
 
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
