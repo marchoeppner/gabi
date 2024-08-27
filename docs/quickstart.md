@@ -35,9 +35,10 @@ This will download and install the pipeline references to `/path/to/references` 
 ```bash
 nextflow run marchoeppner/gabi -profile apptainer,test \
 --reference_base /path/to/references \
+-r main
 ``` 
 
-The integrated tests simply downloads a set of WGS reads from ENA and assembles them. 
+The integrated test simply downloads a set of Illumina WGS reads from ENA and assembles them. 
 
 ### Step three
 

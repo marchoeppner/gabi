@@ -28,7 +28,7 @@ Otherwise, if you run this pipeline without a site-specific config file, the pip
 
 ## Quast reports many differences and an incomplete assembly
 
-Gabi uses a set of pre-configured genomes against which Quast benchmarks the respective assembly, based on the best-guess species assignment. That said, for each species, we use the RefSeq reference representative - which may nevertheless be phylogenetically distant to your sequenced bacterium. For example, for E. coli Gabi uses Escherichia coli K12; if you are sequencing E. coli O127:H6, you can expect quite a few differences. You can use a custom reference genome and annotation, if you wish - see our [usage](usage.md) information.  
+GABI tries to find the best matching reference genome from RefSeq Bacteria for each sample against which Quast then benchmarks the respective assembly. That said, it is not guaranteed that the best match in RefSeq Bacteria is actually very closely related to your specimen, nor that the assembly is in fact "reference grade". Especially when using long reads for assembly, you may find that Quast reports many mismatches and errors. Our best guess is that the given RefSeq genome is more fragmented than your long-read or hybrid de-novo assembly, which then leads to such incongruencies. So most likely nothing wrong with your assembly but GABI simply being unable to match a reference grade genome to your sample. 
 
 ## My ONT assembly crashes with an obscure error
 
