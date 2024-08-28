@@ -25,14 +25,17 @@ workflow ASSEMBLY_QC {
         fail: s.countFasta() >= 200 || r.countFasta() >= 200
     }.set { assembly_by_completeness }
 
-    assembly_by_completeness.fail.subscribe { m, s, r, g, k ->
-        log.warn "${m.sample_id} - skipping circos plot, assembly or reference too fragmented!"
-    }
+   
+    if (!params.skip_circos) {
 
-    MUMMER2CIRCOS(
-        assembly_by_completeness.pass
-    )
-    ch_versions = ch_versions.mix(MUMMER2CIRCOS.out.versions)
+        assembly_by_completeness.fail.subscribe { m, s, r, g, k ->
+            log.warn "${m.sample_id} - skipping circos plot, assembly or reference too fragmented!"
+        }
+        MUMMER2CIRCOS(
+            assembly_by_completeness.pass
+        )
+        ch_versions = ch_versions.mix(MUMMER2CIRCOS.out.versions)
+    }
 
     /*
     Assembly quality using Quast

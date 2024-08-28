@@ -126,6 +126,10 @@ By default, all samples are processed all the way to the end of the pipeline. Th
 
 If `--skip_failed` is enabled, this parameter controls the maximum number of contigs an assembly is allowed to have before it is stopped. High contig numbers are typically a sign of insufficient coverage and/or read length (in some cases it can also be a sign of excessive contamination).
 
+### `--skip_circos` [ default = false ]
+
+Skip generation of circos plots.
+
 ### `--shovill_assembler` [ default = spades ]
 
 Choose which assembly tool to use with Shovill. Valid options are skesa, velvet, megahit or spades. Default is: spades.
