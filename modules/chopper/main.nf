@@ -31,7 +31,7 @@ process CHOPPER {
     chopper \\
         --threads $task.cpus \\
         $args2 | \\
-    gzip \\
+    gzip -c \\
         $args3 > ${prefix}.fastq.gz
 
     cat <<-END_VERSIONS > versions.yml
