@@ -7,6 +7,7 @@ include { RASUSA }                          from './../../modules/rasusa'
 include { CAT_FASTQ  }                      from './../../modules/cat_fastq'
 //include { CONTAMINATION }                   from './../contamination'
 include { NANOPLOT }                        from './../../modules/nanoplot'
+include { CHOPPER }                         from './../../modules/chopper'
 
 ch_versions = Channel.from([])
 multiqc_files = Channel.from([])
@@ -18,21 +19,21 @@ workflow QC_NANOPORE {
 
     main:
 
-    // Nanopore read trimming
-    PORECHOP_ABI(
-        reads
-    )
-    ch_versions = ch_versions.mix(PORECHOP_ABI.out.versions)
-    multiqc_files = multiqc_files.mix(PORECHOP_ABI.out.log.map { m, l -> l })
-
-    NANOPLOT(
-        PORECHOP_ABI.out.reads
-    )
-    ch_versions = ch_versions.mix(NANOPLOT.out.versions)
-    multiqc_files = multiqc_files.mix(NANOPLOT.out.txt.map { m, r -> r })
+    if (!params.skip_porechop) {
+        // Nanopore read trimming
+        PORECHOP_ABI(
+            reads
+        )
+        ch_versions         = ch_versions.mix(PORECHOP_ABI.out.versions)
+        multiqc_files       = multiqc_files.mix(PORECHOP_ABI.out.log.map { m, l -> l })
+        ch_porechop_reads   = PORECHOP_ABI.out.reads
+    } else {
+        ch_porechop_reads   = reads
+    }
+   
 
     // Merge Nanopore reads per sample
-    PORECHOP_ABI.out.reads.groupTuple().branch { meta, reads ->
+    ch_porechop_reads.groupTuple().branch { meta, reads ->
         single: reads.size() == 1
             return [ meta, reads.flatten()]
         multi: reads.size() > 1
@@ -46,21 +47,27 @@ workflow QC_NANOPORE {
     // The trimmed ONT reads, concatenated by sample
     ch_ont_trimmed = ch_reads_ont.single.mix(CAT_FASTQ.out.reads)
 
-    /* CONTAMINATION(
-        ch_ont_trimmed,
-        confindr_db
+    CHOPPER(
+        ch_ont_trimmed
     )
-    ch_versions = ch_versions.mix(CONTAMINATION.out.versions)
- */
+    ch_versions = ch_versions.mix(CHOPPER.out.versions)
+
+    // Generate a plot of the trimmed reads
+    NANOPLOT(
+        CHOPPER.out.fastq
+    )
+    ch_versions = ch_versions.mix(NANOPLOT.out.versions)
+    multiqc_files = multiqc_files.mix(NANOPLOT.out.txt.map { m, r -> r })
+
     if (params.subsample_reads) {
         RASUSA(
-            ch_ont_trimmed.map { m, r -> [ m, r, params.genome_size] },
+            CHOPPER.out.fastq.map { m, r -> [ m, r, params.genome_size] },
             params.max_coverage
         )
         ch_versions = ch_versions.mix(RASUSA.out.versions)
         ch_processed_reads = RASUSA.out.reads
     } else {
-        ch_processed_reads = ch_ont_trimmed
+        ch_processed_reads = FILTLONG.out.reads
     }
 
     emit:
