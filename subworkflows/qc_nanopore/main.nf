@@ -52,16 +52,23 @@ workflow QC_NANOPORE {
     )
     ch_versions = ch_versions.mix(CHOPPER.out.versions)
 
+    // Stop a sample if the number of ONT reads is under a threshold
+    CHOPPER.out.fastq.filter { m,r -> r.countFastq() < 100 }.subscribe { m,r ->
+        log.warn "Stopping ONT read set ${r.getBaseName()} - not enough reads surviving.\nConsider adjusting ont_min_length and ont_min_q"
+    }
+
+    ch_reads_clean = CHOPPER.out.fastq.filter { m,r -> r.countFastq() >= 100 }
+
     // Generate a plot of the trimmed reads
     NANOPLOT(
-        CHOPPER.out.fastq
+        ch_reads_clean
     )
     ch_versions = ch_versions.mix(NANOPLOT.out.versions)
     multiqc_files = multiqc_files.mix(NANOPLOT.out.txt.map { m, r -> r })
 
     if (params.subsample_reads) {
         RASUSA(
-            CHOPPER.out.fastq.map { m, r -> [ m, r, params.genome_size] },
+            ch_reads_clean,
             params.max_coverage
         )
         ch_versions = ch_versions.mix(RASUSA.out.versions)
