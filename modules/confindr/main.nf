@@ -4,8 +4,8 @@ process CONFINDR {
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/confindr:0.8.1--pyhdfd78af_1' :
-        'quay.io/biocontainers/confindr:0.8.1--pyhdfd78af_1' }"
+        'https://depot.galaxyproject.org/singularity/confindr:0.7.4--py_0' :
+        'quay.io/biocontainers/confindr:0.7.4--py_0' }"
 
     input:
     tuple val(meta), path(reads, stageAs: 'input_dir/*')
