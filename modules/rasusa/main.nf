@@ -8,8 +8,7 @@ process RASUSA {
         'quay.io/biocontainers/rasusa:0.3.0--h779adbc_1' }"
 
     input:
-    tuple val(meta), path(reads), val(genome_size)
-    val depth_cutoff
+    tuple val(meta), path(reads)
 
     output:
     tuple val(meta), path('*.fastq.gz'), emit: reads
@@ -25,8 +24,6 @@ process RASUSA {
     """
     rasusa \\
         $args \\
-        --coverage $depth_cutoff \\
-        --genome-size $genome_size \\
         --input $reads \\
         $output
     cat <<-END_VERSIONS > versions.yml

@@ -44,8 +44,7 @@ workflow QC_PACBIO {
 
     if (params.subsample_reads) {
         RASUSA(
-            ch_reads_decont.map { m, r -> [ m, r, params.genome_size] },
-            params.max_coverage
+            ch_reads_decont
         )
         ch_versions = ch_versions.mix(RASUSA.out.versions)
         ch_processed_reads = RASUSA.out.reads

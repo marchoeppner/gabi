@@ -107,6 +107,14 @@ This option should point to the base directory in which you have installed the p
 
 Set this option to true if you believe your ONT data to be of "high quality". This is typically the case for data generated with chemistry version 10.4.1 or later. This option is set to true by default because chemistry version 10.4.1 is the standard kit distributed by ONT at the time of writing. You can disable this option by setting it to `false`. 
 
+### `--ont_min_q` [ default = 10 ]
+
+Discard nanopore Reads below this mean quality.
+
+### `--ont_min_length`  [ default = 5000 ]
+
+Discard nanopore reads below this length.
+
 ### `--build_references` [ default = null ]
 
 This option is only used when installing the pipelines references as described [here](installation.md).

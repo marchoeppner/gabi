@@ -5,7 +5,6 @@ Include Modules
 include { PORECHOP_ABI }                    from './../../modules/porechop/abi'
 include { RASUSA }                          from './../../modules/rasusa'
 include { CAT_FASTQ  }                      from './../../modules/cat_fastq'
-//include { CONTAMINATION }                   from './../contamination'
 include { NANOPLOT }                        from './../../modules/nanoplot'
 include { CHOPPER }                         from './../../modules/chopper'
 
@@ -52,29 +51,33 @@ workflow QC_NANOPORE {
     )
     ch_versions = ch_versions.mix(CHOPPER.out.versions)
 
-    // Stop a sample if the number of ONT reads is under a threshold
-    CHOPPER.out.fastq.filter { m,r -> r.countFastq() < 100 }.subscribe { m,r ->
-        log.warn "Stopping ONT read set ${r.getBaseName()} - not enough reads surviving.\nConsider adjusting ont_min_length and ont_min_q"
-    }
+    CHOPPER.out.fastq.branch { m,r ->
+        pass: r.countFastq() >= params.ont_min_reads
+        fail: r.countFastq() < params.ont_min_reads
+    }.set { ch_chopped_reads }
 
-    ch_reads_clean = CHOPPER.out.fastq.filter { m,r -> r.countFastq() >= 100 }
+    // Stop a sample if the number of ONT reads is under a threshold
+    ch_chopped_reads.fail.subscribe { m,r ->
+        log.warn "Stopping ONT read set ${m.sample_id} - not enough reads surviving.\nConsider adjusting ont_min_length, ont_min_reads and ont_min_q."
+    }
 
     // Generate a plot of the trimmed reads
     NANOPLOT(
-        ch_reads_clean
+        ch_chopped_reads.pass
     )
     ch_versions = ch_versions.mix(NANOPLOT.out.versions)
     multiqc_files = multiqc_files.mix(NANOPLOT.out.txt.map { m, r -> r })
 
     if (params.subsample_reads) {
+        ch_chopped_reads.pass.countFastq()
+
         RASUSA(
-            ch_reads_clean,
-            params.max_coverage
+            ch_chopped_reads.pass
         )
         ch_versions = ch_versions.mix(RASUSA.out.versions)
         ch_processed_reads = RASUSA.out.reads
     } else {
-        ch_processed_reads = FILTLONG.out.reads
+        ch_processed_reads = ch_chopped_reads.pass
     }
 
     emit:
