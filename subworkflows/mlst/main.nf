@@ -5,6 +5,7 @@ include { CHEWBBACA_ALLELECALL }            from './../../modules/chewbbaca/alle
 include { CHEWBBACA_ALLELECALL as CHEWBBACA_ALLELECALL_SINGLE }            from './../../modules/chewbbaca/allelecall'
 include { CHEWBBACA_JOINPROFILES }          from './../../modules/chewbbaca/joinprofiles'
 include { CHEWBBACA_ALLELECALLEVALUATOR }   from './../../modules/chewbbaca/allelecallevaluator'
+include { MLST }                            from './../../modules/mlst'
 
 ch_versions = Channel.from([])
 
@@ -21,15 +22,15 @@ workflow MLST_TYPING {
 
     /*
     We use the previously attempted taxonomic classification to
-    choose the appropriate MLST schema, if any
+    choose the appropriate pyMLST schema, if any
     */
     ch_assembly_filtered.annotated.map { m, a ->
         def (genus,species) = m.taxon.toLowerCase().split(' ')
         def db = null
-        if (params.mlst[genus]) {
-            db = params.mlst[genus]
-        } else if (params.mlst["${genus}_${species}"]) {
-            db = params.mlst["${genus}_${species}"]
+        if (params.pymlst[genus]) {
+            db = params.pymlst[genus]
+        } else if (params.pymlst["${genus}_${species}"]) {
+            db = params.pymlst["${genus}_${species}"]
         } else {
             db = null
         }
@@ -37,7 +38,29 @@ workflow MLST_TYPING {
     }.branch { m, a, db ->
         fail: db == null
         pass: db
-    }.set { assembly_with_db }
+    }.set { assembly_with_pymlst_db }
+
+    /*
+    We use the previously attempted taxonomic classification to
+    choose the appropriate MLST schema(s), if any
+    */
+    ch_assembly_filtered.annotated.map { m, a ->
+        def (genus,species) = m.taxon.toLowerCase().split(' ')
+        def dbs = null
+        if (params.mlst["${genus}_${species}"]) {
+            dbs = params.mlst["${genus}_${species}"]
+        } else if (params.mlst[genus]) {
+            dbs = params.mlst[genus]
+        } else {
+            dbs = [ null ]
+        }
+        tuple(m, a, dbs)
+    }.flatMap { m,a,dbs ->
+        dbs.collect { [ m,a,it ]}
+    }.branch { m, a, db ->
+        fail: db == null
+        pass: db
+    }.set { assembly_with_mlst_db }
 
     /*
     We use the previously attempted taxonomic classification
@@ -86,13 +109,26 @@ workflow MLST_TYPING {
         pass: db
     }.set { assembly_with_chewie_db }
 
+    /* ----------------------------------------
+    RUN ALL THE TOOLS
+    ------------------------------------------- */
+
+    /*
+    Run Thorsten Seemanns MLST tool with the built-in best-match database
+    As more than one database may belong to a given label, all databes will be run
+    */
+    MLST(
+        assembly_with_mlst_db.pass
+    )
+    ch_versions = ch_versions.mix(MLST.out.versions)
+
     /*
     Run claMLST on assemblies for which we have taxonomic information
     and a matching MLST schema configured, i.e. the last element must
     not be null
     */
     PYMLST_CLAMLST(
-        assembly_with_db.pass
+        assembly_with_pymlst_db.pass
     )
     ch_versions = ch_versions.mix(PYMLST_CLAMLST.out.versions)
 
