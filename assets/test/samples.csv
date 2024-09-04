@@ -1,0 +1,2 @@
+sample_id,platform,single_end,R1,R2
+ERR1008684,ILLUMINA,false,ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR100/004/ERR1008684/ERR1008684_1.fastq.gz,ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR100/004/ERR1008684/ERR1008684_2.fastq.gz
