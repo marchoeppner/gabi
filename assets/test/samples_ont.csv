@@ -1,0 +1,2 @@
+sample_id,platform,single_end,R1,R2
+ERR1008684,NANOPORE,true,ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR271/089/SRR27145089/SRR27145089_1.fastq.gz
