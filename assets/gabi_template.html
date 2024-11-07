@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />   <!--It is necessary to use the UTF-8 encoding with plotly graphics to get e.g. negative signs to render correctly -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<style>
+    body {background-color: lightslategray; font-family: sans-serif; font-size: 10pt; }
+    .bioraum {  display: block; font-size: 10px; color: grey ; background-color: lightgrey; padding: 5px; }
+    a {color: slategray; text-decoration: none;}
+    a:hover {color: darkgrey ; text-decoration: none;}
+    h1 strong { display: block; font-size: 75%; opacity: 0.25; }
+    h2 {background: lightslategray; color: white; padding-left: 5px ;}
+    .nav td { border-top: 1px solid; border-bottom: 1px solid ; border-left: 5px solid white;}
+    .ground {background: white ; display: block; padding: 5px; height: fit-content}
+    .impressum {background: lightgrey; display: block; padding: 5px; vertical-align: bottom; font-size: 10px;}
+    .general { border-style: none; border-spacing: 0px ;}
+    .table-caption { font-weight: bold; display: block;}
+    table { border-collapse: collapse;}
+    tr.row { border-bottom: 1px solid grey;}
+    td { padding-left: 5px; padding-right: 5px;}
+    th { border-left: 1px solid white; padding-right: 5px;}
+    tr td[scope="sample-id"] {background-color: rgb(233, 233, 233); font-weight: bold;}
+    tr td[scope="warn"] {background-color: rgb(255, 227, 195); border-left: 4px solid rgb(240, 184, 80);}
+    tr td[scope="pass"] {background-color: rgb(204, 255, 206); border-left: 4px solid rgb(65, 156, 65);} 
+    tr td[scope="fail"] {background-color: rgb(248, 187, 187); border-left: 4px solid rgb(236, 74, 74);}
+    tr td[scope="missing"] {background-color: rgb(233, 233, 233); border-left: 4px solid lightgray;}
+    tr th[scope="col"] {background-color: #505050; color: #fff; padding-left: 5px;}
+    tr th[scope="subcol"] {background-color: #888686; color: #fff; padding-left: 5px;}
+    tr th[scope="subcol-inactive"] {background-color: #6e6e6e; color: #fff;}
+    .versions { font-size: 9px; }
+    .versions td { padding: 0px; }
+    /* Tooltip container */
+    .tooltip { position: relative; display: inline-block; border-bottom: 1px dotted black; }
+    .tooltip .tooltiptext { visibility: hidden; width: 250px; background-color: rgb(189, 186, 186); color: black; text-align: center; padding: 5px 0; border-radius: 6px;  position: absolute;  z-index: 1; }
+    .tooltip:hover .tooltiptext { visibility: visible; }
+</style>
+</head>
+
+<body>
+
+<div class="bioraum">
+    <a href="https://github.com/bio-raum">github.com/bio-raum</a> - bioinformatic resources for surveillance in food safety and public health. 
+</div>
+
+<div class="ground">
+
+<h1>
+    <div id="summary"></div>GABI
+    <strong>Genomic Analysis of Bacterial Isolates</strong>
+</h1>
+
+<div id="navigation"></div>
+<table  class="nav">
+    <tr>
+        <td><a href="#summary">Summary</a></td>
+        <td><a href="#assembly">Assembly</a></td>
+        <td><a href="#insert-sizes">Insert sizes</a></td>
+        <td><a href="#mlst">MLST</a></td>
+        <td><a href="#kraken">Kraken2</a></td>
+        <td><a href="#serotypes">Serotypes</a></td>
+        <td><a href="#software">Software</a></td>
+    </tr>
+</table>
+<!--
+The summary table with all key metrics per sample
+-->
+<h2>Summary</h2>
+<table class="general">
+    <tr>
+        <th scope="col">Sample</th>
+        <th scope="col"><div class="tooltip">Status<span class="tooltiptext">The overall analysis status: pass: ok to use, warn: potential issues found, fail: most probably not usable</span></div></th>
+        <th scope="col"><div class="tooltip">Best-guess taxon<span class="tooltiptext">The highest scoring taxon in the Kraken2 analysis - green: robust call, orange: weak call, red: very weak call</span></div></th>
+        <th colspan=2 scope="col"><div class="tooltip">Reference genome<span class="tooltiptext">The highest matching hit in RefSeq to this assembly</span></div></th>
+        <th colspan=5 scope="col"><div class="tooltip">Assembly<span class="tooltiptext">Information about this assembly</span></div></th>
+        <th colspan=4 scope="col"><div class="tooltip">Mean coverage<span class="tooltiptext">Mean coverage of reads mapped back to the assembly - bigger is better</span></div></th>
+        <th scope="col"><div class="tooltip">Mean insert size<span class="tooltiptext">The mean insert size as determined from mapped reads</span></div></th>
+        <th colspan=2 scope="col"><div class="tooltip">Contamination<span class="tooltiptext">Indicators of contamination</span></div></th>
+    </tr>
+    <tr class="row">
+        <th scope="subcol-inactive"></th>
+        <th scope="subcol-inactive"></th>
+        <th scope="subcol-inactive"></th>
+        <th scope="subcol">Assembly</th>
+        <th scope="subcol">% Cov</th>
+        <th scope="subcol">Size (Mb)</th>
+        <th scope="subcol"><div class="tooltip">#Contigs<span class="tooltiptext">The number of chromosomal contigs, i.e. without plasmids.</span></div></th>
+        <th scope="subcol"><div class="tooltip">N50 (Kb)<span class="tooltiptext">The size of contigs (>=)in which 50% of the assembly are represented.</span><div></th>
+        <th scope="subcol"><div class="tooltip">Gene space (%)<span class="tooltiptext">The fraction of broadly conserved genes fully covered in this assembly (BUSCO).</span></div></th>
+        <th scope="subcol">GC (%)</th>
+        <th scope="subcol">Total</th>
+        <th scope="subcol">Illumina</th>
+        <th scope="subcol">ONT</th>
+        <th scope="subcol">HiFi</th>
+        <th scope="subcol">Illumina</th>
+        <th scope="subcol">Confindr (%)</th>
+        <th scope="subcol">Taxa >10%</th>
+    </tr>
+<!--
+Our data structure is a list of dictionaries; where each dictionary holds
+all the information for one sample    
+-->
+{% for row in summary %}
+    <tr class="row">
+        <td scope="sample-id">{{row.sample}}</td>
+        <td scope={{row.status}}>{{row.status}}</td>
+        <td scope="missing">{{row.taxon}}</td>
+        <td scope="missing"><a href="https://www.ncbi.nlm.nih.gov/datasets/genome/{{row.reference.assembly}}" target="_blank" alt="Genome in GenBank">{{row.reference.assembly}}<br>{{row.reference.definition}}</a></td>
+        <td scope={{row.fraction_status}}>{{row.fraction}}</td>
+        <td scope={{row.assembly_status}}>{{row.assembly}}</td>
+        <td scope={{row.contigs_status}}>{{row.contigs}}</td>
+        <td scope={{row.n50_status}}>{{row.n50}}</td>
+        <td scope={{row.busco_status}}>{{row.busco.completeness}}</td>
+        <td scope={{row.quast.gc_status}}>{{row.quast.gc}}</td>
+        <td scope={{row.coverage_status}}>{{row.coverage}}</td>
+        <td scope={{row.coverage_illumina_status}}>{{row.coverage_illumina}}</td>
+        <td scope={{row.coverage_nanopore_status}}>{{row.coverage_nanopore}}</td>
+        <td scope={{row.coverage_pacbio_status}}>{{row.coverage_pacbio}}</td>
+        <td scope="missing">{{row.samtools.mean_insert_size}}</td>
+        <td scope={{row.confindr_status}}>{{row.contamination}}</td>
+        <td scope={{row.taxon_count_status}}>{{row.taxon_count}}</td>
+    </tr>
+{% endfor %}
+</table>
+<p></p>
+<a href="#navigation">top</a>
+
+<!--
+The assembly metrics computed by QUAST
+-->
+<div id="assembly"></div>
+<h2>Assembly metrics</h2>
+
+<table>
+    <tr>
+        <th scope="col">Sample</th>
+        <th scope="col">Assembly size (Mb)</th>
+        <th scope="col">Fraction of reference</th>
+        <th scope="col">Ns per 100kb</th>
+        <th scope="col">Largest contig (Kb)</th>
+        <th scope="col">Misassembled contigs</th>
+        <th scope="col">Contigs > 1kb</th>
+        <th scope="col">Contigs > 5kb</th>
+        <th scope="col">Size (Mb) in contigs > 1kb</th>
+        <th scope="col">Size (Mb) in contigs > 5kb</th>
+    </tr>
+
+{% for row in summary %}
+    <tr>
+        <td scope="sample-id">{{row.sample}}</td>
+        <td scope="col">{{row.assembly}}</td>
+        <td scope="col">{{row.fraction}}</td>
+        <td scope="col">{{row.quast.N}}</td>
+        <td scope="col">{{row.quast.largest_contig}}</td>
+        <td scope="col">{{row.quast.misassembled}}</td>
+        <td scope="col">{{row.quast.contigs_1k}}</td>
+        <td scope="col">{{row.quast.contigs_5k}}</td>
+        <td scope="col">{{row.quast.size_1k}}</td>
+        <td scope="col">{{row.quast.size_5k}}</td>
+    </tr>
+{% endfor %}
+
+</table>
+<p></p>
+<a href="#navigation">top</a>
+
+<div id="insert-sizes"></div>
+
+<h2>Insert size distribution (Illumina)</h2>
+
+{{Insertsizes}}
+
+<p></p>
+<a href="#navigation">top</a>
+
+<!--
+MLST sequence types by schema
+-->
+<div id="mlst"></div>
+<h2>MLST</h2>
+
+{% for scheme,mtypes in mlst.items() %}
+
+    <div class="table-caption">Scheme: {{scheme}}</div>
+    <table>
+        <tr>
+            <th scope="col">Sample</th>
+            <th scope="col">MLST type</th>
+        </tr>
+        {% for mtype in mtypes %}
+            <tr>
+                <td scope="sample-id">{{mtype.sample}}</td>
+                <td scope="col">{{mtype.sequence_type}}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    <p></p>
+{% endfor %}
+<p></p>
+<a href="#navigation">top</a>
+
+<div id="kraken"></div>
+<h2>Kraken2 - taxonomic composition</h2>
+
+{{Kraken}}
+
+<a href="#navigation">top</a>
+
+<!--
+Results from one or multiple serotyping tools
+-->
+<div id="serotypes"></div>
+<h2>Serotyping</h2>
+
+{% for stool,stypes in serotypes.items() %}
+    <div class="table-caption">{{stool}}</div>
+    <table>
+        <tr>
+            <th scope="col">Sample</th>
+            <th scope="col">Serotype</th>
+        </tr>
+        {% for stype in stypes %}
+            <tr>
+                <td scope="sample-id">{{stype.sample}}</td>
+                <td scope="col">{{stype.serotype}}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    <p></p>
+{% endfor %}
+
+<p></p>
+<a href="#navigation">top</a>
+
+<!-- 
+Information on used software packages
+-->
+<div id="software"></div>
+<h2>Software versions</h2>
+
+<table class="versions">
+    
+    {% for pmod,packs in packages.items() %}
+        <tr>
+            <td scope="col" colspan="2"><b>{{pmod}}</b></td>
+        </tr>
+        {% for pack in packs %}
+            <tr>
+                <td></td>
+                <td scope="col">{{pack}}</td>
+            </tr>
+        {% endfor %}
+    {% endfor %}
+        </table>
+<p></p>
+<a href="#navigation">top</a>
+
+</div>
+
+<div class="impressum">
+    Report generated by bio-raum/gabi. Please check out our <a href="https://github.com/bio-raum/gabi/blob/main/docs/usage.md">documentation</a>. 
+</div>
+</body>
+</html>

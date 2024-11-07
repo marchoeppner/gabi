@@ -10,7 +10,7 @@ GABI Pipeline
 This Pipeline performs assembly of bacterial isolates from NGS reads and performs typing
 
 ### Homepage / git
-git@github.com:marchoeppner/gabi.git
+git@github.com:bio-raum/gabi.git
 
 **/
 
@@ -18,6 +18,19 @@ git@github.com:marchoeppner/gabi.git
 params.version = workflow.manifest.version
 
 summary = [:]
+
+summary["MaxContigs"]           = params.skip_failed ? params.max_contigs : "Not applied"
+summary["Busco"]                = params.busco_lineage
+summary["ConfindR DB"]          = params.confindr_db ? params.confindr_db : "built-in"
+summary["Max Coverage"]         = params.max_coverage ? params.max_coverage : "Not applied"
+summary["Genome size"]          = params.genome_size ? params.genome_size : "Not applied"
+summary["Shovill assembler"]    = params.shovill_assembler
+summary["AMRfinder"]            = [:]
+summary["Abricate"]             = [:]
+summary["AMRfinder"]["min_cov"] = params.arg_amrfinderplus_coveragemin
+summary["AMRfinder"]["min_id"]  = params.arg_amrfinderplus_identmin
+summary["Abricate"]["min_id"]   = params.arg_abricate_minid
+summary["Abricate"]["min_cov"]  = params.arg_abricate_mincov
 
 run_name = (params.run_name == false) ? "${workflow.sessionId}" : "${params.run_name}"
 
@@ -98,14 +111,12 @@ workflow.onComplete {
             if (workflow.success && !params.skip_multiqc) {
                 mqcReport = multiqc_report.getVal()
                 if (mqcReport.getClass() == ArrayList) {
-                    // TODO: Update name of pipeline
-                    log.warn "[Pipeline] Found multiple reports from process 'multiqc', will use only one"
+                    log.warn "[bio-raum/gabi] Found multiple reports from process 'multiqc', will use only one"
                     mqcReport = mqcReport[0]
                 }
             }
         } catch (all) {
-            // TODO: Update name of pipeline
-            log.warn '[PipelineName] Could not attach MultiQC report to summary email'
+            log.warn '[bio-raum/gabi] Could not attach MultiQC report to summary email'
         }
 
         smailFields = [ email: params.email, subject: subject, emailText: emailText,

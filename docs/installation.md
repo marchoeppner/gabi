@@ -24,7 +24,7 @@ You can choose one of the following options:
 
 [Apptainer](https://apptainer.org/)
 
-The pipeline comes with simple pre-set profiles for all of these as described [here](usage.md); if you plan to use this pipeline regularly, consider adding your own custom profile to our [central repository](https://github.com/marchoeppner/configs) to better leverage your available resources.
+The pipeline comes with simple pre-set profiles for all of these as described [here](usage.md); if you plan to use this pipeline regularly, consider adding your own custom profile to our [central repository](https://github.com/bio-raum/nf-configs) to better leverage your available resources.
 
 Also note that Nextflow supports additional software provisioning [frameworks](https://www.nextflow.io/docs/latest/container.html). These may very well work also, but have not been tested by us and would need to be configured as part of your [site-specific](#site-specific-config-file) config file. 
 
@@ -33,7 +33,7 @@ Also note that Nextflow supports additional software provisioning [frameworks](h
 This pipeline requires locally stored references. To build these, do:
 
 ```bash
-nextflow run marchoeppner/gabi -profile singularity \\
+nextflow run bio-raum/gabi -profile singularity \\
 --build_references \\
 --run_name build_refs \\
 --reference_base /path/to/references
@@ -51,14 +51,14 @@ Finally, depending on your internet connection, the installation process can tak
 
 If you run on anything other than a local system, this pipeline requires a site-specific configuration file to be able to talk to your cluster or compute infrastructure. Nextflow supports a wide range of such infrastructures, including Slurm, LSF and SGE - but also Kubernetes and AWS. For more information, see [here](https://www.nextflow.io/docs/latest/executor.html).
 
-Site-specific config-files for our pipeline ecosystem are stored centrally on [github](https://github.com/marchoeppner/nf-configs). Please talk to us if you want to add your system. 
+Site-specific config-files for our pipeline ecosystem are stored centrally on [github](https://github.com/bio-raum/nf-configs). Please talk to us if you want to add your system. 
 
 ### Custom config
 
 If you absolutely do not want to add your system to this repository, you can manually pass a compatible configuration to nextflow using the `-c`  command line option:
 
 ```bash
-nextflow -c my.config run marchoeppner/gabi --input samples.csv --run_name my_run_name --reference_base /path/to/references
+nextflow -c my.config run bio-raum/gabi --input samples.csv --run_name my_run_name --reference_base /path/to/references
 ```
 
 A basic example may look as follows:

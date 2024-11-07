@@ -1,0 +1,5163 @@
+{
+  "metadata": {
+    "os": ["Linux"],
+    "node": ["HPC03"],
+    "user": ["Dr. Holger Brendebach (BfR-4NSZ)"],
+    "timestamp": ["2023-09-12 15:43:28.679503"]
+  },
+  "thresholds": {
+    "Acinetobacter": {
+      "# contigs (>= 0 bp)": [
+        {
+          "source": "NCBI_Pathogen_Genus_MinMax",
+          "interval": [307],
+          "binscore": [0, 1],
+          "bincolor": ["#81B294", "#F2CC8F"]
+        }
+      ],
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [38.4, 39.3],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "N50": [
+        {
+          "source": "NCBI_Pathogen_Genus_MinMax",
+          "interval": [28138],
+          "binscore": [1, 0],
+          "bincolor": ["#F2CC8F", "#81B294"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_Pathogen_Genus_MinMax",
+          "interval": [3664000, 3897000, 4324000, 4607000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Acinetobacter baumannii": {
+      "# contigs (>= 0 bp)": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [307],
+          "binscore": [0, 1],
+          "bincolor": ["#81B294", "#F2CC8F"]
+        }
+      ],
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [38.8, 39.3],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "N50": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [28138],
+          "binscore": [1, 0],
+          "bincolor": ["#F2CC8F", "#81B294"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [3664000, 3897000, 4324000, 4607000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Acinetobacter nosocomialis": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [38.4, 38.955],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [2904000, 3355000, 4135000, 4424000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Acinetobacter pittii": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [38.6, 39],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [3582000, 3832000, 4209000, 4480000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Aeromonas": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [58.3, 58.9],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [4139000, 4416000, 4833000, 5174000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Aeromonas veronii": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [58.3, 58.9],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [4139000, 4416000, 4833000, 5174000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Akkermansia": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [54.99, 58.1],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [2483000, 2664000, 3023000, 3272000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Akkermansia muciniphila": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [54.99, 58.1],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [2483000, 2664000, 3023000, 3272000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "all Species": {
+      "assembly_coverageDepth": [
+        {
+          "source": "All_Taxons",
+          "interval": [30, 40],
+          "binscore": [2, 1, 0],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294"]
+        }
+      ],
+      "busco_duplicates": [
+        {
+          "source": "All_Taxons",
+          "interval": [0.00671140939597315],
+          "binscore": [0, 1],
+          "bincolor": ["#81B294", "#F2CC8F"]
+        }
+      ],
+      "busco_single": [
+        {
+          "source": "All_Taxons",
+          "interval": [0.95],
+          "binscore": [1, 0],
+          "bincolor": ["#F2CC8F", "#81B294"]
+        }
+      ],
+      "ContamStatus": [
+        {
+          "source": "All_Taxons",
+          "interval": [1],
+          "binscore": [0, 1],
+          "bincolor": ["#81B294", "#F2CC8F"]
+        }
+      ],
+      "contig_hit1_genus_fraction": [
+        {
+          "source": "All_Taxons",
+          "interval": [0.95],
+          "binscore": [2, 0],
+          "bincolor": ["#E07A5F", "#81B294"]
+        }
+      ],
+      "contig_hit1_species_fraction": [
+        {
+          "source": "All_Taxons",
+          "interval": [0.95],
+          "binscore": [2, 0],
+          "bincolor": ["#E07A5F", "#81B294"]
+        }
+      ],
+      "Duplication ratio": [
+        {
+          "source": "All_Taxons",
+          "interval": [1.02],
+          "binscore": [0, 1],
+          "bincolor": ["#81B294", "#F2CC8F"]
+        }
+      ],
+      "mlst_multi_allele_loci": [
+        {
+          "source": "All_Taxons",
+          "interval": [1],
+          "binscore": [0, 2],
+          "bincolor": ["#81B294", "#E07A5F"]
+        }
+      ],
+      "NumContamSNVs": [
+        {
+          "source": "All_Taxons",
+          "interval": [2, 3],
+          "binscore": [0, 1, 2],
+          "bincolor": ["#81B294", "#F2CC8F", "#E07A5F"]
+        }
+      ],
+      "q30_rate_after": [
+        {
+          "source": "All_Taxons",
+          "interval": [0.7, 0.8],
+          "binscore": [2, 1, 0],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294"]
+        }
+      ],
+      "qc_FAIL": [
+        {
+          "source": "All_Taxons",
+          "interval": [0.5],
+          "binscore": [0, 2],
+          "bincolor": ["#81B294", "#E07A5F"]
+        }
+      ],
+      "qc_NA": [
+        {
+          "source": "All_Taxons",
+          "interval": [0.5],
+          "binscore": [0, 2],
+          "bincolor": ["#81B294", "#F2CC8F"]
+        }
+      ],
+      "qc_VOTE": [
+        {
+          "source": "All_Taxons",
+          "interval": [1],
+          "binscore": [0, 2],
+          "bincolor": ["#81B294", "#E07A5F"]
+        }
+      ],
+      "qc_WARNING": [
+        {
+          "source": "All_Taxons",
+          "interval": [0.5],
+          "binscore": [0, 2],
+          "bincolor": ["#81B294", "#F2CC8F"]
+        }
+      ],
+      "read_hit1_genus_fraction": [
+        {
+          "source": "All_Taxons",
+          "interval": [0.95],
+          "binscore": [2, 0],
+          "bincolor": ["#E07A5F", "#81B294"]
+        }
+      ],
+      "read_hit1_species_fraction": [
+        {
+          "source": "All_Taxons",
+          "interval": [0.95],
+          "binscore": [2, 0],
+          "bincolor": ["#E07A5F", "#81B294"]
+        }
+      ]
+    },
+    "Bacillus": {
+      "# contigs (>= 0 bp)": [
+        {
+          "source": "BfR_InHouse",
+          "interval": [1202],
+          "binscore": [0, 1],
+          "bincolor": ["#81B294", "#F2CC8F"]
+        }
+      ],
+      "# contigs (>= 1000 bp)": [
+        {
+          "source": "BfR_InHouse",
+          "interval": [377],
+          "binscore": [0, 1],
+          "bincolor": ["#81B294", "#F2CC8F"]
+        }
+      ],
+      "Duplication ratio": [
+        {
+          "source": "BfR_InHouse",
+          "interval": [1.015],
+          "binscore": [0, 1],
+          "bincolor": ["#81B294", "#F2CC8F"]
+        }
+      ],
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [34.7, 46.7],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "N50": [
+        {
+          "source": "BfR_InHouse",
+          "interval": [34103],
+          "binscore": [1, 0],
+          "bincolor": ["#F2CC8F", "#81B294"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [3470000, 3657000, 6594000, 7105000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Bacillus anthracis": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [35.06532, 35.4],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [4859000, 5225000, 5505000, 5785000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Bacillus cereus": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [34.7, 35.5],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [4869000, 5220000, 6110000, 6613000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Bacillus licheniformis": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [45.6, 46.2],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [3883000, 4118000, 4446000, 4744000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Bacillus pumilus": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [40.8, 41.7052],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [3470000, 3657000, 4043000, 4303000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Bacillus subtilis": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [43.2, 44],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [3775000, 4007000, 4281000, 4568000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Bacillus thuringiensis": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [34.7, 35.3],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [5047000, 5503000, 6594000, 7105000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Bacillus toyonensis": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [34.9, 35.2],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [5212000, 5554000, 6204000, 6765000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Bacillus velezensis": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [45.9, 46.7],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [3667000, 3872000, 4184000, 4456000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Bacillus wiedmannii": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [34.9, 35.3],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [5061000, 5364000, 5929000, 6323000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Bacteroides": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [43, 46.705],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [3909000, 4388000, 5652000, 6105000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Bacteroides fragilis": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [43, 43.875],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [4660000, 5033000, 5652000, 6105000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Bacteroides uniformis": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [46, 46.705],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [3909000, 4388000, 5148000, 5517000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Bifidobacterium": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [58.5, 62.965],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [2032000, 2156000, 2592000, 2881000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Bifidobacterium bifidum": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [62.4, 62.965],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [2032000, 2156000, 2329000, 2509000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Bifidobacterium breve": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [58.5, 59.2],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [2125000, 2256000, 2466000, 2634000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Bifidobacterium longum": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [59.6, 60.3],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [2103000, 2253000, 2592000, 2881000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Bordetella": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [67.3, 67.9],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [3452000, 3699000, 4111000, 4320000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Bordetella pertussis": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [67.3, 67.9],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [3452000, 3699000, 4111000, 4320000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Brucella": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [57.09694, 57.3],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [3088000, 3253000, 3330000, 3553000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Brucella abortus": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [57.09694, 57.3],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [3088000, 3253000, 3330000, 3553000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Brucella melitensis": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [57.171795, 57.3],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [3112000, 3282000, 3313000, 3480000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Burkholderia": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [66.1, 68.3],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [5884000, 6272000, 8926000, 9406000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Burkholderia cenocepacia": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [66.588885, 67.3],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [6903000, 7489000, 8469000, 9134000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Burkholderia cepacia": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [66.1, 67],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [6952000, 8113000, 8926000, 9406000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Burkholderia gladioli": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [67.7, 68.3],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [7510000, 7969000, 8613000, 9225000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Burkholderia multivorans": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [66.8, 67.4],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [5884000, 6272000, 6968000, 7809000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Burkholderia pseudomallei": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [67.9, 68.3],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [6636000, 7012000, 7282000, 7719000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Burkholderia ubonensis": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [66.9, 67.5],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [6721000, 7126000, 7946000, 8434000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Campylobacter": {
+      "# contigs (>= 0 bp)": [
+        {
+          "source": "BfR_InHouse",
+          "interval": [111.8],
+          "binscore": [0, 1],
+          "bincolor": ["#81B294", "#F2CC8F"]
+        }
+      ],
+      "# contigs (>= 1000 bp)": [
+        {
+          "source": "BfR_InHouse",
+          "interval": [62.6],
+          "binscore": [0, 1],
+          "bincolor": ["#81B294", "#F2CC8F"]
+        }
+      ],
+      "assembly_coverageDepth": [
+        {
+          "source": "Timme",
+          "interval": [20, 30],
+          "binscore": [2, 1, 0],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294"]
+        }
+      ],
+      "busco_single": [
+        {
+          "source": "Curated_Genus_specific",
+          "interval": [0.79],
+          "binscore": [1, 0],
+          "bincolor": ["#F2CC8F", "#81B294"]
+        }
+      ],
+      "Duplication ratio": [
+        {
+          "source": "BfR_InHouse",
+          "interval": [1.009],
+          "binscore": [0, 1],
+          "bincolor": ["#81B294", "#F2CC8F"]
+        }
+      ],
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [30.1, 40],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "N50": [
+        {
+          "source": "BfR_InHouse",
+          "interval": [54208],
+          "binscore": [1, 0],
+          "bincolor": ["#F2CC8F", "#81B294"]
+        }
+      ],
+      "NumContamSNVs": [
+        {
+          "source": "Curated_Genus_specific",
+          "interval": [1, 2],
+          "binscore": [0, 1, 2],
+          "bincolor": ["#81B294", "#F2CC8F", "#E07A5F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_Pathogen_Genus_MinMax",
+          "interval": [1370000, 1454000, 1891000, 2020000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Chlamydia": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [40.45, 41.45],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [986000, 1040000, 1111000, 1684000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Chlamydia trachomatis": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [40.45, 41.45],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [986000, 1040000, 1111000, 1684000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Citrobacter": {
+      "# contigs (>= 0 bp)": [
+        {
+          "source": "NCBI_Pathogen_Genus_MinMax",
+          "interval": [240],
+          "binscore": [0, 1],
+          "bincolor": ["#81B294", "#F2CC8F"]
+        }
+      ],
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [51.5, 52.5],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "N50": [
+        {
+          "source": "NCBI_Pathogen_Genus_MinMax",
+          "interval": [59727],
+          "binscore": [1, 0],
+          "bincolor": ["#F2CC8F", "#81B294"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_Pathogen_Genus_MinMax",
+          "interval": [4872000, 5233000, 5802000, 6159000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Citrobacter freundii": {
+      "# contigs (>= 0 bp)": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [240],
+          "binscore": [0, 1],
+          "bincolor": ["#81B294", "#F2CC8F"]
+        }
+      ],
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [51.5, 52.5],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "N50": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [59727],
+          "binscore": [1, 0],
+          "bincolor": ["#F2CC8F", "#81B294"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [4872000, 5233000, 5802000, 6159000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Clostridioides": {
+      "# contigs (>= 0 bp)": [
+        {
+          "source": "NCBI_Pathogen_Genus_MinMax",
+          "interval": [369],
+          "binscore": [0, 1],
+          "bincolor": ["#81B294", "#F2CC8F"]
+        }
+      ],
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [28.3, 29.2],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "N50": [
+        {
+          "source": "NCBI_Pathogen_Genus_MinMax",
+          "interval": [21751],
+          "binscore": [1, 0],
+          "bincolor": ["#F2CC8F", "#81B294"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_Pathogen_Genus_MinMax",
+          "interval": [3722000, 3999000, 4279000, 4546000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Clostridioides difficile": {
+      "# contigs (>= 0 bp)": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [369],
+          "binscore": [0, 1],
+          "bincolor": ["#81B294", "#F2CC8F"]
+        }
+      ],
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [28.3, 29.2],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "N50": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [21751],
+          "binscore": [1, 0],
+          "bincolor": ["#F2CC8F", "#81B294"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [3722000, 3999000, 4279000, 4546000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Clostridium": {
+      "# contigs (>= 0 bp)": [
+        {
+          "source": "NCBI_Pathogen_Genus_MinMax",
+          "interval": [283],
+          "binscore": [0, 1],
+          "bincolor": ["#81B294", "#F2CC8F"]
+        }
+      ],
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [27.2, 29.9],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "N50": [
+        {
+          "source": "NCBI_Pathogen_Genus_MinMax",
+          "interval": [22612],
+          "binscore": [1, 0],
+          "bincolor": ["#F2CC8F", "#81B294"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_Pathogen_Genus_MinMax",
+          "interval": [2739000, 2905000, 3588000, 3832000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Clostridium beijerinckii": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [29.6, 29.9],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [5592000, 6000000, 6190000, 6632000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Clostridium botulinum": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [27.2, 28.40032],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [2757000, 3045000, 4261000, 4538000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Clostridium perfringens": {
+      "# contigs (>= 0 bp)": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [283],
+          "binscore": [0, 1],
+          "bincolor": ["#81B294", "#F2CC8F"]
+        }
+      ],
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [27.9, 28.5],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "N50": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [22612],
+          "binscore": [1, 0],
+          "bincolor": ["#F2CC8F", "#81B294"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [2739000, 2905000, 3588000, 3832000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Clostridium sporogenes": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [27.3, 28.1],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [3627000, 3959000, 4314000, 4535000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Corynebacterium": {
+      "# contigs (>= 0 bp)": [
+        {
+          "source": "NCBI_Pathogen_Genus_MinMax",
+          "interval": [134],
+          "binscore": [0, 1],
+          "bincolor": ["#81B294", "#F2CC8F"]
+        }
+      ],
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [52.1, 53.7],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "N50": [
+        {
+          "source": "NCBI_Pathogen_Genus_MinMax",
+          "interval": [78286],
+          "binscore": [1, 0],
+          "bincolor": ["#F2CC8F", "#81B294"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_Pathogen_Genus_MinMax",
+          "interval": [2602000, 2750000, 2979000, 3176000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Corynebacterium diphtheriae": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [53.4, 53.7],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [2230000, 2367000, 2496000, 2663000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Corynebacterium pseudotuberculosis": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [52.1, 52.2],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [2218000, 2337000, 2379000, 2525000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Corynebacterium striatum": {
+      "# contigs (>= 0 bp)": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [134],
+          "binscore": [0, 1],
+          "bincolor": ["#81B294", "#F2CC8F"]
+        }
+      ],
+      "N50": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [78286],
+          "binscore": [1, 0],
+          "bincolor": ["#F2CC8F", "#81B294"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [2602000, 2750000, 2979000, 3176000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Cronobacter": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [56.4, 57.2],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [4099000, 4358000, 4634000, 4925000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Cronobacter sakazakii": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [56.4, 57.2],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [4099000, 4358000, 4634000, 4925000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Cutibacterium": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [59.94, 60.2],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [2338000, 2473000, 2549000, 2694000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Cutibacterium acnes": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [59.94, 60.2],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [2338000, 2473000, 2549000, 2694000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Enterobacter": {
+      "# contigs (>= 0 bp)": [
+        {
+          "source": "NCBI_Pathogen_Genus_MinMax",
+          "interval": [182],
+          "binscore": [0, 1],
+          "bincolor": ["#81B294", "#F2CC8F"]
+        }
+      ],
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [54.13008, 56.2],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "N50": [
+        {
+          "source": "NCBI_Pathogen_Genus_MinMax",
+          "interval": [78750],
+          "binscore": [1, 0],
+          "bincolor": ["#F2CC8F", "#81B294"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_Pathogen_Genus_MinMax",
+          "interval": [4501000, 4776000, 5325000, 5636000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Enterobacter asburiae": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [54.9, 56],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [4286000, 4554000, 5378000, 5773000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Enterobacter cloacae": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [54.13008, 56.2],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [4276000, 4590000, 5394000, 5761000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Enterobacter hormaechei": {
+      "# contigs (>= 0 bp)": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [182],
+          "binscore": [0, 1],
+          "bincolor": ["#81B294", "#F2CC8F"]
+        }
+      ],
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [54.6, 55.6],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "N50": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [78750],
+          "binscore": [1, 0],
+          "bincolor": ["#F2CC8F", "#81B294"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [4501000, 4776000, 5325000, 5636000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Enterobacter kobei": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [54.313875, 55.2],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [4392000, 4677000, 5371000, 5690000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Enterobacter roggenkampii": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [55.233055, 56.145],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [4422000, 4732000, 5306000, 5702000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Enterococcus": {
+      "# contigs (>= 0 bp)": [
+        {
+          "source": "NCBI_Pathogen_Genus_MinMax",
+          "interval": [325],
+          "binscore": [0, 1],
+          "bincolor": ["#81B294", "#F2CC8F"]
+        }
+      ],
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [36.6, 38.75],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "N50": [
+        {
+          "source": "NCBI_Pathogen_Genus_MinMax",
+          "interval": [21450],
+          "binscore": [1, 0],
+          "bincolor": ["#F2CC8F", "#81B294"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_Pathogen_Genus_MinMax",
+          "interval": [2643000, 2805000, 3364000, 3597000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Enterococcus durans": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [37.4, 38.75],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [2809000, 2991000, 3243000, 3511000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Enterococcus faecalis": {
+      "# contigs (>= 0 bp)": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [182],
+          "binscore": [0, 1],
+          "bincolor": ["#81B294", "#F2CC8F"]
+        }
+      ],
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [37.1, 37.7],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "N50": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [48249],
+          "binscore": [1, 0],
+          "bincolor": ["#F2CC8F", "#81B294"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [2643000, 2832000, 3364000, 3597000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Enterococcus faecium": {
+      "# contigs (>= 0 bp)": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [325],
+          "binscore": [0, 1],
+          "bincolor": ["#81B294", "#F2CC8F"]
+        }
+      ],
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [37.5, 38.3],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "N50": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [21450],
+          "binscore": [1, 0],
+          "bincolor": ["#F2CC8F", "#81B294"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [2646000, 2851000, 3172000, 3370000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Enterococcus hirae": {
+      "# contigs (>= 0 bp)": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [223],
+          "binscore": [0, 1],
+          "bincolor": ["#81B294", "#F2CC8F"]
+        }
+      ],
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [36.6, 37.125],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "N50": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [28589],
+          "binscore": [1, 0],
+          "bincolor": ["#F2CC8F", "#81B294"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [2644000, 2805000, 3190000, 3373000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Erwinia": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [53.2771, 53.6],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [3571000, 3761000, 3871000, 4100000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Erwinia amylovora": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [53.2771, 53.6],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [3571000, 3761000, 3871000, 4100000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Escherichia": {
+      "# contigs (>= 0 bp)": [
+        {
+          "source": "NCBI_Pathogen_Genus_MinMax",
+          "interval": [364],
+          "binscore": [0, 1],
+          "bincolor": ["#81B294", "#F2CC8F"]
+        }
+      ],
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [50.3, 50.9],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "N50": [
+        {
+          "source": "NCBI_Pathogen_Genus_MinMax",
+          "interval": [33345],
+          "binscore": [1, 0],
+          "bincolor": ["#F2CC8F", "#81B294"]
+        }
+      ],
+      "NumContamSNVs": [
+        {
+          "source": "Curated_Genus_specific",
+          "interval": [3, 4],
+          "binscore": [0, 1, 2],
+          "bincolor": ["#81B294", "#F2CC8F", "#E07A5F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_Pathogen_Genus_MinMax",
+          "interval": [4275000, 4562000, 5493000, 5826000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Escherichia albertii": {
+      "# contigs (>= 0 bp)": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [316],
+          "binscore": [0, 1],
+          "bincolor": ["#81B294", "#F2CC8F"]
+        }
+      ],
+      "N50": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [33345],
+          "binscore": [1, 0],
+          "bincolor": ["#F2CC8F", "#81B294"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [4275000, 4562000, 5128000, 5498000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Escherichia coli": {
+      "# contigs (>= 0 bp)": [
+        {
+          "source": "BfR_InHouse",
+          "interval": [605],
+          "binscore": [0, 1],
+          "bincolor": ["#81B294", "#F2CC8F"]
+        }
+      ],
+      "# contigs (>= 1000 bp)": [
+        {
+          "source": "BfR_InHouse",
+          "interval": [203],
+          "binscore": [0, 1],
+          "bincolor": ["#81B294", "#F2CC8F"]
+        }
+      ],
+      "assembly_coverageDepth": [
+        {
+          "source": "Timme",
+          "interval": [40, 50],
+          "binscore": [2, 1, 0],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294"]
+        }
+      ],
+      "Duplication ratio": [
+        {
+          "source": "BfR_InHouse",
+          "interval": [1.015],
+          "binscore": [0, 1],
+          "bincolor": ["#81B294", "#F2CC8F"]
+        }
+      ],
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [50.3, 50.9],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "N50": [
+        {
+          "source": "BfR_InHouse",
+          "interval": [72925],
+          "binscore": [1, 0],
+          "bincolor": ["#F2CC8F", "#81B294"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [4554000, 4909000, 5493000, 5826000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Eubacterium": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [40.8, 43.285],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [1920000, 2230000, 3568000, 3767000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Eubacterium rectale": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [40.8, 43.285],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [1920000, 2230000, 3568000, 3767000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Faecalibacterium": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [55.735, 60.165],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [1758000, 1982000, 3288000, 3491000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Faecalibacterium prausnitzii": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [55.735, 60.165],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [1758000, 1982000, 3288000, 3491000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Flavobacterium": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [32.3, 32.8],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [2393000, 2572000, 2850000, 3040000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Flavobacterium psychrophilum": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [32.3, 32.8],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [2393000, 2572000, 2850000, 3040000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Francisella": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [32.1, 32.4],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [1689000, 1785000, 1895000, 2005000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Francisella tularensis": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [32.1, 32.4],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [1689000, 1785000, 1895000, 2005000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Gardnerella": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [40.1, 43.16],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [1406000, 1504000, 1747000, 2039000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Gardnerella vaginalis": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [40.1, 43.16],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [1406000, 1504000, 1747000, 2039000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Haemophilus": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [37.9, 38.3],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [1688000, 1786000, 1952000, 2082000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Haemophilus influenzae": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [37.9, 38.3],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [1688000, 1786000, 1952000, 2082000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Helicobacter": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [38.7, 39.2],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [1482000, 1574000, 1679000, 1784000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Helicobacter pylori": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [38.7, 39.2],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [1482000, 1574000, 1679000, 1784000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Klebsiella": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [54.395, 58.2],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [4779000, 5064000, 6586000, 7177000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Klebsiella aerogenes": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [54.7, 55.3],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [4779000, 5064000, 5544000, 5921000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Klebsiella grimontii": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [54.9, 55.9],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [5531000, 5901000, 6464000, 6993000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Klebsiella michiganensis": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [55.1, 56],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [5535000, 5891000, 6526000, 6951000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Klebsiella oxytoca": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [54.395, 55.832035],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [5366000, 5789000, 6586000, 7177000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Klebsiella pneumoniae": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [56.68116, 57.5],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [5025000, 5370000, 5848000, 6211000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Klebsiella quasipneumoniae": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [57, 58.2],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [4833000, 5105000, 5813000, 6205000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Klebsiella variicola": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [56.6791, 57.6],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [5125000, 5439000, 6009000, 6415000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Lacticaseibacillus": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [46.1, 46.8],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [2548000, 2737000, 3173000, 3397000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Lacticaseibacillus paracasei": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [46.1, 46.6],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [2548000, 2737000, 3173000, 3397000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Lacticaseibacillus rhamnosus": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [46.5, 46.8],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [2671000, 2846000, 3083000, 3305000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Lactiplantibacillus": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [44.2, 44.8],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [2933000, 3127000, 3414000, 3644000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Lactiplantibacillus plantarum": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [44.2, 44.8],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [2933000, 3127000, 3414000, 3644000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Lactobacillus": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [36.4, 37.4],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [1683000, 1822000, 2409000, 2654000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Lactobacillus crispatus": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [36.6, 37.4],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [1745000, 1966000, 2409000, 2654000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Lactobacillus helveticus": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [36.4, 37.07493],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [1683000, 1822000, 2159000, 2330000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Lactococcus": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [34.8, 35.745095],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [2147000, 2346000, 2716000, 2882000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Lactococcus lactis": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [34.8, 35.745095],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [2147000, 2346000, 2716000, 2882000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Legionella": {
+      "# contigs (>= 0 bp)": [
+        {
+          "source": "NCBI_Pathogen_Genus_MinMax",
+          "interval": [154],
+          "binscore": [0, 1],
+          "bincolor": ["#81B294", "#F2CC8F"]
+        }
+      ],
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [38.2, 38.4],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "N50": [
+        {
+          "source": "NCBI_Pathogen_Genus_MinMax",
+          "interval": [48446],
+          "binscore": [1, 0],
+          "bincolor": ["#F2CC8F", "#81B294"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_Pathogen_Genus_MinMax",
+          "interval": [3118000, 3335000, 3695000, 3946000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Legionella pneumophila": {
+      "# contigs (>= 0 bp)": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [154],
+          "binscore": [0, 1],
+          "bincolor": ["#81B294", "#F2CC8F"]
+        }
+      ],
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [38.2, 38.4],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "N50": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [48446],
+          "binscore": [1, 0],
+          "bincolor": ["#F2CC8F", "#81B294"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [3118000, 3335000, 3695000, 3946000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Leptospira": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [34.9, 40.6],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [3541000, 3773000, 4909000, 5238000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Leptospira borgpetersenii": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [40, 40.6],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [3541000, 3773000, 3996000, 4280000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Leptospira interrogans": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [34.9, 35.2],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [4303000, 4545000, 4909000, 5238000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Ligilactobacillus": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [32.6, 33.1],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [1715000, 1859000, 2203000, 2413000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Ligilactobacillus salivarius": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [32.6, 33.1],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [1715000, 1859000, 2203000, 2413000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Limosilactobacillus": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [38.3, 39],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [1797000, 1944000, 2282000, 2487000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Limosilactobacillus reuteri": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [38.3, 39],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [1797000, 1944000, 2282000, 2487000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Listeria": {
+      "# contigs (>= 0 bp)": [
+        {
+          "source": "NCBI_Pathogen_Genus_MinMax",
+          "interval": [137],
+          "binscore": [0, 1],
+          "bincolor": ["#81B294", "#F2CC8F"]
+        }
+      ],
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [37.1, 38],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "N50": [
+        {
+          "source": "NCBI_Pathogen_Genus_MinMax",
+          "interval": [47198],
+          "binscore": [1, 0],
+          "bincolor": ["#F2CC8F", "#81B294"]
+        }
+      ],
+      "NumContamSNVs": [
+        {
+          "source": "Curated_Genus_specific",
+          "interval": [2, 3],
+          "binscore": [0, 1, 2],
+          "bincolor": ["#81B294", "#F2CC8F", "#E07A5F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_Pathogen_Genus_MinMax",
+          "interval": [2690000, 2851000, 3156000, 3352000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Listeria innocua": {
+      "# contigs (>= 0 bp)": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [110],
+          "binscore": [0, 1],
+          "bincolor": ["#81B294", "#F2CC8F"]
+        }
+      ],
+      "N50": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [71426],
+          "binscore": [1, 0],
+          "bincolor": ["#F2CC8F", "#81B294"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [2690000, 2851000, 3055000, 3229000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Listeria monocytogenes": {
+      "# contigs (>= 0 bp)": [
+        {
+          "source": "BfR_InHouse",
+          "interval": [212],
+          "binscore": [0, 1],
+          "bincolor": ["#81B294", "#F2CC8F"]
+        }
+      ],
+      "# contigs (>= 1000 bp)": [
+        {
+          "source": "BfR_InHouse",
+          "interval": [89.2],
+          "binscore": [0, 1],
+          "bincolor": ["#81B294", "#F2CC8F"]
+        }
+      ],
+      "assembly_coverageDepth": [
+        {
+          "source": "Timme",
+          "interval": [20, 30],
+          "binscore": [2, 1, 0],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294"]
+        }
+      ],
+      "Duplication ratio": [
+        {
+          "source": "BfR_InHouse",
+          "interval": [1.005],
+          "binscore": [0, 1],
+          "bincolor": ["#81B294", "#F2CC8F"]
+        }
+      ],
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [37.8, 38],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "N50": [
+        {
+          "source": "BfR_InHouse",
+          "interval": [60010],
+          "binscore": [1, 0],
+          "bincolor": ["#F2CC8F", "#81B294"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [2751000, 2918000, 3156000, 3352000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Listeria seeligeri": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [37.1, 37.3],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [2661000, 2810000, 2962000, 3138000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Mannheimia": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [41, 41.2],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [2359000, 2512000, 2732000, 2892000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Mannheimia haemolytica": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [41, 41.2],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [2359000, 2512000, 2732000, 2892000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Microcystis": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [42.355, 43.2],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [3952000, 4359000, 5269000, 5600000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Microcystis aeruginosa": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [42.355, 43.2],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [3952000, 4359000, 5269000, 5600000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Moraxella": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [41.4, 41.9],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [1743000, 1849000, 1994000, 2175000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Moraxella catarrhalis": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [41.4, 41.9],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [1743000, 1849000, 1994000, 2175000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Mycobacterium": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [65.3, 69.3],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [4071000, 4314000, 5545000, 5999000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Mycobacterium avium": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [68.7, 69.3],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [4435000, 4736000, 5545000, 5999000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Mycobacterium tuberculosis": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [65.3, 65.6],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [4071000, 4314000, 4420000, 4653000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Mycobacteroides": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [64, 64.3],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [4584000, 4848000, 5343000, 5751000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Mycobacteroides abscessus": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [64, 64.3],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [4584000, 4848000, 5343000, 5751000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Mycoplasma": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [28.8, 40.1],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [753000, 801000, 1007000, 1154000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Mycoplasma bovis": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [28.8, 29.4],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [856000, 905000, 1007000, 1154000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Mycoplasma pneumoniae": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [39.8, 40.1],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [753000, 801000, 823000, 874000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Neisseria": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [51.4, 52.7],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [1933000, 2046000, 2218000, 2349000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Neisseria gonorrhoeae": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [52.3, 52.7],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [1964000, 2080000, 2218000, 2347000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Neisseria meningitidis": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [51.4, 52.1],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [1933000, 2046000, 2202000, 2349000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Oenococcus": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [37.7, 38.1],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [1652000, 1769000, 2021000, 2155000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Oenococcus oeni": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [37.7, 38.1],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [1652000, 1769000, 2021000, 2155000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Parabacteroides": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [44.8, 45.5],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [4152000, 4638000, 5455000, 5949000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Parabacteroides distasonis": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [44.8, 45.5],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [4152000, 4638000, 5455000, 5949000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Parcubacteria": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [33.82, 54.91],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [332000, 409000, 1036000, 1222000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Parcubacteria group": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [33.82, 54.91],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [332000, 409000, 1036000, 1222000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Pasteurella": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [40.2, 40.6],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [2104000, 2245000, 2435000, 2583000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Pasteurella multocida": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [40.2, 40.6],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [2104000, 2245000, 2435000, 2583000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Patescibacteria": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [31.15, 54.5],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [445000, 496000, 1087000, 1322000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Patescibacteria group": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [31.15, 54.5],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [445000, 496000, 1087000, 1322000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Phocaeicola": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [41.9, 42.6],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [4402000, 4716000, 5392000, 5754000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Phocaeicola vulgatus": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [41.9, 42.6],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [4402000, 4716000, 5392000, 5754000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Prevotella": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [44.6, 45.76],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [2829000, 3386000, 3913000, 4174000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Prevotella copri": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [44.6, 45.76],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [2829000, 3386000, 3913000, 4174000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Priestia": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [37.3, 38.2],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [4819000, 5128000, 6098000, 6695000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Priestia megaterium": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [37.3, 38.2],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [4819000, 5128000, 6098000, 6695000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Proteus": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [38.5, 40.13],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [3583000, 3819000, 4271000, 4647000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Proteus mirabilis": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [38.5, 40.13],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [3583000, 3819000, 4271000, 4647000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Pseudomonas": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [57.545, 66.5],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [3107000, 3630000, 7038000, 7505000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Pseudomonas aeruginosa": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [65.6, 66.5],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [5902000, 6281000, 7038000, 7505000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Pseudomonas fluorescens": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [58.8, 61.8],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [5470000, 5872000, 6896000, 7443000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Pseudomonas putida": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [60.51, 63.245],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [4850000, 5520000, 6621000, 7172000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Pseudomonas savastanoi": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [57.545, 58.255],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [5434000, 5759000, 6166000, 6565000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Pseudomonas stutzeri": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [60.2, 64.4],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [3107000, 3630000, 4763000, 5195000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Pseudomonas syringae": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [58.2, 59.3],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [5449000, 5843000, 6396000, 6869000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Pseudomonas viridiflava": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [59.1, 60.1],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [5551000, 5881000, 6126000, 6564000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Ralstonia": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [66.135, 67.03725],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [4864000, 5242000, 5928000, 6354000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Ralstonia solanacearum": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [66.135, 67.03725],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [4864000, 5242000, 5928000, 6354000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Rhizobium": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [60.548655, 61],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [6654000, 7132000, 7934000, 8437000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Rhizobium leguminosarum": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [60.548655, 61],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [6654000, 7132000, 7934000, 8437000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Salmonella": {
+      "# contigs (>= 0 bp)": [
+        {
+          "source": "NCBI_Pathogen_Genus_MinMax",
+          "interval": [194],
+          "binscore": [0, 1],
+          "bincolor": ["#81B294", "#F2CC8F"]
+        }
+      ],
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [51.8, 52.2975],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "N50": [
+        {
+          "source": "NCBI_Pathogen_Genus_MinMax",
+          "interval": [50423],
+          "binscore": [1, 0],
+          "bincolor": ["#F2CC8F", "#81B294"]
+        }
+      ],
+      "NumContamSNVs": [
+        {
+          "source": "Curated_Genus_specific",
+          "interval": [6, 7],
+          "binscore": [0, 1, 2],
+          "bincolor": ["#81B294", "#F2CC8F", "#E07A5F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_Pathogen_Genus_MinMax",
+          "interval": [4351000, 4627000, 5006000, 5326000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Salmonella enterica": {
+      "# contigs (>= 0 bp)": [
+        {
+          "source": "BfR_InHouse",
+          "interval": [216],
+          "binscore": [0, 1],
+          "bincolor": ["#81B294", "#F2CC8F"]
+        }
+      ],
+      "# contigs (>= 1000 bp)": [
+        {
+          "source": "BfR_InHouse",
+          "interval": [167.5],
+          "binscore": [0, 1],
+          "bincolor": ["#81B294", "#F2CC8F"]
+        }
+      ],
+      "assembly_coverageDepth": [
+        {
+          "source": "Timme",
+          "interval": [30, 40],
+          "binscore": [2, 1, 0],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294"]
+        }
+      ],
+      "Duplication ratio": [
+        {
+          "source": "BfR_InHouse",
+          "interval": [1.002],
+          "binscore": [0, 1],
+          "bincolor": ["#81B294", "#F2CC8F"]
+        }
+      ],
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [51.8, 52.2975],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "N50": [
+        {
+          "source": "BfR_InHouse",
+          "interval": [53027],
+          "binscore": [1, 0],
+          "bincolor": ["#F2CC8F", "#81B294"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [4351000, 4627000, 5006000, 5326000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "SAR202": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [31.2, 61],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [550000, 753000, 2845000, 3360000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "SAR202 cluster": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [31.2, 61],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [550000, 753000, 2845000, 3360000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Serratia": {
+      "# contigs (>= 0 bp)": [
+        {
+          "source": "NCBI_Pathogen_Genus_MinMax",
+          "interval": [185],
+          "binscore": [0, 1],
+          "bincolor": ["#81B294", "#F2CC8F"]
+        }
+      ],
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [58.709075, 60.1],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "N50": [
+        {
+          "source": "NCBI_Pathogen_Genus_MinMax",
+          "interval": [76381],
+          "binscore": [1, 0],
+          "bincolor": ["#F2CC8F", "#81B294"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_Pathogen_Genus_MinMax",
+          "interval": [4971000, 5302000, 6149000, 6460000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Serratia marcescens": {
+      "# contigs (>= 0 bp)": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [185],
+          "binscore": [0, 1],
+          "bincolor": ["#81B294", "#F2CC8F"]
+        }
+      ],
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [58.709075, 60.1],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "N50": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [76381],
+          "binscore": [1, 0],
+          "bincolor": ["#F2CC8F", "#81B294"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [4971000, 5302000, 6149000, 6460000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Shigella": {
+      "# contigs (>= 0 bp)": [
+        {
+          "source": "NCBI_Pathogen_Genus_MinMax",
+          "interval": [496],
+          "binscore": [0, 1],
+          "bincolor": ["#81B294", "#F2CC8F"]
+        }
+      ],
+      "assembly_coverageDepth": [
+        {
+          "source": "Timme",
+          "interval": [40, 50],
+          "binscore": [2, 1, 0],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294"]
+        }
+      ],
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [50.4, 51.2018],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "N50": [
+        {
+          "source": "NCBI_Pathogen_Genus_MinMax",
+          "interval": [14342],
+          "binscore": [1, 0],
+          "bincolor": ["#F2CC8F", "#81B294"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_Pathogen_Genus_MinMax",
+          "interval": [3698000, 4158000, 4860000, 5248000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Shigella boydii": {
+      "# contigs (>= 0 bp)": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [495],
+          "binscore": [0, 1],
+          "bincolor": ["#81B294", "#F2CC8F"]
+        }
+      ],
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [50.44494, 51.2018],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "N50": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [16905],
+          "binscore": [1, 0],
+          "bincolor": ["#F2CC8F", "#81B294"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [3968000, 4196000, 4661000, 5009000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Shigella dysenteriae": {
+      "# contigs (>= 0 bp)": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [496],
+          "binscore": [0, 1],
+          "bincolor": ["#81B294", "#F2CC8F"]
+        }
+      ],
+      "N50": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [14342],
+          "binscore": [1, 0],
+          "bincolor": ["#F2CC8F", "#81B294"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [3698000, 4158000, 4860000, 5248000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Shigella flexneri": {
+      "# contigs (>= 0 bp)": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [449],
+          "binscore": [0, 1],
+          "bincolor": ["#81B294", "#F2CC8F"]
+        }
+      ],
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [50.4, 50.9],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "N50": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [20761],
+          "binscore": [1, 0],
+          "bincolor": ["#F2CC8F", "#81B294"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [4085000, 4341000, 4544000, 4800000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Shigella sonnei": {
+      "# contigs (>= 0 bp)": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [483],
+          "binscore": [0, 1],
+          "bincolor": ["#81B294", "#F2CC8F"]
+        }
+      ],
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [50.5, 50.9],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "N50": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [21005],
+          "binscore": [1, 0],
+          "bincolor": ["#F2CC8F", "#81B294"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [4184000, 4441000, 4756000, 5046000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Sinorhizobium": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [61.9, 62.2],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [6258000, 6691000, 7249000, 7715000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Sinorhizobium meliloti": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [61.9, 62.2],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [6258000, 6691000, 7249000, 7715000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Staphylococcus": {
+      "# contigs (>= 0 bp)": [
+        {
+          "source": "BfR_InHouse",
+          "interval": [146.2],
+          "binscore": [0, 1],
+          "bincolor": ["#81B294", "#F2CC8F"]
+        }
+      ],
+      "# contigs (>= 1000 bp)": [
+        {
+          "source": "BfR_InHouse",
+          "interval": [63.2],
+          "binscore": [0, 1],
+          "bincolor": ["#81B294", "#F2CC8F"]
+        }
+      ],
+      "Duplication ratio": [
+        {
+          "source": "BfR_InHouse",
+          "interval": [1.005],
+          "binscore": [0, 1],
+          "bincolor": ["#81B294", "#F2CC8F"]
+        }
+      ],
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [31.28, 37.7],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "N50": [
+        {
+          "source": "BfR_InHouse",
+          "interval": [84511],
+          "binscore": [1, 0],
+          "bincolor": ["#F2CC8F", "#81B294"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_Pathogen_Genus_MinMax",
+          "interval": [2346000, 2496000, 2975000, 3153000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Staphylococcus argenteus": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [32.2, 32.4],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [2569000, 2722000, 2834000, 2997000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Staphylococcus aureus": {
+      "# contigs (>= 0 bp)": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [152],
+          "binscore": [0, 1],
+          "bincolor": ["#81B294", "#F2CC8F"]
+        }
+      ],
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [32.6, 32.9],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "N50": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [41958],
+          "binscore": [1, 0],
+          "bincolor": ["#F2CC8F", "#81B294"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [2625000, 2790000, 2975000, 3153000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Staphylococcus capitis": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [32.7, 33.3],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [2268000, 2409000, 2652000, 2820000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Staphylococcus chromogenes": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [36.4, 36.8],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [2139000, 2270000, 2503000, 2644000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Staphylococcus epidermidis": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [31.8, 32.2],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [2263000, 2417000, 2698000, 2883000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Staphylococcus haemolyticus": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [32.6, 33],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [2269000, 2411000, 2675000, 2915000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Staphylococcus hominis": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [31.28, 31.67096],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [2055000, 2183000, 2363000, 2558000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Staphylococcus pseudintermedius": {
+      "# contigs (>= 0 bp)": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [192],
+          "binscore": [0, 1],
+          "bincolor": ["#81B294", "#F2CC8F"]
+        }
+      ],
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [37.2, 37.7],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "N50": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [30421],
+          "binscore": [1, 0],
+          "bincolor": ["#F2CC8F", "#81B294"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [2346000, 2496000, 2812000, 3000000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Staphylococcus saprophyticus": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [32.9, 33.21248],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [2367000, 2540000, 2745000, 2942000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Stenotrophomonas": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [65.8, 66.99],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [3805000, 4226000, 4957000, 5299000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Stenotrophomonas maltophilia": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [65.8, 66.99],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [3805000, 4226000, 4957000, 5299000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Streptococcus": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [35.2, 41.6],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [1631000, 1729000, 2389000, 2609000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Streptococcus agalactiae": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [35.2, 35.7],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [1748000, 1981000, 2206000, 2365000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Streptococcus dysgalactiae": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [39.1, 39.7],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [1929000, 2055000, 2255000, 2391000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Streptococcus equi": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [41.1, 41.6],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [1965000, 2093000, 2163000, 2286000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Streptococcus mitis": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [39.64, 40.86],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [1774000, 1874000, 2117000, 2277000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Streptococcus mutans": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [36.6, 37],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [1708000, 1809000, 2086000, 2218000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Streptococcus oralis": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [40.8, 41.5],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [1743000, 1877000, 2079000, 2221000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Streptococcus pneumoniae": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [39.5, 39.8],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [1890000, 2008000, 2175000, 2326000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Streptococcus pseudopneumoniae": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [39.5, 40.105],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [1919000, 2078000, 2250000, 2384000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Streptococcus pyogenes": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [38.2, 38.6],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [1631000, 1729000, 1874000, 1995000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Streptococcus salivarius": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [39.4, 40.2],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [1983000, 2094000, 2356000, 2498000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Streptococcus suis": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [40.9, 41.5],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [1884000, 2026000, 2389000, 2609000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Thaumarchaeota": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [31.22, 61.28],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [523000, 657000, 1961000, 2324000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Thaumarchaeota archaeon": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [31.22, 61.28],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [523000, 657000, 1961000, 2324000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Thermoplasmata": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [34.8, 61.77],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [554000, 767000, 2717000, 2960000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Thermoplasmata archaeon": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [34.8, 61.77],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [554000, 767000, 2717000, 2960000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Vibrio": {
+      "# contigs (>= 0 bp)": [
+        {
+          "source": "NCBI_Pathogen_Genus_MinMax",
+          "interval": [234],
+          "binscore": [0, 1],
+          "bincolor": ["#81B294", "#F2CC8F"]
+        }
+      ],
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [43.7, 47.7],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "N50": [
+        {
+          "source": "NCBI_Pathogen_Genus_MinMax",
+          "interval": [65947],
+          "binscore": [1, 0],
+          "bincolor": ["#F2CC8F", "#81B294"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_Pathogen_Genus_MinMax",
+          "interval": [3766000, 3996000, 5650000, 6247000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Vibrio anguillarum": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [43.7, 45.10258],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [3661000, 3854000, 5185000, 5623000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Vibrio cholerae": {
+      "# contigs (>= 0 bp)": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [156],
+          "binscore": [0, 1],
+          "bincolor": ["#81B294", "#F2CC8F"]
+        }
+      ],
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [47.29896, 47.7],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "N50": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [82767],
+          "binscore": [1, 0],
+          "bincolor": ["#F2CC8F", "#81B294"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [3766000, 3996000, 4319000, 4584000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Vibrio parahaemolyticus": {
+      "# contigs (>= 0 bp)": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [183],
+          "binscore": [0, 1],
+          "bincolor": ["#81B294", "#F2CC8F"]
+        }
+      ],
+      "assembly_coverageDepth": [
+        {
+          "source": "Timme",
+          "interval": [40, 50],
+          "binscore": [2, 1, 0],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294"]
+        }
+      ],
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [45.1, 45.5],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "N50": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [65947],
+          "binscore": [1, 0],
+          "bincolor": ["#F2CC8F", "#81B294"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [4788000, 5086000, 5650000, 6247000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Vibrio vulnificus": {
+      "# contigs (>= 0 bp)": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [234],
+          "binscore": [0, 1],
+          "bincolor": ["#81B294", "#F2CC8F"]
+        }
+      ],
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [46.4, 46.9],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "N50": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [76197],
+          "binscore": [1, 0],
+          "bincolor": ["#F2CC8F", "#81B294"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_Pathogen_Species",
+          "interval": [4605000, 4889000, 5329000, 5694000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Xanthomonas": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [62.8, 66],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [3765000, 4078000, 5439000, 5784000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Xanthomonas arboricola": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [65.3, 66],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [4513000, 4767000, 5191000, 5491000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Xanthomonas citri": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [64, 64.8],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [4731000, 5028000, 5439000, 5784000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Xanthomonas oryzae": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [62.8, 64],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [3765000, 4078000, 4900000, 5246000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Xanthomonas perforans": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [64.6, 64.9],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [4652000, 5036000, 5277000, 5606000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Xylella": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [51.5, 52.640185],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [2309000, 2445000, 2733000, 2940000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Xylella fastidiosa": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [51.5, 52.640185],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [2309000, 2445000, 2733000, 2940000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Yersinia": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [46.8, 47.9],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Genus_MinMax",
+          "interval": [4142000, 4421000, 4806000, 5094000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Yersinia enterocolitica": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [46.8, 47.3],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [4187000, 4421000, 4806000, 5094000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    },
+    "Yersinia pestis": {
+      "GC (%)": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [47.5, 47.9],
+          "binscore": [1, 0, 1],
+          "bincolor": ["#F2CC8F", "#81B294", "#F2CC8F"]
+        }
+      ],
+      "Total length": [
+        {
+          "source": "NCBI_GenomeReport_Species",
+          "interval": [4142000, 4422000, 4738000, 5058000],
+          "binscore": [2, 1, 0, 1, 2],
+          "bincolor": ["#E07A5F", "#F2CC8F", "#81B294", "#F2CC8F", "#E07A5F"],
+          "expansionFactor": [0.05]
+        }
+      ]
+    }
+  }
+}

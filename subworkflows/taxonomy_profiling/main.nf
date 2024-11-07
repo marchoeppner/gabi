@@ -22,11 +22,21 @@ workflow TAXONOMY_PROFILING {
         newMeta.sample_id = m.sample_id
         newMeta.platform = m.platform
         newMeta.single_end = m.single_end
-        (taxon, domain) = extract_taxon(r)
+        (taxon, domain, fraction) = extract_taxon(r)
         newMeta.taxon = taxon
         newMeta.domain = domain
+        newMeta.fraction = fraction
         [ newMeta, r ]
     }.set { report_with_taxon }
+
+    report_with_taxon.branch { m,r ->
+        pass: m.fraction >= 75.0
+        fail: m.fraction < 75.0
+    }.set { report_with_taxon_status }
+
+    report_with_taxon_status.fail.subscribe { m,r ->
+        log.warn "${m.sample_id} - weak taxonomic assignment (${m.fraction})!"
+    }
 
     emit:
     report = report_with_taxon
@@ -36,28 +46,31 @@ workflow TAXONOMY_PROFILING {
 /* This reads the Kraken taxonomy assignment file to:
 - find the most probable species assignment
 - find the most probable domain assignment
-using the first occurence of each if that occurence is >= 60%
+using the first occurence of a species assignment (which is the most abundant hit)
 Yes, this is crude.
 */
 def extract_taxon(aFile) {
-    taxon = 'unknown'
-    domain = 'unknown'
+    def taxon = 'unknown'
+    def domain = 'unknown'
+    def fraction = 0.0
+
     aFile.eachLine { line ->
         def elements = line.trim().split(/\s+/)
 
         // Kraken2 has a laughable data format, let's try to find the first species-level assignment...
         if (elements[3] == 'S' && taxon == 'unknown') {
-            def fraction = Float.parseFloat(elements[0])
-            if (fraction >= 40.0) {
+            
+            //if (fraction >= 30.0) {
                 taxon = elements[5..-1].join(' ').trim()
-            }
+                
+                fraction = Float.parseFloat(elements[0])
+            //}
         }
         if (elements[3] == 'D' && domain == 'unknown') {
-            def fraction = Float.parseFloat(elements[0])
-            if (fraction >= 40) {
+            //if (fraction >= 40) {
                 domain = elements[5..-1].join(' ').trim()
-            }
+            //}
         }
     }
-    return [ taxon, domain ]
+    return [ taxon, domain, fraction ]
 }

@@ -1,8 +1,10 @@
-# GABI Pipeline
+# bio-raum/gabi
 
-Genomic Analysis of Bacterial Isolates, or GABI for short, is a bioinformatic workflow to assemble bacterial genomes, annotate genes, detect antimicrobial resistance genes as well assign them to an (cg)MLST clustering schema. GABI supports both (Illumina) short reads and ONT/Pacbio long reads. Hybrid assembly approaches are supported for ONT/Illumina data sets and require for different read types to carry the same sample ID for grouping. Please see our [documentation](docs/usage.md) for detailed information.  
+**G**enomic **A**nalysis of **B**acterial **I**solates, or GABI for short, is a bioinformatic workflow to assemble bacterial genomes, annotate genes, detect antimicrobial resistance genes as well assign them to an (cg)MLST clustering schema. GABI supports both (Illumina) short reads and ONT/Pacbio long reads. Hybrid assembly approaches are supported for ONT/Illumina data sets and require for different read types to carry the same sample ID for grouping. Please see our [documentation](docs/usage.md) for detailed information.  
 
-If you  are really impatient, check out our [quickstart](docs/quickstart.md) guide. 
+If you are really impatient, check out our [quickstart](docs/quickstart.md) guide. 
+
+![schema](images/GABI_Schema_v5.png)
 
 ## Documentation 
 
@@ -13,3 +15,9 @@ If you  are really impatient, check out our [quickstart](docs/quickstart.md) gui
 5. [Software](docs/software.md)
 5. [Troubleshooting](docs/troubleshooting.md)
 6. [Developer guide](docs/developer.md)
+
+## Developer team
+
+FooDMe2 is developed and supported by the following people and organizations:
+
+[Marc Höppner](https://github.com/marchoeppner), Landeslabor Schleswig-Holstein, [LSH](https://www.schleswig-holstein.de/DE/landesregierung/ministerien-behoerden/LLABOR)

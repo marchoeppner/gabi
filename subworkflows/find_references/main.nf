@@ -61,12 +61,19 @@ workflow FIND_REFERENCES {
         tuple(meta, s, a, k)
     }.set { meta_with_sequence }
 
+    meta_with_genbank = meta_with_sequence.map{m,s,a,k -> [m,k]}
+
     emit:
+    gbk = meta_with_genbank
     reference = meta_with_sequence
     versions = ch_versions
     }
 
 // Crude method to get the best hit from the mash list
+// Basically we take the top hit as the best and only match
+// TODO: Improve this to perhaps look at multiple equally good matches
+// and find th least fragmented one - will require touching the actual assemblies and
+// counting contigs or similar
 def mash_get_best(report) {
     gbk = ''
     lines = file(report).readLines()

@@ -69,6 +69,7 @@ workflow ASSEMBLY_QC {
     emit:
     qc = multiqc_files
     quast = QUAST.out.tsv
+    busco_json = BUSCO_BUSCO.out.json
     report = BUSCO_BUSCO.out.summary
     versions = ch_versions
     }

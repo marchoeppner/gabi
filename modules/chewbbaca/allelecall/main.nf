@@ -22,7 +22,8 @@ process CHEWBBACA_ALLELECALL {
 
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: meta.sample_id
-    results = "results_${prefix}"
+    def db_name = file(db).getSimpleName()
+    results = "results_${prefix}_${db_name}"
 
     """
     chewBBACA.py AlleleCall \\

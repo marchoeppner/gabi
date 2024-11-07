@@ -1,8 +1,8 @@
 title: "GABI pipeline report"
 subtitle: "Assembly and characterization of bacterial isolates."
 custom_logo: "pipelinelogo.png"
-custom_logo_title: "marchoeppner/gabi"
-custom_logo_url: "http://www.github.com/marchoeppner/gabi"
+custom_logo_title: "bio-raum/gabi"
+custom_logo_url: "http://www.github.com/bio-raum/gabi"
 skip_versions_section: true
 
 extra_fn_clean_exts:
@@ -12,19 +12,38 @@ extra_fn_clean_exts:
     - .pass
     - .dragonflye
     - .flye
+    - _1.fastq_trimmed
+    - _2.fastq_trimmed
+    - .NanoStats.txt
+    - .ALL
+    - .ILLUMINA
+    - .PACBIO
+    - .NANOPORE
+
+kraken:
+    top_n: 15
 
 report_comment: >
-    This report has been generated automatically by marchoeppner/gabi.
-    For help interpreting the outputs, please see: https://github.com/marchoeppner/gabi
+    This report has been generated automatically by bio-raum/gabi.
+    For help interpreting the outputs, please see: https://github.com/bio-raum/gabi
 report_header_info:
     - Application Type: "Bacterial genome analysis"
 
 table_columns_visible:
   Kraken: False
+  Bracken: False
 
 top_modules:
     - 'general_stats'
 
 report_section_order:
+    mosdepth:
+         order: -1001
     software_versions-module:
-        order: -1001
+        order: -1002
+
+remove_sections:
+    - mosdepth-coverage-dist-cov
+    - mosdepth-coverage-per-contig-section
+    - bcftools-stats_variant_quality_plot
+    - bcftools-stats_indel_plot

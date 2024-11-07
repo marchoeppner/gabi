@@ -9,7 +9,7 @@ process SAMTOOLS_MERGE {
     tag "${meta.sample_id}"
 
     input:
-    tuple val(meta), path(aligned_bam_list)
+    tuple val(meta), path(aligned_bam_list, stageAs: 'input*/*')
 
     output:
     tuple val(meta), path(merged_bam), emit: bam
@@ -21,7 +21,7 @@ process SAMTOOLS_MERGE {
     merged_bam_index = merged_bam + '.bai'
 
     """
-    samtools merge -@ 4 $merged_bam ${aligned_bam_list.join(' ')}
+    samtools merge -@ ${task.cpus} $merged_bam ${aligned_bam_list.join(' ')}
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

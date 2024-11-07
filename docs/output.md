@@ -1,5 +1,76 @@
 # Outputs 
 
+## Interpreting results
+
+<details markdown=1>
+<summary>Evaluating samples</summary>
+
+### How to judge the success of a sequencing run
+
+- Does the assembly size match known/published values for this species?
+- Into how many contigs was the sample assembled?
+- Are the reads potentially contaminated?
+- Does the taxonomic profile suggest the presence of more than one species?
+- How complete is the assembly?
+- How much read coverage do we have (for each sequencing technololgy)
+- How complete is the gene space coverage and are there many duplicate BUSCO hits?
+
+You should come up with reasonable threshold for these parameters, based on your experience with your data. 
+
+A possible set of cutoffs could be:
+
+- No more than 150 contigs
+- Contig N50 > 100kb
+- Read coverage > 40X (will also depend on sequencing technologies used)
+- Genome size within 5% of expected value
+- Busco score > 95%
+- Quast genome fraction >= 95%
+- Kraken abundance: only one species > 2%
+
+But your mileage may vary. 
+
+#### General statistics
+
+Basically, our goal should be to have highly contiguous assembly, without any contaminations or obvious errors. The `general statistics` section provides some immediate hints:
+
+![general](../images/multiqc_general_stats.png)
+
+#### Confindr
+
+Secondly, `ConfindR` results inform about potential contamination issues:
+
+![confindr](../images/multiqc_confindr.png)
+
+Samples with contamination in any of the contributing read files are listed as "true" (green). Check the sequencing-technology specific MultiQC reports to see which files raised this flag. 
+
+#### Quast
+
+QUAST provides some insights into the assembly quality - with some caveats concerning missamblies etc, based on the availability of a suitable reference genome against which to compare. 
+
+![quast](../images/multiqc_quast.png)
+
+Also see our [troubleshooting](troubleshooting.md) document for more explanations on the limitation of Quast as used by GABI. 
+
+#### Busco
+
+BUSCO identifies the presence of expected conserved bacterial genes - a good assembly should be near-complete and not contain (many) duplicated BUSCOs. 
+
+![busco](../images/multiqc_busco.png)
+
+#### Kraken
+
+Complementary to ConfindR, Kraken can be used to check if the sample consists of more than one species. A low level of abundance is typically no reason for concern and more likely the result of low complexity sequence motifs. 
+
+![kraken](../images/multiqc_kraken.png)
+
+Please note that we only use the most-suitable data set per sample to run Kraken - meaning, if Illumina reads are available, those will be used over Nanopore (which has a much higher error rate). In that sense, a negative Kraken result is not a guarantee that no contamination is present. 
+
+#### Technology-specific QC
+
+GABI generates additional MultiQC reports for each sequencing technology. These can be used to get a few more details, for example for the ConfindR results or the technology-specific sequence coverage of the final assembly.
+
+</details>
+
 ## Reports
 
 <details markdown=1>

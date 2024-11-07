@@ -1,7 +1,7 @@
-name: pymlst_clamlst_install
+name: stecfinder
 channels:
   - conda-forge
   - bioconda
   - defaults
 dependencies:
-  - bioconda::pymlst=2.1.6
+  - bioconda::stecfinder=1.1.0

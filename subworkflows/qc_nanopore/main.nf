@@ -68,7 +68,7 @@ workflow QC_NANOPORE {
     ch_versions = ch_versions.mix(NANOPLOT.out.versions)
     multiqc_files = multiqc_files.mix(NANOPLOT.out.txt.map { m, r -> r })
 
-    if (params.subsample_reads) {
+    if (params.genome_size) {
         ch_chopped_reads.pass.countFastq()
 
         RASUSA(

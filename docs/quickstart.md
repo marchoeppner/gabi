@@ -21,7 +21,7 @@ Follow these three steps to run the integrated test and verify your installation
 ### Install references
 
 ```bash
-nextflow run marchoeppner/gabi -profile apptainer \
+nextflow run bio-raum/gabi -profile apptainer \
 --reference_base /path/to/references \
 --build_references \\
 --run_name build
@@ -33,12 +33,19 @@ This will download and install the pipeline references to `/path/to/references` 
 ### Run test
 
 ```bash
-nextflow run marchoeppner/gabi -profile apptainer,test \
+nextflow run bio-raum/gabi -profile apptainer,test \
 --reference_base /path/to/references \
 -r main
 ``` 
-
 The integrated test simply downloads a set of Illumina WGS reads from ENA and assembles them. 
+
+Or, if you want to test the ONT workflow:
+
+```bash
+nextflow run bio-raum/gabi -profile apptainer,test_ont \
+--reference_base /path/to/references \
+-r main
+``` 
 
 ### Step three
 

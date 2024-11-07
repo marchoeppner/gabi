@@ -21,12 +21,12 @@ A basic execution of the pipeline looks as follows:
 a) Without a site-specific config file
 
 ```bash
-nextflow run marchoeppner/gabi -profile singularity --input samples.csv \\
+nextflow run bio-raum/gabi -profile singularity --input samples.csv \\
 --reference_base /path/to/references \\
 --run_name pipeline-test
 ```
 
-where `path_to_references` corresponds to the location in which you have [installed](installation.md) the pipeline references (this can be omitted to trigger an on-the-fly temporary installation, but is not recommended in production). 
+where `path_to_references` corresponds to the location in which you have [installed](installation.md) the pipeline references. 
 
 In this example, the pipeline will assume it runs on a single computer with the singularity container engine available. Available options to provision software are:
 
@@ -45,7 +45,7 @@ Additional software provisioning tools as described [here](https://www.nextflow.
 b) with a site-specific config file
 
 ```bash
-nextflow run marchoeppner/gabi -profile lsh --input samples.csv \\
+nextflow run bio-raum/gabi -profile lsh --input samples.csv \\
 --run_name pipeline-test 
 ```
 
@@ -56,10 +56,10 @@ In this example, both `--reference_base` and the choice of software provisioning
 If you are running this pipeline in a production setting, you will want to lock the pipeline to a specific version. This is natively supported through nextflow with the `-r` argument:
 
 ```bash
-nextflow run marchoeppner/gabi -profile lsh -r 1.0 <other options here>
+nextflow run bio-raum/gabi -profile lsh -r 1.0 <other options here>
 ```
 
-The `-r` option specifies a github [release tag](https://github.com/marchoeppner/gabi/releases) or branch, so could also point to `main` for the very latest code release. Please note that every major release of this pipeline (1.0, 2.0 etc) comes with a new reference data set, which has the be [installed](installation.md) separately.
+The `-r` option specifies a github [release tag](https://github.com/bio-raum/gabi/releases) or branch, so could also point to `main` for the very latest code release. Please note that every major release of this pipeline (1.0, 2.0 etc) comes with a new reference data set, which has the be [installed](installation.md) separately.
 
 ## Choosing an assembly method
 
@@ -82,7 +82,7 @@ sample_id,platform,R1,R2
 S100,ILLUMINA,/home/marc/projects/gaba/data/S100_R1.fastq.gz,/home/marc/projects/gaba/data/S100_R2.fastq.gz
 ```
 
-If the pipeline sees more than one set of reads for a given sample ID and platform type, it will merge them automatically at the appropriate time. Based on what types of reads the pipeline sees, it will automatically trigger suitable tool chains. 
+If the pipeline sees more than one set of reads for a given sample ID and platform type, it will merge them automatically at the appropriate time. Based on what types of reads the pipeline sees, it will automatically trigger suitable tool chains. If the data set consists of only one read file (e.g. Nanopore, Pacbio), then the R2 column should remain empty. 
 
 Please note that there is an optional column `library_id`, which is used to name some of the output folders for read-set specific QC measures. If `library_id` is not given, the pipeline will use the file name.
 
@@ -109,7 +109,7 @@ Set this option to true if you believe your ONT data to be of "high quality". Th
 
 ### `--ont_min_q` [ default = 10 ]
 
-Discard nanopore Reads below this mean quality.
+Discard nanopore reads below this mean quality.
 
 ### `--ont_min_length`  [ default = 5000 ]
 
@@ -142,17 +142,13 @@ Skip generation of circos plots.
 
 Choose which assembly tool to use with Shovill. Valid options are skesa, velvet, megahit or spades. Default is: spades.
 
-### `--subsample_reads` [ true|false, default = true]
-
-Perform sub-sampling of (long reads) prior to assembly. This is meant to deal with needlessly deep data sets that could otherwise result in excessive run times or crashes. The degree of sub-sampling is controlled by `--max_coverage` combined with `--genome_size`. 
-
 ### `--max_coverage` [ default = '100x']
 
-If sub-sampling (`--subsample_reads`) is enabled, this is the target coverage. This option is combined with `--genome_size`. 
+If a genome size is specified (`--genome_size`), this is the target coverage for downsampling the read data. 
 
-### `--genome_size` [ default = 6Mb ]
+### `--genome_size` [ default = null ]
 
-If sub-sampling (`--subsample_reads`) is enabled, this is the assumed genome size against which the coverage is measured. Since this pipeline supports processing of diverse species in parallel, the default of 6Mb is a compromise and should at the very least prevent grossly over-sampled data to bring the workflow to its knees. Of course, if you only sequence a single species, you are welcome to set this to that specific genome size. 
+If enabled, this is the assumed genome size against which the coverage is measured for downsampling the raeds (e.g. '5Mb'). Since this pipeline supports processing of diverse species in parallel, you may wish to set this to a size that works across all expected taxa, like '6Mb'. The reads will then be downsampled to the desired max coverage, given the genome size. 
 
 ### `--prokka_proteins` [ default = null ]
 
@@ -167,7 +163,7 @@ If you analyse a single species and wish to optimize the quality of the genome a
 A local version of the ConfindR rMLST database, available [here](https://olc-bioinformatics.github.io/ConFindr/install/#downloading-confindr-databases). Unfortunately, this database requires a personalized registration so we cannot bundle it with GABI. If no database is provided, CondindR will run without one and can consquently only use the built-in references for Escherichia, Listeria and Salmonella. 
 
 ### `--skip_mlst` [ default = false ]
-Do not run MLST typing tools (chewbbaca, pyMLST)
+Do not run MLST typing tools (chewbbaca, MLST)
 
 ## Resources
 

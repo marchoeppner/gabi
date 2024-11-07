@@ -1,4 +1,3 @@
-include { PYMLST_CLAMLST }                  from './../../modules/pymlst/clamlst'
 include { PYMLST_WGMLST_ADD }               from './../../modules/pymlst/wgmlst/add'
 include { PYMLST_WGMLST_DISTANCE }          from './../../modules/pymlst/wgmlst/distance'
 include { CHEWBBACA_ALLELECALL }            from './../../modules/chewbbaca/allelecall'
@@ -20,27 +19,7 @@ workflow MLST_TYPING {
         unknown: m.taxon == 'unknown'
     }.set { ch_assembly_filtered }
 
-    /*
-    We use the previously attempted taxonomic classification to
-    choose the appropriate pyMLST schema, if any
-    */
-    ch_assembly_filtered.annotated.map { m, a ->
-        def (genus,species) = m.taxon.toLowerCase().split(' ')
-        def db = null
-        if (params.pymlst[genus]) {
-            db = params.pymlst[genus]
-        } else if (params.pymlst["${genus}_${species}"]) {
-            db = params.pymlst["${genus}_${species}"]
-        } else {
-            db = null
-        }
-        tuple(m, a, db)
-    }.branch { m, a, db ->
-        fail: db == null
-        pass: db
-    }.set { assembly_with_pymlst_db }
-
-    /*
+       /*
     We use the previously attempted taxonomic classification to
     choose the appropriate MLST schema(s), if any
     */
@@ -122,16 +101,6 @@ workflow MLST_TYPING {
     )
     ch_versions = ch_versions.mix(MLST.out.versions)
 
-    /*
-    Run claMLST on assemblies for which we have taxonomic information
-    and a matching MLST schema configured, i.e. the last element must
-    not be null
-    */
-    PYMLST_CLAMLST(
-        assembly_with_pymlst_db.pass
-    )
-    ch_versions = ch_versions.mix(PYMLST_CLAMLST.out.versions)
-
     if (!params.skip_cgmlst) {
         /*
         Inform users about to-be-skipped samples due to a lack of a matching cgMLST database
@@ -185,21 +154,7 @@ workflow MLST_TYPING {
         )
         ch_versions = ch_versions.mix(CHEWBBACA_ALLELECALL_SINGLE.out.versions)
 
-        ch_profiles = CHEWBBACA_ALLELECALL_SINGLE.out.profile.map { m, r ->
-                def meta = [:]
-                meta.db_name = m.db_name
-                meta.sample_id = m.db_name
-                tuple(meta, r)
-            }.groupTuple()
-
-        /*
-        Join profiles, assuming we have more than one
-        */
-        //CHEWBBACA_JOINPROFILES(
-        //    ch_profiles.filter{ m,reports -> reports.size() > 1 }
-        //)
-        //ch_versions = ch_versions.mix(CHEWBBACA_JOINPROFILES.out.versions)
-
+    
         /* Join assemblies and databases to generate
         [ meta, [ assemblies ], db ] and filter out all
         cases where # assemblies is < 3 (no point to compute relationships)
@@ -211,7 +166,9 @@ workflow MLST_TYPING {
             meta.db_name = m.db_name
             tuple(meta, a, d)
         }.groupTuple(by: [0, 2])
-        .filter { m, a, d -> a.size() > 2 }
+        .set { ch_assemblies_chewie_grouped }
+
+        ch_assemblies_chewie_grouped.filter { m, a, d -> (a.size() >= 3) }
         .set { ch_assemblies_chewie_call }
 
         CHEWBBACA_ALLELECALL(
@@ -229,5 +186,5 @@ workflow MLST_TYPING {
 
     emit:
     versions = ch_versions
-    report = PYMLST_CLAMLST.out.report
+    report = MLST.out.json
     }

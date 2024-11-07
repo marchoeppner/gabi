@@ -50,3 +50,18 @@ Version 1.0.1, [github](https://github.com/tseemann/abricate)
 
 **Hamronization**
 Version 1.1.4, [github](https://github.com/pha4ge/hAMRonization)
+
+**MLST**
+Version 2.23.0, [github](https://github.com/tseemann/mlst)
+
+**Chewbbaca**
+Version 3.3.4, [doi](https://doi:10.1099/mgen.0.000166) | [PubMed](https://pubmed.ncbi.nlm.nih.gov/29543149/) | [github](https://github.com/B-UMMI/chewBBACA)
+
+**BWAMEM 2**
+Version 2.2.1, [doi](https://doi:10.1109/IPDPS.2019.00041) | [github](https://github.com/bwa-mem2/bwa-mem2) | [IEEE Explore](https://ieeexplore.ieee.org/document/8820962)
+
+**Mosdepth**
+Version 0.3.8, [github](https://github.com/brentp/mosdepth)
+
+**Minimap2**
+Version 2.28, [doi](https://doi:10.1093/bioinformatics/bty191) | [PubMed](https://pubmed.ncbi.nlm.nih.gov/29750242/) | [github](https://github.com/lh3/minimap2)

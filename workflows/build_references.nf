@@ -3,7 +3,6 @@ include { KRAKEN2_DOWNLOAD }                                from './../modules/k
 include { CONFINDR_INSTALL  }                               from './../modules/helper/confindr_install'
 include { BUSCO_DOWNLOAD as BUSCO_INSTALL }                 from './../modules/busco/download'
 include { AMRFINDERPLUS_UPDATE as AMRFINDERPLUS_INSTALL }   from './../modules/amrfinderplus/update'
-include { PYMLST_CLAMLST_INSTALL }                          from './../modules/pymlst/clamlst_install'
 include { PYMLST_WGMLST_INSTALL }                           from './../modules/pymlst/wgmlst_install'
 include { CHEWBBACA_DOWNLOADSCHEMA }                        from './../modules/chewbbaca/downloadschema'
 include { GUNZIP as GUNZIP_MASHDB }                                   from './../modules/gunzip'
@@ -54,11 +53,6 @@ workflow BUILD_REFERENCES {
     CONFINDR_INSTALL(
         confindr_db_url
     )
-
-    /*
-    Install MLST schemas
-    */
-    PYMLST_CLAMLST_INSTALL()
 
     /*
     Install cgMLST schemas

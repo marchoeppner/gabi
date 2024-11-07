@@ -1,0 +1,6 @@
+name: sistr_1.1.1
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - bioconda::sistr_cmd=1.1.1

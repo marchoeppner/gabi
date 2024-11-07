@@ -42,7 +42,7 @@ workflow QC_PACBIO {
     ch_versions = ch_versions.mix(CONTAMINATION.out.versions)
     ch_reads_decont = CONTAMINATION.out.reads
 
-    if (params.subsample_reads) {
+    if (params.genome_size) {
         RASUSA(
             ch_reads_decont
         )

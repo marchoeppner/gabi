@@ -1,0 +1,2 @@
+sample_id,platform,single_end,R1,R2
+SRR29782673,NANOPORE,true,ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR297/073/SRR29782673/SRR29782673_1.fastq.gz
