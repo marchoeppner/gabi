@@ -1,5 +1,7 @@
 include { MASH_SKETCH }     from './../../modules/mash/sketch'
 include { MASH_DIST }       from './../../modules/mash/dist'
+include { SOURMASH_SKETCH } from './../../modules/sourmash/sketch'
+include { SOURMASH_SEARCH } from './../../modules/sourmash/search'
 include { DOWNLOAD_GENOME } from './../../modules/helper/download_genome'
 
 ch_versions = Channel.from([])
@@ -8,29 +10,53 @@ workflow FIND_REFERENCES {
     take:
     assembly
     mashdb
+    sourmashdb
 
     main:
 
+    if (params.sourmash)  {
+
+        // sketch the assembly
+        SOURMASH_SKETCH(
+            assembly
+        )
+        ch_versions = ch_versions.mix(SOURMASH_SKETCH.out.versions)
+
+        // search sketch against db
+        SOURMASH_SEARCH(
+            SOURMASH_SKETCH.out.signature,
+            sourmashdb
+        )
+        ch_versions = ch_versions.mix(SOURMASH_SEARCH.out.versions)
+
+        SOURMASH_SEARCH.out.csv.map { m,c ->
+            gbk = sourmash_get_acc(c)
+            m.gbk = gbk
+            tuple(m,c)
+        }.set { mash_with_gbk}
+
+    } else {
     // Produce a mash sketch from the assembly
-    MASH_SKETCH(
-        assembly
-    )
-    ch_versions = ch_versions.mix(MASH_SKETCH.out.versions)
+        MASH_SKETCH(
+            assembly
+        )
+        ch_versions = ch_versions.mix(MASH_SKETCH.out.versions)
 
-    // Find hits against RefSeq database
-    MASH_DIST(
-        MASH_SKETCH.out.mash,
-        mashdb
-    )
-    ch_versions = ch_versions.mix(MASH_DIST.out.versions)
+        // Find hits against RefSeq database
+        MASH_DIST(
+            MASH_SKETCH.out.mash,
+            mashdb
+        )
+        ch_versions = ch_versions.mix(MASH_DIST.out.versions)
 
-    // Get a unique list of best reference genomes
-    MASH_DIST.out.dist.map { m, r ->
-        gbk = mash_get_best(r)
-        m.gbk = gbk
-        tuple(m, r)
-    }.set { mash_with_gbk }
-
+        // Get a unique list of best reference genomes
+        MASH_DIST.out.dist.map { m, r ->
+            gbk = mash_get_best(r)
+            m.gbk = gbk
+            tuple(m, r)
+        }.set { mash_with_gbk }
+    }
+    
     mash_with_gbk.map { m, r ->
         m.gbk
     }.unique()
@@ -82,6 +108,20 @@ def mash_get_best(report) {
         gbk_file = elements[0]
         if (gbk_file.contains('GCF_')) {
             gbk = gbk_file.split('_')[0..1].join('_')
+        }
+    }
+
+    return gbk
+}
+
+def sourmash_get_acc(csv) {
+    gbk = ''
+    lines = file(csv).readLines()
+    if (lines.size() > 1 ) {
+        def elements = lines[1].trim().split(",")
+        gbk_file = elements[3].split(" ")[0]
+        if (gbk_file.contains('GCF_')) {
+            gbk = gbk_file.replace('"','')
         }
     }
 

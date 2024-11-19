@@ -1,0 +1,7 @@
+name: stage_file
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - bioconda::multiqc=1.23

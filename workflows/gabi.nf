@@ -43,6 +43,8 @@ samplesheet = params.input ? Channel.fromPath(file(params.input, checkIfExists:t
 
 /*
 Check that the reference directory is actually present
+and only populate variables if we are actually running the main
+workflow - else this will break on a fresh install 
 */
 if (params.input) {
     refDir = file(params.reference_base + "/gabi/${params.reference_version}")
@@ -50,26 +52,29 @@ if (params.input) {
         log.info 'The required reference directory was not found on your system, exiting!'
         System.exit(1)
     }
+
+    ch_multiqc_config = params.multiqc_config   ? Channel.fromPath(params.multiqc_config, checkIfExists: true).collect()    : []
+    ch_multiqc_logo   = params.multiqc_logo     ? Channel.fromPath(params.multiqc_logo, checkIfExists: true).collect()      : []
+
+    ch_report_template = params.template        ? Channel.fromPath(params.template, checkIfExists: true).collect()          : []
+    ch_report_refs     = params.report_refs     ? Channel.fromPath(params.report_refs, checkIfExists: true).collect()          : []
+
+    ch_prokka_proteins = params.prokka_proteins ? Channel.fromPath(params.prokka_proteins, checkIfExists: true).collect()   : []
+    ch_prokka_prodigal = params.prokka_prodigal ? Channel.fromPath(params.prokka_prodigal, checkIfExists:true).collect()    : []
+
+    amrfinder_db    = params.reference_base ? file(params.references['amrfinderdb'].db, checkIfExists:true)   : []
+    kraken2_db      = params.reference_base ? file(params.references['kraken2'].db, checkIfExists:true)       : []
+
+    mashdb          = params.reference_base ? file(params.references['mashdb'].db, checkIfExists:true)        : []
+
+    sourmashdb      = params.reference_base ? file(params.references['sourmashdb'].db, checkIfExists:true)    : []
+
+    busco_db_path   = params.reference_base ? file(params.references['busco'].db, checkIfExists:true)         : []
+    busco_lineage   = params.busco_lineage
+
+    confindr_db     = params.confindr_db ? params.confindr_db : file(params.references['confindr'].db, checkIfExists: true)
+
 }
-
-ch_multiqc_config = params.multiqc_config   ? Channel.fromPath(params.multiqc_config, checkIfExists: true).collect()    : []
-ch_multiqc_logo   = params.multiqc_logo     ? Channel.fromPath(params.multiqc_logo, checkIfExists: true).collect()      : []
-
-ch_report_template = params.template        ? Channel.fromPath(params.template, checkIfExists: true).collect()          : []
-ch_report_refs     = params.report_refs     ? Channel.fromPath(params.report_refs, checkIfExists: true).collect()          : []
-
-ch_prokka_proteins = params.prokka_proteins ? Channel.fromPath(params.prokka_proteins, checkIfExists: true).collect()   : []
-ch_prokka_prodigal = params.prokka_prodigal ? Channel.fromPath(params.prokka_prodigal, checkIfExists:true).collect()    : []
-
-amrfinder_db    = params.reference_base ? file(params.references['amrfinderdb'].db, checkIfExists:true)   : []
-kraken2_db      = params.reference_base ? file(params.references['kraken2'].db, checkIfExists:true)       : []
-
-mashdb          = params.reference_base ? file(params.references['mashdb'].db, checkIfExists:true)        : []
-
-busco_db_path   = params.reference_base ? file(params.references['busco'].db, checkIfExists:true)         : []
-busco_lineage   = params.busco_lineage
-
-confindr_db     = params.confindr_db ? params.confindr_db : file(params.references['confindr'].db, checkIfExists: true)
 
 ch_versions     = Channel.from([])
 multiqc_files   = Channel.from([])
@@ -294,7 +299,8 @@ workflow GABI {
     */
     FIND_REFERENCES(
         ch_assembly_without_plasmids,
-        mashdb
+        mashdb,
+        sourmashdb
     )
     ch_versions = ch_versions.mix(FIND_REFERENCES.out.versions)
 

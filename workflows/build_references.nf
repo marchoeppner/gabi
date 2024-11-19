@@ -5,10 +5,12 @@ include { BUSCO_DOWNLOAD as BUSCO_INSTALL }                 from './../modules/b
 include { AMRFINDERPLUS_UPDATE as AMRFINDERPLUS_INSTALL }   from './../modules/amrfinderplus/update'
 include { PYMLST_WGMLST_INSTALL }                           from './../modules/pymlst/wgmlst_install'
 include { CHEWBBACA_DOWNLOADSCHEMA }                        from './../modules/chewbbaca/downloadschema'
-include { GUNZIP as GUNZIP_MASHDB }                                   from './../modules/gunzip'
+include { GUNZIP as GUNZIP_MASHDB }                         from './../modules/gunzip'
+include { STAGE_FILE as DOWNLOAD_SOURMASH_DB }              from './../modules/helper/stage_file'
 
 kraken_db_url       = Channel.fromPath(params.references['kraken2'].url)
 confindr_db_url     = Channel.fromPath(params.references['confindr'].url)
+sourmash_db_url     = Channel.fromPath(params.references['sourmashdb'].url)
 ch_busco_lineage    = Channel.from(['bacteria_odb10'])
 mashdb              = Channel.fromPath(file(params.references['mashdb'].url)).map { f -> [ [target: 'MashDB'], f] }
 
@@ -17,6 +19,13 @@ chewie_ids = Channel.fromList([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15
 
 workflow BUILD_REFERENCES {
     main:
+
+    /*
+    Download SourmashDB
+    */
+    DOWNLOAD_SOURMASH_DB(
+        sourmash_db_url
+    )
 
     /*
     Download MashDB refseq database
