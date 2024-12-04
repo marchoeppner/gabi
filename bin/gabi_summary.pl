@@ -14,6 +14,7 @@ perl gabi_summary.pl
     [--help]
 
     Input:
+    [--taxon string]
     
     Ouput:    
     [--outfile filename]
@@ -22,6 +23,7 @@ perl gabi_summary.pl
 };
 
 my $sample      = undef;
+my $taxon       = "";
 my $outfile     = undef;
 
 my $help;
@@ -29,6 +31,7 @@ my $help;
 GetOptions(
     "help" => \$help,
     "sample=s" => \$sample,
+    "taxon=s" => \$taxon,
     "outfile=s" => \$outfile);
 
 # Print Help and exit
@@ -43,11 +46,11 @@ if ($outfile) {
 
 my %matrix = (
     "date" => $date , 
-    "sample" => $sample, 
+    "sample" => $sample,
+    "taxon" => $taxon, 
     "quast" => {},
     "mlst" => [],
     "confindr" => [],
-    "kraken" => {},
     "serotype" => [],
     "mosdepth" => {},
     "reference" => {}

@@ -54,7 +54,7 @@ def main(yaml, template, output, reference):
 
             # Track the sample status
             this_status = status["pass"]
-            taxon = jdata["kraken"][0]["taxon"]
+            taxon = jdata["taxon"]
             genus, species = taxon.split(" ")
 
             # The reference data has thresholds for genus and species level; but not always
@@ -69,30 +69,36 @@ def main(yaml, template, output, reference):
                 this_refs = [{}]
 
             # Check for contaminated reads using confindr
-            contaminated = 0
-            confindr = jdata["confindr"]
-            confindr_status = status["pass"]
 
-            for set in confindr:
-                for read in set:
-                    if read["ContamStatus"] == "True":
-                        contaminated = True
-                        if (read["PercentContam"] == "ND"):
-                            perc = "ND"
-                            this_status = status["missing"]
-                        else:
-                            perc = float(read["PercentContam"])
+            if "confindr" in jdata:
+                contaminated = "-"
+                confindr = jdata["confindr"]
+                confindr_status = status["missing"]
 
-                            if (perc > contaminated):
-                                contaminated = perc
+                for set in confindr:
+                    
+                    if confindr_status == status["missing"]:
+                        confindr_status = status["pass"]
 
-                            if (perc >= 10.0):
-                                confindr_status = status["fail"]
-                                this_status = status["fail"]
-                            elif (perc > 0.0 and confindr_status == status["pass"]):
-                                confindr_status = status["warn"]
-                                if (this_status == status["pass"]):
-                                    this_status = status["warn"]
+                    for read in set:
+                        if read["ContamStatus"] == "True":
+                            contaminated = True
+                            if (read["PercentContam"] == "ND"):
+                                perc = "ND"
+                                this_status = status["missing"]
+                            else:
+                                perc = float(read["PercentContam"])
+
+                                if (perc > contaminated):
+                                    contaminated = perc
+
+                                if (perc >= 10.0):
+                                    confindr_status = status["fail"]
+                                    this_status = status["fail"]
+                                elif (perc > 0.0 and confindr_status == status["pass"]):
+                                    confindr_status = status["warn"]
+                                    if (this_status == status["pass"]):
+                                        this_status = status["warn"]
 
             # All the relevant values and optional status classes
             sample = jdata["sample"]
@@ -100,36 +106,42 @@ def main(yaml, template, output, reference):
 
             # Get Kraken results
 
-            taxon_perc = float(jdata["kraken"][0]["percentage"])
-            if taxon_perc >= 80.0:
-                taxon_status = status["pass"]
-            elif taxon_perc >= 60.0:
-                taxon_status = status["warn"]
-            else:
-                taxon_status = status["fail"]
+            taxon_status = status["missing"]
+            taxon_count = "-"
+            taxon_count_status = status["missing"]
 
-            taxon_count = 0
-            taxon_count_status = status["pass"]
+            if "kraken" in jdata:
 
-            kraken_results = {}
-            for tax in jdata["kraken"]:
-                this_taxon = tax["taxon"]
-                tperc = float(tax["percentage"])
+                taxon_perc = float(jdata["kraken"][0]["percentage"])
+                if taxon_perc >= 80.0:
+                    taxon_status = status["pass"]
+                elif taxon_perc >= 60.0:
+                    taxon_status = status["warn"]
+                else:
+                    taxon_status = status["fail"]
 
-                kraken_results[this_taxon] = tperc
+                taxon_count = 0
+                taxon_count_status = status["pass"]
 
-                if (tperc > 10.0):
-                    taxon_count += 1
+                kraken_results = {}
+                for tax in jdata["kraken"]:
+                    this_taxon = tax["taxon"]
+                    tperc = float(tax["percentage"])
 
-            kraken_data_all.append(kraken_results)
+                    kraken_results[this_taxon] = tperc
 
-            if (taxon_count > 3):
-                taxon_count_status = status["fail"]
-                this_status = status["fail"]
-            elif (taxon_count > 1):
-                taxon_count_status = status["warn"]
-                if (this_status == status["pass"]):
-                    this_status = status["warn"]
+                    if (tperc > 10.0):
+                        taxon_count += 1
+
+                kraken_data_all.append(kraken_results)
+
+                if (taxon_count > 3):
+                    taxon_count_status = status["fail"]
+                    this_status = status["fail"]
+                elif (taxon_count > 1):
+                    taxon_count_status = status["warn"]
+                    if (this_status == status["pass"]):
+                        this_status = status["warn"]
 
             # Get samtools stats
             samtools = {"mean_insert_size": "-", }
@@ -148,15 +160,10 @@ def main(yaml, template, output, reference):
 
             genome_fraction = round(float(jdata["quast"]["Genome fraction (%)"]), 2)
 
-            if (genome_fraction > 90):
-                genome_fraction_status = status["pass"]
-            elif (genome_fraction > 80):
-                genome_fraction_status = status["warn"]
-                if (status == status["pass"]):
-                    this_status = status["warn"]
-            else:
-                genome_fraction_status = status["fail"]
-                this_status = status["fail"]
+            genome_fraction_status = status["pass"]
+
+            # Highlight if a reference coverage is less than 90%
+            # This might indicate a problem with our assembly (or the mash database...)
 
             contigs = int(jdata["quast"]["# contigs"])
             contigs_status = check_contigs(this_refs, int(jdata["quast"]["# contigs"]))
@@ -231,6 +238,9 @@ def main(yaml, template, output, reference):
                     mlst_all[scheme_name] = [{"sample": sample, "sequence_type": sequence_type}]
 
             # Get coverage(s)
+            coverage = "-"
+            coverage_status = status["missing"]
+
             coverage_illumina = "-"
             coverage_illumina_status = status["missing"]
 
@@ -240,41 +250,42 @@ def main(yaml, template, output, reference):
             coverage_pacbio = "-"
             coverage_pacbio_status = status["missing"]
 
-            coverage = float(jdata["mosdepth"]["total"]["mean"])
-            if coverage >= 40:
-                coverage_status = status["pass"]
-            elif coverage >= 20:
-                coverage_status = status["warn"]
-            else:
-                coverage_status = status["pass"]
-
-            if ("illumina" in jdata["mosdepth"]):
-
-                coverage_illumina = float(jdata["mosdepth"]["illumina"]["mean"])
-                if coverage_illumina >= 40:
-                    coverage_illumina_status = status["pass"]
-                elif coverage_illumina >= 20:
-                    coverage_illumina_status = status["warn"]
+            if "total" in jdata["mosdepth"]:
+                coverage = float(jdata["mosdepth"]["total"]["mean"])
+                if coverage >= 40:
+                    coverage_status = status["pass"]
+                elif coverage >= 20:
+                    coverage_status = status["warn"]
                 else:
-                    coverage_illumina_status = status["fail"]
+                    coverage_status = status["pass"]
 
-            if ("nanopore" in jdata["mosdepth"]):
-                coverage_nanopore = float(jdata["mosdepth"]["nanopore"]["mean"])
-                if coverage_nanopore >= 40:
-                    coverage_nanopore_status = status["pass"]
-                elif coverage_nanopore >= 20:
-                    coverage_nanopore_status = status["warn"]
-                else:
-                    coverage_nanopore_status = status["fail"]
+                if ("illumina" in jdata["mosdepth"]):
 
-            if ("pacbio" in jdata["mosdepth"]):
-                coverage_pacbio = float(jdata["mosdepth"]["pacbio"]["mean"])
-                if coverage_pacbio >= 40:
-                    coverage_pacbio_status = status["pass"]
-                elif coverage_pacbio >= 20:
-                    coverage_pacbio_status = status["warn"]
-                else:
-                    coverage_pacbio_status = status["fail"]
+                    coverage_illumina = float(jdata["mosdepth"]["illumina"]["mean"])
+                    if coverage_illumina >= 40:
+                        coverage_illumina_status = status["pass"]
+                    elif coverage_illumina >= 20:
+                        coverage_illumina_status = status["warn"]
+                    else:
+                        coverage_illumina_status = status["fail"]
+
+                if ("nanopore" in jdata["mosdepth"]):
+                    coverage_nanopore = float(jdata["mosdepth"]["nanopore"]["mean"])
+                    if coverage_nanopore >= 40:
+                        coverage_nanopore_status = status["pass"]
+                    elif coverage_nanopore >= 20:
+                        coverage_nanopore_status = status["warn"]
+                    else:
+                        coverage_nanopore_status = status["fail"]
+
+                if ("pacbio" in jdata["mosdepth"]):
+                    coverage_pacbio = float(jdata["mosdepth"]["pacbio"]["mean"])
+                    if coverage_pacbio >= 40:
+                        coverage_pacbio_status = status["pass"]
+                    elif coverage_pacbio >= 20:
+                        coverage_pacbio_status = status["warn"]
+                    else:
+                        coverage_pacbio_status = status["fail"]
 
             # sample-level dictionary
             rtable = {
@@ -311,24 +322,27 @@ def main(yaml, template, output, reference):
 
         data["summary"].append(rtable)
 
-    # Draw the Kraken abundance table
-    kdata = pd.DataFrame(data=kraken_data_all, index=samples)
-    plot_labels = {"index": "Samples", "value": "Percentage"}
-    h = len(samples)*20 if len(samples) > 10 else 400
-    fig = px.bar(kdata, orientation='h', labels=plot_labels, height=h)
+    
+    if "kraken" in jdata:
+        # Draw the Kraken abundance table
+        kdata = pd.DataFrame(data=kraken_data_all, index=samples)
+        plot_labels = {"index": "Samples", "value": "Percentage"}
+        h = len(samples)*20 if len(samples) > 10 else 400
+        fig = px.bar(kdata, orientation='h', labels=plot_labels, height=h)
 
-    data["Kraken"] = fig.to_html(full_html=False)
+        data["Kraken"] = fig.to_html(full_html=False)
 
-    # Crop all insert size histograms to the shortest common length
-    insert_sizes_all_cropped = {}
-    for s, ins in insert_sizes_all.items():
-        list_end = min_insert_size_length-1
-        insert_sizes_all_cropped[s] = ins[:list_end]
+    if "samtools" in jdata:
+        # Crop all insert size histograms to the shortest common length
+        insert_sizes_all_cropped = {}
+        for s, ins in insert_sizes_all.items():
+            list_end = min_insert_size_length-1
+            insert_sizes_all_cropped[s] = ins[:list_end]
 
-    plot_labels = {"index": "Basepairs", "value": "Count"}
-    hdata = pd.DataFrame(insert_sizes_all_cropped)
-    hfig = px.line(hdata, labels=plot_labels)
-    data["Insertsizes"] = hfig.to_html(full_html=False)
+        plot_labels = {"index": "Basepairs", "value": "Count"}
+        hdata = pd.DataFrame(insert_sizes_all_cropped)
+        hfig = px.line(hdata, labels=plot_labels)
+        data["Insertsizes"] = hfig.to_html(full_html=False)
 
     data["serotypes"] = serotypes_all
 
@@ -397,8 +411,8 @@ def check_n50(refs, query):
 
     for ref in refs:
 
-        # Not all references have a min. N50 value
         if "N50" in ref:
+
             ref_intervals = [int(x) for x in ref["N50"][0]["interval"]]
 
             if (any(x <= query for x in ref_intervals)):
@@ -408,8 +422,8 @@ def check_n50(refs, query):
             else:
                 return status["fail"]
 
-    return status["missing"]
-
+        return status["missing"]
+    
 
 def check_gc(refs, query):
 

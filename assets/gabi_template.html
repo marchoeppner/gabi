@@ -54,9 +54,13 @@
     <tr>
         <td><a href="#summary">Summary</a></td>
         <td><a href="#assembly">Assembly</a></td>
-        <td><a href="#insert-sizes">Insert sizes</a></td>
+        {% if Insertsizes %}
+            <td><a href="#insert-sizes">Insert sizes</a></td>
+        {% endif %}
         <td><a href="#mlst">MLST</a></td>
-        <td><a href="#kraken">Kraken2</a></td>
+        {% if Kraken %}
+            <td><a href="#kraken">Kraken2</a></td>
+        {% endif %}
         <td><a href="#serotypes">Serotypes</a></td>
         <td><a href="#software">Software</a></td>
     </tr>
@@ -163,14 +167,16 @@ The assembly metrics computed by QUAST
 <p></p>
 <a href="#navigation">top</a>
 
-<div id="insert-sizes"></div>
+{% if Insertsizes %}
+    <div id="insert-sizes"></div>
 
-<h2>Insert size distribution (Illumina)</h2>
+    <h2>Insert size distribution (Illumina)</h2>
 
-{{Insertsizes}}
+    {{Insertsizes}}
 
-<p></p>
-<a href="#navigation">top</a>
+    <p></p>
+    <a href="#navigation">top</a>
+{% endif %}
 
 <!--
 MLST sequence types by schema
@@ -198,13 +204,15 @@ MLST sequence types by schema
 <p></p>
 <a href="#navigation">top</a>
 
-<div id="kraken"></div>
-<h2>Kraken2 - taxonomic composition</h2>
+{% if Kraken %}
+    <div id="kraken"></div>
 
-{{Kraken}}
+    <h2>Kraken2 - taxonomic composition</h2>
 
-<a href="#navigation">top</a>
+    {{Kraken}}
 
+    <a href="#navigation">top</a>
+{% endif %}
 <!--
 Results from one or multiple serotyping tools
 -->

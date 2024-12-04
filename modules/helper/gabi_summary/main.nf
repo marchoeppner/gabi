@@ -20,6 +20,7 @@ process GABI_SUMMARY {
 
     """
     gabi_summary.pl --sample ${meta.sample_id} \
+    --taxon '${meta.taxon}' \
     $args \
     --outfile $result
 

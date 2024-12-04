@@ -75,7 +75,10 @@ This is why it is important to make sure that all reads coming from the same sam
 
 ### `--input samples.csv` [default = null]
 
-This pipeline expects a CSV-formatted sample sheet to properly pull various meta data through the processes. The required format looks as follows:
+This pipeline expects a CSV-formatted sample sheet to properly pull various meta data through the processes. The required format looks as follows, depending on your input data
+
+#### Raw reads
+If you want to assemble genomes "from scratch", you can pass raw reads:
 
 ```CSV
 sample_id,platform,R1,R2
@@ -94,6 +97,17 @@ Allowed platforms and data types are:
 * TORRENT (expecting single-end IonTorrent reads in fastq format, fastq.gz) (tbd!)
 
 Read data in formats other than FastQ are not currently supported and would have to be converted into the appropriate FastQ format prior to launching the pipeline. If you have a recurring use case where the input must be something other than FastQ, please let us know and we will consider it.
+
+#### Pre-assembled genomes
+
+You can also run GABI on pre-assembled genomes, using only those parts of the pipeline that characterize assemblies. Obviously, you will be missing many of the QC measures that rely on raw reads in one form or another. 
+
+The required samplesheet then looks as follows:
+
+```CSV
+sample_id,assembly
+S100,/path/to/S100.fasta
+```
 
 ### `--run_name` [ default = null]
 

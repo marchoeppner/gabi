@@ -14,15 +14,8 @@ workflow QC_ILLUMINA {
 
     main:
 
-    // Short read trimming and QC
-    FASTP(
-        reads
-    )
-    ch_versions = ch_versions.mix(FASTP.out.versions)
-    //multiqc_files = multiqc_files.mix(FASTP.out.json)
-
     // Split trimmed reads by sample to find multi-lane data set
-    FASTP.out.reads.groupTuple().branch { meta, reads ->
+    reads.groupTuple().branch { meta, reads ->
         single: reads.size() == 1
             return [ meta, reads.flatten()]
         multi: reads.size() > 1
@@ -34,8 +27,14 @@ workflow QC_ILLUMINA {
         ch_reads_illumina.multi
     )
 
-    // The trimmed files, reduced to [ meta, [ read1, read2 ] ]
-    ch_illumina_trimmed = ch_reads_illumina.single.mix(CAT_FASTQ.out.reads)
+    ch_reads_merged = ch_reads_illumina.single.mix(CAT_FASTQ.out.reads)
+ 
+    // Short read trimming and QC
+    FASTP(
+        ch_reads_merged
+    )
+    ch_versions = ch_versions.mix(FASTP.out.versions)
+    multiqc_files = multiqc_files.mix(FASTP.out.json)
 
     FASTQC(
         FASTP.out.reads
@@ -44,7 +43,7 @@ workflow QC_ILLUMINA {
     multiqc_files = multiqc_files.mix(FASTQC.out.zip.map { m, z -> z })
 
     CONTAMINATION(
-        ch_illumina_trimmed,
+        FASTP.out.reads,
         confindr_db
     )
     ch_versions = ch_versions.mix(CONTAMINATION.out.versions)
